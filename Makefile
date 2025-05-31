@@ -15,7 +15,8 @@ IFILES		=	$(INCLDIR)/minirt.h
 LIBFT_DIR	=	./libft
 LIBFT		=	$(LIBFT_DIR)/libft.a
 
-# TODO - Add mlx compilation
+MLX_DIR		=	./mlx
+MLX			=	$(MLX_DIR)/libmlx.a
 
 LIBS		=	-L$(LIBFT_DIR) -lft -lreadline
 
@@ -28,9 +29,14 @@ all:			$(NAME)
 
 # Build libft first
 $(LIBFT):
-				@printf "\rCompiling libft"
+				@printf "\rCompiling libft..."
 				@make -C $(LIBFT_DIR) --no-print-directory
-				@printf "\rCompiled libft successfully.\n"
+				@printf "\r[!] - Successfully compiled libft!\n"
+
+$(MLX):
+				@printf "\rCompiling MLX..."
+				@make -C $(MLX_DIR) --no-print-directory
+				@printf "\r[!] - Successfully compiled MLX!\n"
 
 # Compile object files
 %.o:			%.c $(IFILES)
@@ -38,7 +44,7 @@ $(LIBFT):
 				@$(CC) $(CFLAGS) -I$(INCLDIR) -I$(LIBFT_DIR) -c $< -o $@
 
 # Compile project with the existing libs
-$(NAME):		$(OBJS) $(LIBFT)
+$(NAME):		$(OBJS) $(LIBFT) $(MLX)
 				@printf "\rCompiling $(NAME)..."
 				@$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 				@printf "\r\n\033[32m$(NAME) compiled.\033[0m\n"
@@ -46,12 +52,13 @@ clean:
 				@printf "\rCleaning object files"
 				@$(RM) $(RMFLAGS) $(OBJS)
 				@make clean -C $(LIBFT_DIR)/ --no-print-directory
+				@make clean -C $(MLX_DIR) --no-print-directory
 				@printf "\rObject files cleaned.\n"
 
 fclean:			clean
 				@printf "\rRemoving $(NAME)..."
 				@$(RM) $(RMFLAGS) $(NAME)
-				@make fclean -C $(LIBFT_DIR)/ --no-print-directory
+				@make fclean -C $(LIBFT_DIR) --no-print-directory
 				@printf "\r$(NAME) Removed.\n"
 
 re:				fclean all
