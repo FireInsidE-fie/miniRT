@@ -18,7 +18,7 @@ LIBFT		=	$(LIBFT_DIR)/libft.a
 MLX_DIR		=	./mlx
 MLX			=	$(MLX_DIR)/libmlx.a
 
-LIBS		=	-L$(LIBFT_DIR) -lft -lreadline
+LIBS		=	-L$(LIBFT_DIR) -L$(MLX_DIR) -lft -lmlx
 
 VALGRIND	=	valgrind
 VALFLAGS	=	--leak-check=full --track-fds=yes
@@ -27,7 +27,6 @@ LOG			=	valgrind.log
 
 all:			$(NAME)
 
-# Build libft first
 $(LIBFT):
 				@printf "\rCompiling libft..."
 				@make -C $(LIBFT_DIR) --no-print-directory
@@ -41,13 +40,14 @@ $(MLX):
 # Compile object files
 %.o:			%.c $(IFILES)
 				@printf "\rCompiling $<..."
-				@$(CC) $(CFLAGS) -I$(INCLDIR) -I$(LIBFT_DIR) -c $< -o $@
+				@$(CC) $(CFLAGS) -I$(INCLDIR) -I$(LIBFT_DIR) -I$(MLX_DIR) -c $< -o $@
 
-# Compile project with the existing libs
+# Build project with the libraries used
 $(NAME):		$(OBJS) $(LIBFT) $(MLX)
 				@printf "\rCompiling $(NAME)..."
 				@$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 				@printf "\r\n\033[32m$(NAME) compiled.\033[0m\n"
+
 clean:
 				@printf "\rCleaning object files"
 				@$(RM) $(RMFLAGS) $(OBJS)
@@ -63,7 +63,9 @@ fclean:			clean
 
 re:				fclean all
 
+# Automated test suite
 test:			$(NAME)
+				@printf "[!] - Launching test suite..."
 				@printf "\n===============================================================\n"
 				$(VALGRIND) $(VALFLAGS) ./$(NAME) 2>> $(LOG)
 

@@ -23,8 +23,8 @@ int	mlx_X_error;
 
 int	shm_att_pb(Display *d,XErrorEvent *ev)
 {
-  if (ev->request_code==146 && ev->minor_code==X_ShmAttach)
-    write(2,WARN_SHM_ATTACH,strlen(WARN_SHM_ATTACH));
+  // stellaaa.sh - I silenced a warning here by rewriting the if statement in this stupid way, if there's a problem with the lib, it might be there.
+  if (ev->request_code==146 && ev->minor_code==X_ShmAttach && write(2,WARN_SHM_ATTACH,strlen(WARN_SHM_ATTACH)) == -1);
   mlx_X_error = 1;
 }
 
