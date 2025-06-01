@@ -1,4 +1,5 @@
 *.o
 *.a
+*subject.pdf
 valgrind.log
 miniRT
