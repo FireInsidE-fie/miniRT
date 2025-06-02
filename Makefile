@@ -69,4 +69,8 @@ test:			$(NAME)
 				@printf "\n===============================================================\n"
 				$(VALGRIND) $(VALFLAGS) ./$(NAME) 2>> $(LOG)
 
-.PHONY:			all clean fclean re test
+# 42 Norm checks
+check:
+				@norminette src/ include/
+
+.PHONY:			all clean fclean re test check
