@@ -1,0 +1,7 @@
+-Wall
+-Wextra
+-Wpedantic
+-Werror
+-Iinclude
+-Ilibft
+-Imlx
