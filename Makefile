@@ -10,7 +10,14 @@ CFILES		=	$(SRCDIR)/minirt.c
 OBJS		=	$(CFILES:.c=.o)
 
 INCLDIR		=	include
-IFILES		=	$(INCLDIR)/minirt.h
+IFILES		=	$(INCLDIR)/minirt.h \
+				$(INCLDIR)/ambient.h \
+				$(INCLDIR)/camera.h \
+				$(INCLDIR)/color.h \
+				$(INCLDIR)/cylinder.h \
+				$(INCLDIR)/light.h \
+				$(INCLDIR)/plane.h \
+				$(INCLDIR)/sphere.h
 
 LIBFT_DIR	=	./libft
 LIBFT		=	$(LIBFT_DIR)/libft.a
@@ -51,6 +58,7 @@ $(NAME):		$(OBJS) $(LIBFT) $(MLX)
 clean:
 				@printf "\rCleaning object files"
 				@$(RM) $(RMFLAGS) $(OBJS)
+				@$(RM) $(RMFLAGS) $(LOG)
 				@make clean -C $(LIBFT_DIR)/ --no-print-directory
 				@make clean -C $(MLX_DIR) --no-print-directory
 				@printf "\rObject files cleaned.\n"
@@ -65,6 +73,7 @@ re:				fclean all
 
 # Automated test suite
 test:			$(NAME)
+				@$(RM) $(RMFLAGS) $(LOG)
 				@printf "[!] - Launching test suite..."
 				@printf "\n===============================================================\n"
 				$(VALGRIND) $(VALFLAGS) ./$(NAME) 2>> $(LOG)
