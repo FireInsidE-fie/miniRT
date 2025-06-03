@@ -5,7 +5,8 @@ RM			=	rm
 RMFLAGS		=	-f
 
 SRCDIR		=	./src
-CFILES		=	$(SRCDIR)/minirt.c
+CFILES		=	$(SRCDIR)/minirt.c \
+				$(SRCDIR)/mlx.c
 
 OBJS		=	$(CFILES:.c=.o)
 
@@ -25,7 +26,7 @@ LIBFT		=	$(LIBFT_DIR)/libft.a
 MLX_DIR		=	./mlx
 MLX			=	$(MLX_DIR)/libmlx.a
 
-LIBS		=	-L$(LIBFT_DIR) -L$(MLX_DIR) -lft -lmlx
+LIBS		=	-L$(LIBFT_DIR) -L$(MLX_DIR) -lft -lmlx -lXext -lX11
 
 VALGRIND	=	valgrind
 VALFLAGS	=	--leak-check=full --track-fds=yes
