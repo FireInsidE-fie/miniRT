@@ -10,6 +10,14 @@ t_core	*get_core(void)
 	return (&core);
 }
 
+static void	init_hooks(t_core *core)
+{
+	core = get_core();
+	// TODO: Hook for pressing `q` ending program
+	// mlx_hook(core->win, 2, 0, key_press, core);
+	mlx_hook(core->win, 17, 0, rt_kill, core);
+}
+
 /**
  * @brief Creates the MLX window.
  *

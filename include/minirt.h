@@ -37,6 +37,9 @@ typedef struct s_img
 
 // Functions //
 
+// General functions - minirt.c
+int		rt_kill(t_core *core);
+
 // MiniLibX helper functions - mlx.c
 t_core	*get_core(void);
 int		init_window(void);
