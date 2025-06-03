@@ -32,5 +32,6 @@ int	init_window(void)
 		= mlx_new_window(core->mlx, WIN_WIDTH, WIN_HEIGHT, "Obsolete Meat");
 	if (!core->win)
 		return (1);
+	init_hooks(core);
 	return (0);
 }
