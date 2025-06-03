@@ -1,13 +1,13 @@
 #include "minirt.h"
 #include "mlx.h"
 
-t_mlx	*get_graphics(void)
+t_core	*get_core(void)
 {
-	static t_mlx	graphics;
+	static t_core	core;
 
-	if (!graphics.mlx)
-		graphics.mlx = mlx_init();
-	return (&graphics);
+	if (!core.mlx)
+		core.mlx = mlx_init();
+	return (&core);
 }
 
 /**
@@ -17,12 +17,12 @@ t_mlx	*get_graphics(void)
  */
 int	init_window(void)
 {
-	t_mlx	*graphics;
+	t_core	*core;
 
-	graphics = get_graphics();
-	graphics->win
-		= mlx_new_window(graphics->mlx, WIN_WIDTH, WIN_HEIGHT, "Obsolete Meat");
-	if (!graphics->win)
+	core = get_core();
+	core->win
+		= mlx_new_window(core->mlx, WIN_WIDTH, WIN_HEIGHT, "Obsolete Meat");
+	if (!core->win)
 		return (1);
 	return (0);
 }

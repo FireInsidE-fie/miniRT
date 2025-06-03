@@ -19,11 +19,11 @@ typedef struct s_point3
 typedef t_point3	t_vector3;
 
 // Holds all MLX-related data
-typedef struct s_mlx
+typedef struct s_core
 {
 	void	*mlx;
 	void	*win;
-}	t_mlx;
+}	t_core;
 
 // A MLX image
 typedef struct s_img
@@ -38,7 +38,7 @@ typedef struct s_img
 // Functions //
 
 // MiniLibX helper functions - mlx.c
-t_mlx	*get_graphics(void);
+t_core	*get_core(void);
 int		init_window(void);
 
 #endif //MINIRT_H

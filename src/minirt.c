@@ -7,5 +7,5 @@ int	main(void)
 {
 	printf("hewwo world\n");
 	init_window();
-	mlx_loop(get_graphics()->mlx);
+	mlx_loop(get_core()->mlx);
 }
