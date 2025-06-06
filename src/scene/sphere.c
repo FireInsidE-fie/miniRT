@@ -27,19 +27,3 @@ int	create_sphere(t_point3 position, double radius, t_color color)
 	*tmp = sphere;
 	return (0);
 }
-
-void	clear_spheres(void)
-{
-	t_scene		*scene;
-	t_sphere	*current;
-	t_sphere	*next;
-
-	scene = get_scene();
-	current = scene->spheres;
-	while (current)
-	{
-		next = current->next;
-		free(current);
-		current = next;
-	}
-}
