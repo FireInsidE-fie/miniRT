@@ -6,24 +6,9 @@
 # define WIN_HEIGHT 1080
 
 // Includes //
-# include "ambient.h"
-# include "camera.h"
-# include "light.h"
-# include "sphere.h"
-# include "plane.h"
-# include "cylinder.h"
+# include "scene.h"
 
 // Structs //
-
-typedef struct s_scene
-{
-	t_camera	camera;
-	t_ambient	ambient;
-	t_light		*lights;
-	t_sphere	*spheres;
-	t_plane		*planes;
-	t_cylinder	*cylinders;
-}	t_scene;
 
 // Holds all MLX-related data
 typedef struct s_core

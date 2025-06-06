@@ -1,8 +1,8 @@
 #ifndef SPHERE_H
 # define SPHERE_H
 
+# include "point3.h"
 # include "color.h"
-# include "vector.h"
 
 // Representation of a sphere in 3D space //
 typedef struct s_sphere

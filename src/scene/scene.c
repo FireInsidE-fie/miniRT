@@ -1,4 +1,4 @@
-#include "minirt.h"
+#include "scene.h"
 
 /**
  * @brief Static getter for the miniRT scene.

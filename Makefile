@@ -6,12 +6,21 @@ RMFLAGS		=	-f
 
 SRCDIR		=	./src
 CFILES		=	$(SRCDIR)/minirt.c \
-				$(SRCDIR)/mlx.c
+				$(SRCDIR)/mlx.c \
+				$(SRCDIR)/scene/scene.c \
+				$(SRCDIR)/scene/ambient.c \
+				$(SRCDIR)/scene/camera.c \
+				$(SRCDIR)/scene/color.c \
+				$(SRCDIR)/scene/cylinder.c \
+				$(SRCDIR)/scene/light.c \
+				$(SRCDIR)/scene/plane.c \
+				$(SRCDIR)/scene/sphere.c \
 
 OBJS		=	$(CFILES:.c=.o)
 
 INCLDIR		=	include
 IFILES		=	$(INCLDIR)/minirt.h \
+				$(INCLDIR)/scene.h \
 				$(INCLDIR)/ambient.h \
 				$(INCLDIR)/camera.h \
 				$(INCLDIR)/color.h \

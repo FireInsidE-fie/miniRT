@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 # define CAMERA_H
 
-# include "vector.h"
+# include "point3.h"
 
 typedef struct s_camera
 {

@@ -1,7 +1,7 @@
 #ifndef PLANE_H
 # define PLANE_H
 
-# include "vector.h"
+# include "point3.h"
 # include "color.h"
 
 typedef struct s_plane

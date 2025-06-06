@@ -1,7 +1,7 @@
 #ifndef CYLINDER_H
 # define CYLINDER_H
 
-# include "vector.h"
+# include "point3.h"
 # include "color.h"
 
 typedef struct s_cylinder
