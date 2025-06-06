@@ -9,3 +9,11 @@ t_scene	*get_scene(void)
 
 	return (&scene);
 }
+
+void	clear_scene(void)
+{
+	//clear_lights();
+	clear_spheres();
+	//clear_planes();
+	//clear_cylinders();
+}

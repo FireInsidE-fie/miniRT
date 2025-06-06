@@ -1,12 +1,14 @@
 #ifndef SCENE_H
-#define SCENE_H
+# define SCENE_H
 
-#include "ambient.h"
-#include "camera.h"
-#include "light.h"
-#include "sphere.h"
-#include "plane.h"
-#include "cylinder.h"
+# include "ambient.h"
+# include "camera.h"
+# include "light.h"
+# include "sphere.h"
+# include "plane.h"
+# include "cylinder.h"
+
+// Structs //
 
 typedef struct s_scene
 {
@@ -17,6 +19,8 @@ typedef struct s_scene
 	t_plane		*planes;
 	t_cylinder	*cylinders;
 }	t_scene;
+
+// Functions //
 
 t_scene	*get_scene(void);
 
