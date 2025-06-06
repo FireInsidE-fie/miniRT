@@ -6,9 +6,10 @@
 
 typedef struct s_light
 {
-	t_point3	position;
-	double		ratio;	// Range [0, 1.0]
-	t_color		color;	// RGB color
+	t_point3		position;
+	double			ratio;	// Range [0, 1.0]
+	t_color			color;	// RGB color
+	struct s_light	*next;
 }	t_light;
 
 #endif // LIGHT_H

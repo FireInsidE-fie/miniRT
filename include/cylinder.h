@@ -6,11 +6,12 @@
 
 typedef struct s_cylinder
 {
-	t_point3	center;
-	t_vec3		axis;
-	double		radius;
-	double		height;
-	t_color		color;
+	t_point3			center;
+	t_vec3				axis;
+	double				radius;
+	double				height;
+	t_color				color;
+	struct s_cylinder	*next;
 }	t_cylinder;
 
 #endif // CYLINDER_H

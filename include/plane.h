@@ -6,9 +6,10 @@
 
 typedef struct s_plane
 {
-	t_point3	center;
-	t_vec3		normal;
-	t_color		color;
+	t_point3		center;
+	t_vec3			normal;
+	t_color			color;
+	struct s_plane	*next;
 }	t_plane;
 
 #endif // PLANE_H
