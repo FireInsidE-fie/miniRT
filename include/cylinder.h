@@ -1,13 +1,13 @@
 #ifndef CYLINDER_H
 # define CYLINDER_H
 
-# include "minirt.h"
+# include "vector.h"
 # include "color.h"
 
 typedef struct s_cylinder
 {
 	t_point3	center;
-	t_vector3	axis;
+	t_vec3		axis;
 	double		radius;
 	double		height;
 	t_color		color;

@@ -2,7 +2,7 @@
 # define SPHERE_H
 
 # include "color.h"
-# include "minirt.h"
+# include "vector.h"
 
 // Representation of a sphere in 3D space //
 typedef struct s_sphere

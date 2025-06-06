@@ -5,25 +5,32 @@
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
 
+// Includes //
+# include "ambient.h"
+# include "camera.h"
+# include "light.h"
+# include "sphere.h"
+# include "plane.h"
+# include "cylinder.h"
+
 // Structs //
 
-// Struct for a point in 3D space
-typedef struct s_point3
+typedef struct s_scene
 {
-	double	x;
-	double	y;
-	double	z;
-}	t_point3;
-
-// Vectors are also represented with a value for each of the coordinates
-// Each value normalized to [0, 1] to represent magnitude
-typedef t_point3	t_vector3;
+	t_camera	camera;
+	t_ambient	ambient;
+	t_light		*lights;
+	t_sphere	*spheres;
+	t_plane		*planes;
+	t_cylinder	*cylinders;
+}	t_scene;
 
 // Holds all MLX-related data
 typedef struct s_core
 {
 	void	*mlx;
 	void	*win;
+	t_scene	*scene;
 }	t_core;
 
 // A MLX image
