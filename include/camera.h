@@ -11,5 +11,6 @@ typedef struct s_camera
 }	t_camera;
 
 void	create_camera(t_point3 position, t_vec3 direction, double fov);
+void	print_camera(t_camera *camera);
 
 #endif // CAMERA_H

@@ -49,6 +49,8 @@ void	print_scene(t_scene *scene)
 	void	*tmp;
 
 	printf("[!] - Printing scene...\n");
+	printf("======== Camera ========\n");
+	print_camera((t_camera *)&scene->camera);
 	printf("======== Spheres ========\n");
 	tmp = scene->spheres;
 	while (tmp)
