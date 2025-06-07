@@ -18,10 +18,11 @@ int	create_sphere(t_point3 position, double radius, t_color color)
 
 	sphere = malloc(sizeof(t_sphere));
 	if (!sphere)
-		return (1);
+		return (perror("miniRT (create_sphere) - malloc"), 1);
 	sphere->center = position;
 	sphere->radius = radius;
 	sphere->color = color;
+	sphere->next = NULL;
 	tmp = &get_scene()->spheres;
 	while (*tmp)
 		*tmp = (*tmp)->next;

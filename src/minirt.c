@@ -8,6 +8,7 @@
 
 int	rt_kill(t_core *core)
 {
+	clear_scene(get_scene());
 	mlx_destroy_window(core->mlx, core->win);
 	mlx_destroy_display(core->mlx);
 	free(core->mlx);
@@ -20,5 +21,4 @@ int	main(void)
 	print_scene(get_scene());
 	init_window();
 	mlx_loop(get_core()->mlx);
-	clear_scene(get_scene());
 }

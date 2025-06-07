@@ -28,7 +28,7 @@ static void	clear_list(void *first)
 	current = first;
 	while (current)
 	{
-		printf("[!] - Freed one sphere object.\n");
+		printf("[!] - Freed one object.\n");
 		next = current->next;
 		free(current);
 		current = next;
@@ -37,7 +37,8 @@ static void	clear_list(void *first)
 
 void	clear_scene(t_scene *scene)
 {
-	clear_list(scene->spheres);		// TODO: leak on create sphere(s)
+	printf("[!] - Freeing spheres...\n");
+	clear_list(scene->spheres);
 	// clear_list(scene->lights);
 	// clear_list(scene->planes);
 	// clear_list(scene->cylinders);
