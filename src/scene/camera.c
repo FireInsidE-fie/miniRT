@@ -32,7 +32,7 @@ void	print_camera(t_camera *camera)
 
  * @note The distance between the camera and the viewport canvas is 1.
  */
-t_vec3	viewport_to_camera(int x, int y)
+t_vec3	camera_to_viewport(int x, int y)
 {
 	return (
 		(t_vec3)

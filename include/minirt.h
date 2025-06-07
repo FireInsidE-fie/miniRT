@@ -37,4 +37,7 @@ int		rt_kill(t_core *core);
 t_core	*get_core(void);
 int		init_window(void);
 
+// Rendering functions - render.c
+int		render(t_core *core, t_camera *camera);
+
 #endif //MINIRT_H

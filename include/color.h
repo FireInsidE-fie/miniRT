@@ -1,6 +1,8 @@
 #ifndef COLOR_H
 # define COLOR_H
 
+# include <stdint.h>
+
 // Struct for an RGB color representation //
 typedef struct s_color
 {
@@ -11,6 +13,7 @@ typedef struct s_color
 
 // Functions //
 
-t_color	make_color(double r, double g, double b);
+t_color		make_color(double r, double g, double b);
+uint32_t	color_to_int(t_color color);
 
 #endif // COLOR_H

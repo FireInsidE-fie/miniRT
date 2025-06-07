@@ -8,6 +8,8 @@ SRCDIR		=	./src
 CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/mlx.c \
 				$(SRCDIR)/point3.c \
+				$(SRCDIR)/render.c \
+				$(SRCDIR)/vector.c \
 				$(SRCDIR)/scene/scene.c \
 				$(SRCDIR)/scene/ambient.c \
 				$(SRCDIR)/scene/camera.c \
@@ -28,7 +30,8 @@ IFILES		=	$(INCLDIR)/minirt.h \
 				$(INCLDIR)/cylinder.h \
 				$(INCLDIR)/light.h \
 				$(INCLDIR)/plane.h \
-				$(INCLDIR)/sphere.h
+				$(INCLDIR)/sphere.h \
+				$(INCLDIR)/vector.h
 
 LIBFT_DIR	=	./libft
 LIBFT		=	$(LIBFT_DIR)/libft.a
