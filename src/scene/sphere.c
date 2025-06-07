@@ -2,6 +2,7 @@
 #include "scene.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  * @brief Adds a new sphere element to the miniRT scene.
@@ -26,4 +27,11 @@ int	create_sphere(t_point3 position, double radius, t_color color)
 		*tmp = (*tmp)->next;
 	*tmp = sphere;
 	return (0);
+}
+
+void	print_sphere(t_sphere *sphere)
+{
+	printf("[!] - Sphere\nPosition: x%f,y%f,z%f\nRadius: %f\nColor: r%f,g%f,b%f\n",
+		sphere->center.x, sphere->center.y, sphere->center.z, sphere->radius,
+		sphere->color.r, sphere->color.g, sphere->color.b);
 }

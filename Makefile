@@ -7,6 +7,7 @@ RMFLAGS		=	-f
 SRCDIR		=	./src
 CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/mlx.c \
+				$(SRCDIR)/point3.c \
 				$(SRCDIR)/scene/scene.c \
 				$(SRCDIR)/scene/ambient.c \
 				$(SRCDIR)/scene/camera.c \

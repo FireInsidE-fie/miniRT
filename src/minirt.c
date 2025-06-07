@@ -1,9 +1,10 @@
 #include "minirt.h"
 #include "mlx.h"
+#include "scene.h"
+#include "sphere.h"
 
 // Standard library //
 #include <stdlib.h>
-#include <stdio.h>
 
 int	rt_kill(t_core *core)
 {
@@ -15,7 +16,9 @@ int	rt_kill(t_core *core)
 
 int	main(void)
 {
-	printf("hewwo world\n");
+	create_sphere(make_point3(0, 1, 0), 1, make_color(255, 0, 0));
+	print_scene(get_scene());
 	init_window();
 	mlx_loop(get_core()->mlx);
+	clear_scene(get_scene());
 }

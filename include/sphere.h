@@ -15,5 +15,6 @@ typedef struct s_sphere
 
 // Functions //
 int		create_sphere(t_point3 position, double radius, t_color color);
+void	print_sphere(t_sphere *sphere);
 
 #endif // SPHERE_H

@@ -24,5 +24,6 @@ typedef struct s_scene
 
 t_scene		*get_scene(void);
 void		clear_scene(t_scene *scene);
+void		print_scene(t_scene *scene);
 
 #endif // SCENE_H

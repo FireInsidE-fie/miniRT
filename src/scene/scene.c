@@ -1,6 +1,8 @@
 #include "scene.h"
+#include "sphere.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  * @brief Static getter for the miniRT scene.
@@ -26,6 +28,7 @@ static void	clear_list(void *first)
 	current = first;
 	while (current)
 	{
+		printf("[!] - Freed one sphere object.\n");
 		next = current->next;
 		free(current);
 		current = next;
@@ -34,8 +37,22 @@ static void	clear_list(void *first)
 
 void	clear_scene(t_scene *scene)
 {
-	clear_list(scene->spheres);
+	clear_list(scene->spheres);		// TODO: leak on create sphere(s)
 	// clear_list(scene->lights);
 	// clear_list(scene->planes);
 	// clear_list(scene->cylinders);
+}
+
+void	print_scene(t_scene *scene)
+{
+	void	*tmp;
+
+	printf("[!] - Printing scene...\n");
+	printf("======== Spheres ========\n");
+	tmp = scene->spheres;
+	while (tmp)
+	{
+		print_sphere(tmp);
+		tmp = ((t_sphere *)tmp)->next;
+	}
 }

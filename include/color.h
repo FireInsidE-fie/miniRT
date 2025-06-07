@@ -9,4 +9,8 @@ typedef struct s_color
 	double	b; // Value from 0 to 1
 }	t_color;
 
+// Functions //
+
+t_color	make_color(double r, double g, double b);
+
 #endif // COLOR_H
