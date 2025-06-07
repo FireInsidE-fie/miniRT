@@ -86,8 +86,10 @@ re:				fclean all
 test:			$(NAME)
 				@$(RM) $(RMFLAGS) $(LOG)
 				@printf "[!] - Launching test suite..."
-				@printf "\n===============================================================\n"
+				@printf "\n==========================================================\n"
 				$(VALGRIND) $(VALFLAGS) ./$(NAME) 2>> $(LOG)
+				@read REPLY
+				@less -S $(LOG)
 
 # 42 Norm checks
 check:
