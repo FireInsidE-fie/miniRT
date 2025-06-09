@@ -35,9 +35,11 @@ int	main(void)
 	if (!core->img.img)
 		rt_kill(core, 1);
 	core->img.addr = mlx_get_data_addr(
-			core->img.img, &core->img.bpp, &core->img.line_len, &core->img.endian
+			core->img.img,
+			&core->img.bpp,
+			&core->img.line_len,
+			&core->img.endian
 			);
 	render(get_core(), &get_scene()->camera);
-	mlx_put_image_to_window(core->mlx, core->win, core->img.img, 0, 0);
 	mlx_loop(get_core()->mlx);
 }

@@ -28,10 +28,11 @@ typedef struct s_core
 	t_img	img;
 	t_scene	*scene;
 }	t_core;
+
 // Functions //
 
 // General functions - minirt.c
-int	rt_kill(t_core *core, int exit_code);
+int		rt_kill(t_core *core, int exit_code);
 
 // MiniLibX helper functions - mlx.c
 t_core	*get_core(void);

@@ -5,6 +5,7 @@
 #include "scene.h"
 #include "sphere.h"
 #include "math.h"
+#include "mlx.h"
 
 #include <math.h>
 #include <stdbool.h>
@@ -69,9 +70,14 @@ int	render(t_core *core, t_camera *camera)
 			color = ray_color(
 					camera->position, camera_to_viewport(x, y), 1, INFINITY
 					);
-			img_put_pixel(&core->img, x + WIN_WIDTH / 2, y + WIN_HEIGHT / 2, &color);
+			img_put_pixel(
+				&core->img,
+				x + WIN_WIDTH / 2, y + WIN_HEIGHT / 2,
+				&color
+				);
 			++x;
 		}
+		mlx_put_image_to_window(core->mlx, core->win, core->img.img, 0, 0);
 		++y;
 	}
 	printf("[!] - Rendering complete.\n");
