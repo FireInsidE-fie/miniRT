@@ -26,14 +26,14 @@ t_color	make_color(double r, double g, double b)
  * g for green value.
  * b for blue value.
  */
-uint32_t	color_to_int(t_color color)
+uint32_t	color_to_int(t_color *color)
 {
 	uint32_t	rgba;
 
 	rgba = 0;
-	rgba |= (uint32_t)(color.r * 255) << 16;
-	rgba |= (uint32_t)(color.g * 255) << 8;
-	rgba |= (uint32_t)(color.b * 255);
+	rgba |= (uint32_t)(color->r * 255) << 16;
+	rgba |= (uint32_t)(color->g * 255) << 8;
+	rgba |= (uint32_t)(color->b * 255);
 
 	return (rgba);
 }

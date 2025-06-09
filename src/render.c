@@ -1,6 +1,5 @@
 #include "camera.h"
 #include "minirt.h"
-#include "mlx.h"
 #include "point3.h"
 #include "color.h"
 #include "scene.h"
@@ -15,9 +14,15 @@
  * @brief Finds the closest object to the `origin` on a ray with `direction`,
  * and returns its color.
  */
+// TODO: there's a big problem with the current approach. Since we have a
+// distinct linked list for every type of object, we can't easily iterate over
+// all object types when trying to find a ray color (spheres, planes, cylinders)
+// As such, we could maybe for example create an array[number_of_types], with
+// each slot in the array containing the head of the linked list related to that
+// type. This would allow us to iterate over the array and each linked list
+// contained within, in a single go.
 static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 {
-	t_scene		*scene;
 	t_sphere	*tmp;
 	t_sphere	*closest;
 	double		t[2];
@@ -25,8 +30,7 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 
 	closest_t = (double)INFINITY;
 	closest = NULL;
-	scene = get_scene();
-	tmp = scene->spheres;
+	tmp = get_scene()->spheres;
 	while (tmp)
 	{
 		if (hit_sphere(origin, dir, tmp, t))
@@ -46,7 +50,7 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 	}
 	if (closest)
 		return (closest->color);
-	return (t_color){1.0, 1.0, 1.0};
+	return ((t_color){1.0, 1.0, 1.0});
 }
 
 int	render(t_core *core, t_camera *camera)
@@ -63,12 +67,12 @@ int	render(t_core *core, t_camera *camera)
 		{
 			printf("[!] - Rendering pixel x%d-y%d...\r", x, y);
 			color = ray_color(
-				camera->position, camera_to_viewport(x, y), 1, INFINITY
-			);
-			mlx_pixel_put(core->mlx, core->win, x + WIN_WIDTH / 2, y + WIN_HEIGHT / 2, color_to_int(color));
-			x++;
+					camera->position, camera_to_viewport(x, y), 1, INFINITY
+					);
+			img_put_pixel(&core->img, x + WIN_WIDTH / 2, y + WIN_HEIGHT / 2, &color);
+			++x;
 		}
-		y++;
+		++y;
 	}
 	printf("[!] - Rendering complete.\n");
 	return (0);

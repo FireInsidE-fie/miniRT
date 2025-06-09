@@ -50,7 +50,7 @@ void	print_sphere(t_sphere *sphere)
 }
 
 /**
- * Store the result of a quadratic equation inside of the double[2] `t`.
+ * Store the result(s) of a quadratic equation inside of the double[2] `t`.
  * @return `true` if an answer was found, false if there is no answer.
  */
 static bool	solve_quadratic(double a, double b, double c, double *t)

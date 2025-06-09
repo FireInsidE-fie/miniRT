@@ -14,6 +14,6 @@ typedef struct s_color
 // Functions //
 
 t_color		make_color(double r, double g, double b);
-uint32_t	color_to_int(t_color color);
+uint32_t	color_to_int(t_color *color);
 
 #endif // COLOR_H

@@ -8,33 +8,36 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int	rt_kill(t_core *core)
+int	rt_kill(t_core *core, int exit_code)
 {
 	printf("[!] - Closing miniRT...\n");
 	clear_scene(get_scene());
+	mlx_destroy_image(core->mlx, core->img.img);
 	mlx_destroy_window(core->mlx, core->win);
 	mlx_destroy_display(core->mlx);
 	free(core->mlx);
-	return (exit(0), 0);
+	return (exit(exit_code), exit_code);
 }
 
 int	main(void)
 {
-	t_camera	*camera;
-	double		t[2];
+	t_core		*core;
 
 	create_sphere(make_point3(0.0, 0.0, 5.0), 1, make_color(1.0, 0.0, 0.0));
 	create_sphere(make_point3(1.0, 1.0, 3.0), 1, make_color(0.0, 1.0, 0.0));
 	create_sphere(make_point3(-1.0, -1.0, 7.0), 1, make_color(0.0, 0.0, 1.0));
 	create_camera(make_point3(0.0, 0.0, 0.0), make_point3(1.0, 0.0, 0.0), 90);
 	print_scene(get_scene());
-	camera = &get_scene()->camera;
 	printf("================\n");
-	printf("[!] - Sphere hit: %i\n",
-		hit_sphere(camera->position, camera->direction,
-		get_scene()->spheres, t)
-	);
 	init_window();
-	render(get_core(), camera);
+	core = get_core();
+	core->img.img = mlx_new_image(core->mlx, WIN_WIDTH, WIN_HEIGHT);
+	if (!core->img.img)
+		rt_kill(core, 1);
+	core->img.addr = mlx_get_data_addr(
+			core->img.img, &core->img.bpp, &core->img.line_len, &core->img.endian
+			);
+	render(get_core(), &get_scene()->camera);
+	mlx_put_image_to_window(core->mlx, core->win, core->img.img, 0, 0);
 	mlx_loop(get_core()->mlx);
 }

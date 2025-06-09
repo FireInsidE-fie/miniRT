@@ -1,5 +1,7 @@
+#include "color.h"
 #include "minirt.h"
 #include <X11/X.h>
+#include <stdint.h>
 #include "mlx.h"
 
 #define KEY_ESC 65307
@@ -19,7 +21,7 @@ static int	key_press(int key, void *param)
 
 	core = param;
 	if (key == KEY_ESC)
-		return (rt_kill(core));
+		return (rt_kill(core, 0));
 	return (0);
 }
 
@@ -50,4 +52,15 @@ int	init_window(void)
 		return (1);
 	init_hooks(core);
 	return (0);
+}
+
+/**
+ * @brief Puts a given color on a pixel of a MLX image.
+ */
+void	img_put_pixel(t_img *img, int x, int y, t_color *color)
+{
+	char	*dest;
+
+	dest = img->addr + (y * img->line_len + x * (img->bpp / 8));
+	*(uint32_t *)dest = color_to_int(color);
 }
