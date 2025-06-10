@@ -41,5 +41,6 @@ int	main(void)
 			&core->img.endian
 			);
 	render(get_core(), &get_scene()->camera);
+	printf("================\n");
 	mlx_loop(get_core()->mlx);
 }

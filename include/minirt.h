@@ -2,7 +2,7 @@
 # define MINIRT_H
 
 // Macros //
-# define WIN_WIDTH 1920
+# define WIN_WIDTH 1080
 # define WIN_HEIGHT 1080
 
 // Includes //
