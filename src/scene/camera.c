@@ -38,7 +38,7 @@ t_vec3	camera_to_viewport(int x, int y)
 		(t_vec3)
 		{
 			.x = x * (1.0 / (float)WIN_WIDTH),
-			.y = y * (1.0 / (float)WIN_HEIGHT),
+			.y = -y * (1.0 / (float)WIN_HEIGHT),
 			.z = 1.0
 		}
 	);
