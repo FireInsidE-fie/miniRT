@@ -56,6 +56,7 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 		// We'll do a function for this condition's body
 		t_point3	intersection;
 		t_vec3		normal;
+		t_color		color;
 
 		intersection = origin;
 		intersection.x += dir.x * closest_t;
@@ -65,10 +66,12 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 		normal = point3_sub(&intersection, &closest->center);
 		vector_normalize(&normal);
 
-		return ((t_color){
-			closest->color.r * get_light_intensity(intersection, normal),
-			closest->color.g * get_light_intensity(intersection, normal),
-			closest->color.b * get_light_intensity(intersection, normal)});
+		color = closest->color;
+		color.r *= get_light_intensity(intersection, normal);
+		color.g *= get_light_intensity(intersection, normal);
+		color.b *= get_light_intensity(intersection, normal);
+		color_clamp(&color);
+		return (color);
 	}
 	return ((t_color){1.0, 1.0, 1.0});
 }

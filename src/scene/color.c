@@ -37,3 +37,23 @@ uint32_t	color_to_int(t_color *color)
 
 	return (rgba);
 }
+
+/**
+ * @brief Restrict a color's values to a minimum of 0 and a maximum of 1.
+ */
+void	color_clamp(t_color *color)
+{
+	// TODO: make a `clamp(min, max)` function in some utils file and call it here for each value
+	if (color->r < 0.0)
+		color->r = 0.0;
+	else if (color->r > 1.0)
+		color->r = 1.0;
+	if (color->g < 0.0)
+		color->g = 0.0;
+	else if (color->g > 1.0)
+		color->g = 1.0;
+	if (color->b < 0.0)
+		color->b = 0.0;
+	else if (color->b > 1.0)
+		color->b = 1.0;
+}
