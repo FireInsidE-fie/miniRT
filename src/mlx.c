@@ -1,8 +1,9 @@
 #include "color.h"
 #include "minirt.h"
+#include "mlx.h"
+
 #include <X11/X.h>
 #include <stdint.h>
-#include "mlx.h"
 
 #define KEY_ESC 65307
 
