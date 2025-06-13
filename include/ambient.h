@@ -5,10 +5,10 @@
 
 typedef struct s_ambient
 {
-	double	intensity;	// Range [0, 1.0]
+	float	intensity;	// Range [0, 1.0]
 	t_color	color;	// RGB color
 }	t_ambient;
 
-void	create_ambient(double intensity, t_color color);
+void	create_ambient(float intensity, t_color color);
 
 #endif // AMBIENT_H

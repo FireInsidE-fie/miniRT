@@ -8,8 +8,8 @@ typedef struct s_cylinder
 {
 	t_point3			center;
 	t_vec3				axis;
-	double				radius;
-	double				height;
+	float				radius;
+	float				height;
 	t_color				color;
 	struct s_cylinder	*next;
 }	t_cylinder;

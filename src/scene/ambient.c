@@ -2,7 +2,7 @@
 #include "color.h"
 #include "scene.h"
 
-void	create_ambient(double intensity, t_color color)
+void	create_ambient(float intensity, t_color color)
 {
 	t_ambient	*ambient;
 

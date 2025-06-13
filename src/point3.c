@@ -1,6 +1,6 @@
 #include "point3.h"
 
-t_point3	make_point3(double x, double y, double z)
+t_point3	make_point3(float x, float y, float z)
 {
 	t_point3	point;
 

@@ -29,7 +29,7 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 	double		t[2];
 	double		closest_t;
 
-	closest_t = (double)INFINITY;
+	closest_t = tmax;
 	closest = NULL;
 	tmp = get_scene()->spheres;
 	while (tmp)
@@ -54,6 +54,11 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 	return ((t_color){1.0, 1.0, 1.0});
 }
 
+/**
+ * @note We have to start `x` and `y` at a value before 0, because the center
+ * of the camera is the (0, 0) point of the canvas. If we started at (0, 0),
+ * the camera would be offset on the lower right.
+ */
 int	render(t_core *core, t_camera *camera)
 {
 	int		x;
@@ -70,11 +75,8 @@ int	render(t_core *core, t_camera *camera)
 			color = ray_color(
 					camera->position, camera_to_viewport(x, y), 1, INFINITY
 					);
-			img_put_pixel(
-				&core->img,
-				x + WIN_WIDTH / 2, y + WIN_HEIGHT / 2,
-				&color
-				);
+			img_put_pixel(&core->img,
+				x + WIN_WIDTH / 2, y + WIN_HEIGHT / 2, &color);
 			++x;
 		}
 		mlx_put_image_to_window(core->mlx, core->win, core->img.img, 0, 0);

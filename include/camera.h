@@ -7,10 +7,10 @@ typedef struct s_camera
 {
 	t_point3	position;
 	t_vec3		direction;
-	double		fov;		// Range [0, 180]
+	float		fov;		// Range [0, 180]
 }	t_camera;
 
-void	create_camera(t_point3 position, t_vec3 direction, double fov);
+void	create_camera(t_point3 position, t_vec3 direction, float fov);
 void	print_camera(t_camera *camera);
 t_vec3	camera_to_viewport(int x, int y);
 

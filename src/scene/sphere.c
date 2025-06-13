@@ -10,7 +10,7 @@
 /**
  * @brief Adds a new sphere element to the miniRT scene.
  */
-int	create_sphere(t_point3 position, double radius, t_color color)
+int	create_sphere(t_point3 position, float radius, t_color color)
 {
 	t_scene		*scene;
 	t_sphere	*sphere;
@@ -57,7 +57,7 @@ static bool	solve_quadratic(double a, double b, double c, double *t)
 {
 	double		discriminant;
 
-	discriminant = b * b - 4 * a * c;
+	discriminant = (b * b) - (4 * a * c);
 	if (discriminant < 0)
 		return (false);
 	t[0] = (-b + sqrt(discriminant)) / (2 * a);
@@ -77,8 +77,8 @@ bool	hit_sphere(t_point3 origin, t_vec3 dir, t_sphere *sphere, double *t)
 	co.z = (origin.z - sphere->center.z);
 
 	a = dot_product(dir, dir);
-	b = 2 * dot_product(dir, co);
-	c = dot_product(co, co) - sphere->radius * sphere->radius;
+	b = 2 * dot_product(co, dir);
+	c = dot_product(co, co) - (sphere->radius * sphere->radius);
 
 	return (solve_quadratic(a, b, c, t));
 }

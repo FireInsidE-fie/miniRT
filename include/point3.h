@@ -4,9 +4,9 @@
 // Struct for a point in 3D space
 typedef struct s_point3
 {
-	double	x;
-	double	y;
-	double	z;
+	float	x;
+	float	y;
+	float	z;
 }	t_point3;
 
 // Vectors are also represented with a value for each of the coordinates
@@ -15,6 +15,6 @@ typedef t_point3	t_vec3;
 
 // Functions //
 
-t_point3	make_point3(double x, double y, double z);
+t_point3	make_point3(float x, float y, float z);
 
 #endif // POINT3_H

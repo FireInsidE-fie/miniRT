@@ -10,13 +10,13 @@
 typedef struct s_sphere
 {
 	t_point3		center;
-	double			radius;
+	float			radius;
 	t_color			color;
 	struct s_sphere	*next;
 }	t_sphere;
 
 // Functions //
-int		create_sphere(t_point3 position, double radius, t_color color);
+int		create_sphere(t_point3 position, float radius, t_color color);
 void	print_sphere(t_sphere *sphere);
 bool	hit_sphere(t_point3 origin, t_vec3 dir, t_sphere *sphere, double *t);
 

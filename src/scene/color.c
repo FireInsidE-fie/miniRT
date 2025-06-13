@@ -6,7 +6,7 @@
  * @brief Create a new `t_color` struct.
  * Warning: values are a range from 0 to 255.
  */
-t_color	make_color(double r, double g, double b)
+t_color	make_color(float r, float g, float b)
 {
 	t_color	color;
 
