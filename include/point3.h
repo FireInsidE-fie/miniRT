@@ -16,5 +16,6 @@ typedef t_point3	t_vec3;
 // Functions //
 
 t_point3	make_point3(float x, float y, float z);
+t_vec3		point3_sub(t_point3 *a, t_point3 *b);
 
 #endif // POINT3_H

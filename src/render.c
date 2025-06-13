@@ -1,4 +1,5 @@
 #include "camera.h"
+#include "light.h"
 #include "minirt.h"
 #include "point3.h"
 #include "color.h"
@@ -6,6 +7,7 @@
 #include "sphere.h"
 #include "math.h"
 #include "mlx.h"
+#include "vector.h"
 
 #include <math.h>
 #include <stdbool.h>
@@ -50,7 +52,24 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 		tmp = tmp->next;
 	}
 	if (closest)
-		return (closest->color);
+	{
+		// We'll do a function for this condition's body
+		t_point3	intersection;
+		t_vec3		normal;
+
+		intersection = origin;
+		intersection.x += dir.x * closest_t;
+		intersection.y += dir.y * closest_t;
+		intersection.z += dir.z * closest_t;
+
+		normal = point3_sub(&intersection, &closest->center);
+		vector_normalize(&normal);
+
+		return ((t_color){
+			closest->color.r * get_light_intensity(intersection, normal),
+			closest->color.g * get_light_intensity(intersection, normal),
+			closest->color.b * get_light_intensity(intersection, normal)});
+	}
 	return ((t_color){1.0, 1.0, 1.0});
 }
 
