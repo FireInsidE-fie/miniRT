@@ -73,7 +73,7 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 		color_clamp(&color);
 		return (color);
 	}
-	return ((t_color){1.0, 1.0, 1.0});
+	return ((t_color)SKY_COLOR);
 }
 
 /**
