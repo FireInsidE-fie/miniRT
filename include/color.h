@@ -17,6 +17,5 @@ typedef struct s_color
 
 t_color		make_color(float r, float g, float b);
 uint32_t	color_to_int(t_color *color);
-void		color_clamp(t_color *color);
 
 #endif // COLOR_H
