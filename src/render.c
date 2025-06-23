@@ -14,6 +14,27 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+t_color	compute_light(t_point3 origin, t_vec3 dir, t_sphere *closest, double closest_t)
+{
+	t_point3	intersection;
+	t_vec3		normal;
+	t_color		color;
+
+	intersection = origin;
+	intersection.x += dir.x * closest_t;
+	intersection.y += dir.y * closest_t;
+	intersection.z += dir.z * closest_t;
+
+	normal = point3_sub(&intersection, &closest->center);
+	vector_normalize(&normal);
+
+	color = closest->color;
+	color.r *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
+	color.g *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
+	color.b *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
+	return (color);
+}
+
 /**
  * @brief Finds the closest object to the `origin` on a ray with `direction`,
  * and returns its color.
@@ -53,26 +74,7 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 		tmp = tmp->next;
 	}
 	if (closest)
-	{
-		// We'll do a function for this condition's body
-		t_point3	intersection;
-		t_vec3		normal;
-		t_color		color;
-
-		intersection = origin;
-		intersection.x += dir.x * closest_t;
-		intersection.y += dir.y * closest_t;
-		intersection.z += dir.z * closest_t;
-
-		normal = point3_sub(&intersection, &closest->center);
-		vector_normalize(&normal);
-
-		color = closest->color;
-		color.r *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
-		color.g *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
-		color.b *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
-		return (color);
-	}
+		return (compute_light(origin, dir, closest, closest_t));
 	return ((t_color)SKY_COLOR);
 }
 
