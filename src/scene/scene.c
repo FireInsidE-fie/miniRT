@@ -1,4 +1,5 @@
 #include "scene.h"
+#include "ambient.h"
 #include "sphere.h"
 #include "light.h"
 
@@ -51,7 +52,9 @@ void	print_scene(t_scene *scene)
 
 	printf("[!] - Printing scene...\n");
 	printf("======== Camera ========\n");
-	print_camera((t_camera *)&scene->camera);
+	print_camera(&scene->camera);
+	printf("======== Ambient ========\n");
+	print_ambient(&scene->ambient);
 	printf("======== Spheres ========\n");
 	tmp = scene->spheres;
 	while (tmp)

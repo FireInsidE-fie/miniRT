@@ -17,3 +17,14 @@ void	create_ambient(float intensity, t_color color)
 	ambient->intensity = intensity;
 	ambient->color = color;
 }
+
+void	print_ambient(t_ambient *ambient)
+{
+	printf(
+		"[!] - Ambient\n"
+		"Intensity: %f\n"
+		"Color: (%f, %f, %f)\n",
+		ambient->intensity,
+		ambient->color.r, ambient->color.g, ambient->color.b
+		);
+}

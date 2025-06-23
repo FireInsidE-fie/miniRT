@@ -41,8 +41,8 @@ void	print_sphere(t_sphere *sphere)
 {
 	printf(
 		"[!] - Sphere\n"
-		"Position: (%f, %f, %f)"
-		"\nRadius: %f\n"
+		"Position: (%f, %f, %f)\n"
+		"Radius: %f\n"
 		"Color: (%f, %f, %f)\n",
 		sphere->center.x, sphere->center.y, sphere->center.z,
 		sphere->radius,
