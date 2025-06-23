@@ -11,6 +11,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/**
+ * @brief Closes the program and cleans its heap-allocated memory.
+ * Also takes care of MLX ressources.
+ */
 int	rt_kill(t_core *core, int exit_code)
 {
 	printf("[!] - Closing miniRT...\n");

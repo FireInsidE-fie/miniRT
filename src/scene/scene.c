@@ -37,6 +37,12 @@ static void	clear_list(void *first)
 	}
 }
 
+/**
+ * @brief Frees all elements composing a given scene.
+ * Only clears element that can have multiple instances, because they're
+ * allocated as a linked list. That's why ambient lightning and the camera are
+ * nowhere to be seen here.
+ */
 void	clear_scene(t_scene *scene)
 {
 	printf("[!] - Freeing spheres...\n");
@@ -46,6 +52,11 @@ void	clear_scene(t_scene *scene)
 	// clear_list(scene->cylinders);
 }
 
+/**
+ * @brief Debug print statements to display the current scene as understood by
+ * miniRT.
+ * Should be veeeeeery useful for parsing.
+ */
 void	print_scene(t_scene *scene)
 {
 	void	*tmp;

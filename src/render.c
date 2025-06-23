@@ -14,16 +14,20 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-t_color	compute_light(t_point3 origin, t_vec3 dir, t_sphere *closest, double closest_t)
+/**
+ * @brief Checks the (for now) diffuse lightning for a point of a (for now)
+ * sphere, and computes that point's color with the lightning on top.
+ */
+t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double closest_t)
 {
 	t_point3	intersection;
 	t_vec3		normal;
 	t_color		color;
 
-	intersection = origin;
-	intersection.x += dir.x * closest_t;
-	intersection.y += dir.y * closest_t;
-	intersection.z += dir.z * closest_t;
+	intersection = *origin;
+	intersection.x += dir->x * closest_t;
+	intersection.y += dir->y * closest_t;
+	intersection.z += dir->z * closest_t;
 
 	normal = point3_sub(&intersection, &closest->center);
 	vector_normalize(&normal);
@@ -58,7 +62,7 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 	tmp = get_scene()->spheres;
 	while (tmp)
 	{
-		if (hit_sphere(origin, dir, tmp, t))
+		if (hit_sphere(&origin, &dir, tmp, t))
 		{
 			if (t[0] <= tmax && t[0] >= tmin && t[0] < closest_t)
 			{
@@ -74,11 +78,14 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 		tmp = tmp->next;
 	}
 	if (closest)
-		return (compute_light(origin, dir, closest, closest_t));
+		return (compute_light(&origin, &dir, closest, closest_t));
 	return ((t_color)SKY_COLOR);
 }
 
 /**
+ * @brief The main render loop, sending a ray through each pixel on the
+ * viewport's canvas, and getting the color that ray (and pixel) is going to be.
+ *
  * @note We have to start `x` and `y` at a value before 0, because the center
  * of the camera is the (0, 0) point of the canvas. If we started at (0, 0),
  * the camera would be offset on the lower right.

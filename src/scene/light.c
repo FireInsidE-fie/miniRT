@@ -45,6 +45,15 @@ void	print_light(t_light *light)
 		);
 }
 
+/**
+ * @brief Goes through all lights in the scene and computes a point's total
+ * exposition to them, which is the addition of all lightning that hits it,
+ * including ambient light.
+ *
+ * @details Of course, this often results in values over 1.0, or 100% of light.
+ * Down the line, when this value is applied to the colors of an object, it will
+ * be clamped down to 1.0 to ensure no color value goes over the maximum of 255.
+ */
 float	get_light_intensity(t_point3 point, t_vec3 normal)
 {
 	t_scene	*scene;

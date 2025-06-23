@@ -23,11 +23,19 @@ t_vec3	cross_product(t_vec3 *v1, t_vec3 *v2)
 	);
 }
 
+/**
+ * @brief Computes a vector's length: the square root of the dot product of that
+ * vector with itself.
+ */
 double	vector_length(t_vec3 *v)
 {
 	return (sqrt(dot_product(v, v)));
 }
 
+/**
+ * @brief Normalize a vector, or adapt it to a scale between 0 and 1
+ * (unit length).
+ */
 void	vector_normalize(t_vec3 *v)
 {
 	double	length;

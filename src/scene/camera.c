@@ -30,7 +30,8 @@ void	print_camera(t_camera *camera)
  * @brief For a pixel on the camera's viewport, find a vector from
  * the camera's origin that passes through that pixel.
 
- * @note The distance between the camera and the viewport canvas is 1.
+ * @note The distance between the camera and the viewport canvas is 1 (unit
+ * length).
  */
 t_vec3	camera_to_viewport(int x, int y)
 {
