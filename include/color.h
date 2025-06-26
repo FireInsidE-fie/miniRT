@@ -3,6 +3,8 @@
 
 # include <stdint.h>
 
+# define SKY_COLOR {0.2, 0.2, 0.2}
+
 // Struct for an RGB color representation //
 typedef struct s_color
 {

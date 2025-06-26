@@ -1,13 +1,20 @@
 #include "minirt.h"
+#include "ambient.h"
 #include "camera.h"
+#include "color.h"
 #include "mlx.h"
 #include "point3.h"
 #include "scene.h"
 #include "sphere.h"
+#include "light.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 
+/**
+ * @brief Closes the program and cleans its heap-allocated memory.
+ * Also takes care of MLX ressources.
+ */
 int	rt_kill(t_core *core, int exit_code)
 {
 	printf("[!] - Closing miniRT...\n");
@@ -25,10 +32,14 @@ void	test_scene(void)
 	create_sphere(make_point3(0.0, 0.0, 5.0), 1, make_color(0.0, 1.0, 0.0));
 	create_sphere(make_point3(-1.0, 1.0, 7.0), 1, make_color(0.0, 0.0, 1.0));
 
-	create_sphere(make_point3(0.0, 0.0, 0.0), 1000, make_color(1.0, 0.0, 1.0));
+	// create_sphere(make_point3(0.0, 0.0, 0.0), 1000, make_color(1.0, 0.0, 1.0));
 
 	for (float i = 0.0; i <= 1.0; i += 0.1)
 		create_sphere(make_point3(-5.0 + (i * 10), 8.0, 20.0), 1, make_color(i, i, i));
+
+	create_light(make_point3(0.0, 50.0, 10.0), 0.8, make_color(1.0, 1.0, 1.0));
+
+	create_ambient(0.5, make_color(1.0, 1.0, 1.0));
 
 	create_camera(make_point3(0.0, 0.0, 0.0), make_point3(1.0, 0.0, 0.0), 90.0);
 }

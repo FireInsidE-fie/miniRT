@@ -10,6 +10,9 @@
 /**
  * @brief Adds a new sphere element to the miniRT scene.
  */
+// TODO: when parsing is done, take structs by reference rather than by value
+// (for context, we can't yet because the test scene give `create_sphere`
+// rvalues)
 int	create_sphere(t_point3 position, float radius, t_color color)
 {
 	t_scene		*scene;
@@ -40,8 +43,8 @@ void	print_sphere(t_sphere *sphere)
 {
 	printf(
 		"[!] - Sphere\n"
-		"Position: (%f, %f, %f)"
-		"\nRadius: %f\n"
+		"Position: (%f, %f, %f)\n"
+		"Radius: %f\n"
 		"Color: (%f, %f, %f)\n",
 		sphere->center.x, sphere->center.y, sphere->center.z,
 		sphere->radius,
@@ -50,7 +53,7 @@ void	print_sphere(t_sphere *sphere)
 }
 
 /**
- * Store the result(s) of a quadratic equation inside of the double[2] `t`.
+ * @brief Store the result(s) of a quadratic equation inside of the double[2] `t`.
  * @return `true` if an answer was found, false if there is no answer.
  */
 static bool	solve_quadratic(double a, double b, double c, double *t)
@@ -65,20 +68,28 @@ static bool	solve_quadratic(double a, double b, double c, double *t)
 	return (true);
 }
 
-bool	hit_sphere(t_point3 origin, t_vec3 dir, t_sphere *sphere, double *t)
+/**
+ * @brief Checks if a ray starting at `origin` in direction `dir` hits a sphere
+ * `sphere`.
+ *
+ * @arg t t is a pointer to an array of two doubles for storing the two
+ * solutions of the quadratic equation used to check if a ray is hitting the
+ * sphere.
+ */
+bool	hit_sphere(t_point3 *origin, t_vec3 *dir, t_sphere *sphere, double *t)
 {
 	t_point3	co;
 	double		a;
 	double		b;
 	double		c;
 
-	co.x = (origin.x - sphere->center.x);
-	co.y = (origin.y - sphere->center.y);
-	co.z = (origin.z - sphere->center.z);
+	co.x = (origin->x - sphere->center.x);
+	co.y = (origin->y - sphere->center.y);
+	co.z = (origin->z - sphere->center.z);
 
 	a = dot_product(dir, dir);
-	b = 2 * dot_product(co, dir);
-	c = dot_product(co, co) - (sphere->radius * sphere->radius);
+	b = 2 * dot_product(&co, dir);
+	c = dot_product(&co, &co) - (sphere->radius * sphere->radius);
 
 	return (solve_quadratic(a, b, c, t));
 }

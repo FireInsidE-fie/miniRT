@@ -7,6 +7,11 @@
 
 #define KEY_ESC 65307
 
+/**
+ * @brief The "core" struct of the program contains MLX-related data, the scene
+ * and the mlx image the render is going to be written to.
+ * @see The `minirt.h` file for the struct itself.
+ */
 t_core	*get_core(void)
 {
 	static t_core	core;
@@ -16,6 +21,9 @@ t_core	*get_core(void)
 	return (&core);
 }
 
+/**
+ * @brief MLX trigger for key presses, closing the window when `ESC` is pressed.
+ */
 static int	key_press(int key, void *param)
 {
 	t_core	*core;
