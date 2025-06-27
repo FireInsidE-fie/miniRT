@@ -18,7 +18,7 @@
 int	rt_kill(t_core *core, int exit_code)
 {
 	printf("[!] - Closing miniRT...\n");
-	clear_scene(get_scene());
+	clear_scene(&core->scene);
 	mlx_destroy_image(core->mlx, core->img.img);
 	mlx_destroy_window(core->mlx, core->win);
 	mlx_destroy_display(core->mlx);
@@ -48,11 +48,11 @@ int	main(void)
 {
 	t_core	*core;
 
+	core = get_core();
 	test_scene();
-	print_scene(get_scene());
+	print_scene(&core->scene);
 	printf("================\n");
 	init_window();
-	core = get_core();
 	core->img.img = mlx_new_image(core->mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!core->img.img)
 		rt_kill(core, 1);
@@ -62,7 +62,7 @@ int	main(void)
 			&core->img.line_len,
 			&core->img.endian
 			);
-	render(get_core(), &get_scene()->camera);
+	render(get_core(), &core->scene.camera);
 	printf("================\n");
 	mlx_loop(get_core()->mlx);
 }

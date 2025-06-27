@@ -28,10 +28,8 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double c
 	intersection.x += dir->x * closest_t;
 	intersection.y += dir->y * closest_t;
 	intersection.z += dir->z * closest_t;
-
 	normal = point3_sub(&intersection, &closest->center);
 	vector_normalize(&normal);
-
 	color = closest->color;
 	color.r *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
 	color.g *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
@@ -59,7 +57,7 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 
 	closest_t = tmax;
 	closest = NULL;
-	tmp = get_scene()->spheres;
+	tmp = get_core()->scene.spheres;
 	while (tmp)
 	{
 		if (hit_sphere(&origin, &dir, tmp, t))

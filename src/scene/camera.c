@@ -9,7 +9,8 @@ void	create_camera(t_point3 position, t_vec3 direction, float fov)
 {
 	t_camera	*camera;
 
-	camera = &get_scene()->camera;
+	assert("Field of view" && fov > 0 && fov < 180);
+	camera = &get_core()->scene.camera;
 	camera->position = position;
 	camera->direction = direction;
 	camera->fov = fov;

@@ -1,6 +1,7 @@
 #include "sphere.h"
 #include "scene.h"
 #include "vector.h"
+#include "minirt.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,7 +27,7 @@ int	create_sphere(t_point3 position, float radius, t_color color)
 	sphere->radius = radius;
 	sphere->color = color;
 	sphere->next = NULL;
-	scene = get_scene();
+	scene = &get_core()->scene;
 	if (!scene->spheres)
 	{
 		scene->spheres = sphere;
@@ -86,10 +87,8 @@ bool	hit_sphere(t_point3 *origin, t_vec3 *dir, t_sphere *sphere, double *t)
 	co.x = (origin->x - sphere->center.x);
 	co.y = (origin->y - sphere->center.y);
 	co.z = (origin->z - sphere->center.z);
-
 	a = dot_product(dir, dir);
 	b = 2 * dot_product(&co, dir);
 	c = dot_product(&co, &co) - (sphere->radius * sphere->radius);
-
 	return (solve_quadratic(a, b, c, t));
 }

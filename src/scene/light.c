@@ -2,6 +2,7 @@
 #include "point3.h"
 #include "scene.h"
 #include "vector.h"
+#include "minirt.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -19,7 +20,7 @@ int	create_light(t_point3 position, float intensity, t_color color)
 	light->intensity = intensity;
 	light->color = color;
 	light->next = NULL;
-	scene = get_scene();
+	scene = &get_core()->scene;
 	if (!scene->lights)
 	{
 		scene->lights = light;
@@ -62,7 +63,7 @@ float	get_light_intensity(t_point3 point, t_vec3 normal)
 	t_vec3	point_to_light;
 	double	light_dot_normal;
 
-	scene = get_scene();
+	scene = &get_core()->scene;
 	intensity += scene->ambient.intensity;
 	tmp = scene->lights;
 	while (tmp)

@@ -26,7 +26,7 @@ typedef struct s_core
 	void	*mlx;
 	void	*win;
 	t_img	img;
-	t_scene	*scene;
+	t_scene	scene;
 }	t_core;
 
 // Functions //

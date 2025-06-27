@@ -1,6 +1,7 @@
 #include "color.h"
 #include "minirt.h"
 #include "mlx.h"
+#include "libft.h"
 
 #include <X11/X.h>
 #include <stdint.h>
@@ -17,7 +18,10 @@ t_core	*get_core(void)
 	static t_core	core;
 
 	if (!core.mlx)
+	{
 		core.mlx = mlx_init();
+		ft_bzero(&core.scene, sizeof(t_scene));
+	}
 	return (&core);
 }
 
