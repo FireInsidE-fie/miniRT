@@ -3,6 +3,7 @@
 #include "point3.h"
 #include "minirt.h"
 
+#include <assert.h>
 #include <stdio.h>
 
 void	create_camera(t_point3 position, t_vec3 direction, float fov)
@@ -18,6 +19,7 @@ void	create_camera(t_point3 position, t_vec3 direction, float fov)
 
 void	print_camera(t_camera *camera)
 {
+	assert("Camera" && camera);
 	printf("[!] - Camera\n"
 		"Position: (%f, %f, %f)\n"
 		"Direction: (%f, %f, %f)\n"

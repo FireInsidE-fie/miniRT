@@ -13,6 +13,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <assert.h>
 
 /**
  * @brief Checks the (for now) diffuse lightning for a point of a (for now)
@@ -24,6 +25,10 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double c
 	t_vec3		normal;
 	t_color		color;
 
+	assert("Origin" && origin);
+	assert("Direction" && dir);
+	assert("Closest" && closest);
+	assert("Closest_t" && closest_t >= 0.0);
 	intersection = *origin;
 	intersection.x += dir->x * closest_t;
 	intersection.y += dir->y * closest_t;

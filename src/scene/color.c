@@ -1,6 +1,7 @@
 #include "color.h"
 
 #include <stdint.h>
+#include <assert.h>
 
 /**
  * @brief Create a new `t_color` struct.
@@ -10,6 +11,9 @@ t_color	make_color(float r, float g, float b)
 {
 	t_color	color;
 
+	assert("Red Color" && r >= 0.0f && r <= 1.0f);
+	assert("Green Color" && g >= 0.0f && g <= 1.0f);
+	assert("Blue Color" && b >= 0.0f && b <= 1.0f);
 	color.r = r;
 	color.g = g;
 	color.b = b;

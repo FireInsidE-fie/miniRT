@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
+#include <assert.h>
 
 /**
  * @brief Adds a new sphere element to the miniRT scene.
@@ -20,6 +21,10 @@ int	create_sphere(t_point3 position, float radius, t_color color)
 	t_sphere	*sphere;
 	t_sphere	*tmp;
 
+	assert("Radius" && radius > 0);
+	assert("Color" && color.r >= 0.0f && color.r <= 1.0f
+		&& color.g >= 0.0f && color.g <= 1.0f
+		&& color.b >= 0.0f && color.b <= 1.0f);
 	sphere = malloc(sizeof(t_sphere));
 	if (!sphere)
 		return (perror("miniRT (create_sphere) - malloc"), 1);
@@ -42,6 +47,7 @@ int	create_sphere(t_point3 position, float radius, t_color color)
 
 void	print_sphere(t_sphere *sphere)
 {
+	assert("Sphere" && sphere);
 	printf(
 		"[!] - Sphere\n"
 		"Position: (%f, %f, %f)\n"
@@ -61,6 +67,7 @@ static bool	solve_quadratic(double a, double b, double c, double *t)
 {
 	double		discriminant;
 
+	assert("t" && t);
 	discriminant = (b * b) - (4 * a * c);
 	if (discriminant < 0)
 		return (false);
@@ -84,6 +91,10 @@ bool	hit_sphere(t_point3 *origin, t_vec3 *dir, t_sphere *sphere, double *t)
 	double		b;
 	double		c;
 
+	assert("Origin" && origin);
+	assert("Direction" && dir);
+	assert("Sphere" && sphere);
+	assert("Time" && t);
 	co.x = (origin->x - sphere->center.x);
 	co.y = (origin->y - sphere->center.y);
 	co.z = (origin->z - sphere->center.z);

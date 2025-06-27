@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 int	create_light(t_point3 position, float intensity, t_color color)
 {
@@ -13,6 +14,11 @@ int	create_light(t_point3 position, float intensity, t_color color)
 	t_light	*light;
 	t_light	*tmp;
 
+	assert("Light Intensity" && intensity >= 0.0f && intensity <= 1.0f);
+	assert("Light Color"
+		&& color.r >= 0.0f && color.r <= 1.0f
+		&& color.g >= 0.0f && color.g <= 1.0f
+		&& color.b >= 0.0f && color.b <= 1.0f);
 	light = malloc(sizeof(t_light));
 	if (!light)
 		return (perror("miniRT (create_light) - malloc"), 1);
@@ -35,6 +41,7 @@ int	create_light(t_point3 position, float intensity, t_color color)
 
 void	print_light(t_light *light)
 {
+	assert("Light" && light);
 	printf(
 		"[!] - Light\n"
 		"Position: (%f, %f, %f)"

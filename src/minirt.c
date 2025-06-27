@@ -10,6 +10,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 /**
  * @brief Closes the program and cleans its heap-allocated memory.
@@ -17,6 +18,7 @@
  */
 int	rt_kill(t_core *core, int exit_code)
 {
+	assert("Core" && core);
 	printf("[!] - Closing miniRT...\n");
 	clear_scene(&core->scene);
 	mlx_destroy_image(core->mlx, core->img.img);

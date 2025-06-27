@@ -18,6 +18,7 @@ static void	clear_list(void *first)
 	t_sphere	*current;
 	t_sphere	*next;
 
+	assert("First" && first);
 	current = first;
 	while (current)
 	{
@@ -52,6 +53,7 @@ void	print_scene(t_scene *scene)
 {
 	void	*tmp;
 
+	assert("Scene" && scene);
 	printf("[!] - Printing scene...\n");
 	printf("======== Camera ========\n");
 	print_camera(&scene->camera);
