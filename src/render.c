@@ -103,9 +103,9 @@ int	render(t_core *core, t_camera *camera)
 	while (y <= WIN_HEIGHT / 2)
 	{
 		x = -WIN_WIDTH / 2;
+		printf("[!] - Rendering row %d...\r", y);
 		while (x <= WIN_WIDTH / 2)
 		{
-			printf("[!] - Rendering pixel x%d-y%d...\r", x, y);
 			color = ray_color(
 					camera->position, camera_to_viewport(x, y), 1, INFINITY
 					);
