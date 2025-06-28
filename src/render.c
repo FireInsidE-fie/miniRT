@@ -15,6 +15,55 @@
 #include <stdio.h>
 #include <assert.h>
 
+// Result if a ray intersects with a (for now) sphere and its closest t on that
+// ray
+typedef struct s_result
+{
+	t_sphere	*closest_sphere;
+	double		closest_t;
+}	t_result;
+
+/**
+ * @brief Computes the closest intersection between a ray starting at `origin`
+ * in direction `dir`, between `tmin` and `tmax`.
+ *
+ * @return A `t_result` struct containing a pointer to the sphere intersected
+ * and the t value at that point.
+ */
+t_result
+	closest_intersect(t_point3 *origin, t_vec3 *dir, double tmin, double tmax)
+{
+	t_sphere	*tmp;
+	t_result	result;
+	double		t[2];
+
+	assert("Origin" && origin);
+	assert("Direction" && dir);
+	assert("Tmin" && tmin >= 0.0);
+	assert("Tmax" && tmax >= tmin);
+	result.closest_sphere = NULL;
+	result.closest_t = tmax;
+	tmp = get_core()->scene.spheres;
+	while (tmp)
+	{
+		if (hit_sphere(origin, dir, tmp, t))
+		{
+			if (t[0] <= tmax && t[0] >= tmin && t[0] < result.closest_t)
+			{
+				result.closest_sphere = tmp;
+				result.closest_t = t[0];
+			}
+			if (t[1] <= tmax && t[1] >= tmin && t[1] < result.closest_t)
+			{
+				result.closest_sphere = tmp;
+				result.closest_t = t[1];
+			}
+		}
+		tmp = tmp->next;
+	}
+	return (result);
+}
+
 /**
  * @brief Checks the (for now) diffuse lightning for a point of a (for now)
  * sphere, and computes that point's color with the lightning on top.
@@ -55,31 +104,13 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double c
 // contained within, in a single go.
 static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 {
-	t_sphere	*tmp;
 	t_sphere	*closest;
-	double		t[2];
 	double		closest_t;
+	t_result	result;
 
-	closest_t = tmax;
-	closest = NULL;
-	tmp = get_core()->scene.spheres;
-	while (tmp)
-	{
-		if (hit_sphere(&origin, &dir, tmp, t))
-		{
-			if (t[0] <= tmax && t[0] >= tmin && t[0] < closest_t)
-			{
-				closest = tmp;
-				closest_t = t[0];
-			}
-			if (t[1] <= tmax && t[1] >= tmin && t[1] < closest_t)
-			{
-				closest = tmp;
-				closest_t = t[1];
-			}
-		}
-		tmp = tmp->next;
-	}
+	result = closest_intersect(&origin, &dir, tmin, tmax);
+	closest = result.closest_sphere;
+	closest_t = result.closest_t;
 	if (closest)
 		return (compute_light(&origin, &dir, closest, closest_t));
 	return ((t_color)SKY_COLOR);
@@ -99,6 +130,8 @@ int	render(t_core *core, t_camera *camera)
 	int		y;
 	t_color	color;
 
+	assert("Core" && core);
+	assert("Camera" && camera);
 	y = -WIN_HEIGHT / 2;
 	while (y <= WIN_HEIGHT / 2)
 	{
