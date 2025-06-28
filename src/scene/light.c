@@ -62,24 +62,29 @@ void	print_light(t_light *light)
  * Down the line, when this value is applied to the colors of an object, it will
  * be clamped down to 1.0 to ensure no color value goes over the maximum of 255.
  */
-float	get_light_intensity(t_point3 point, t_vec3 normal)
+float	get_light_intensity(t_point3 *point, t_vec3 *normal)
 {
-	t_scene	*scene;
-	float	intensity = 0.0;
-	t_light	*tmp;
-	t_vec3	point_to_light;
-	double	light_dot_normal;
+	t_scene		*scene;
+	float		intensity = 0.0;
+	t_light		*tmp;
+	t_vec3		point_to_light;
+	double		light_dot_normal;
 
 	scene = &get_core()->scene;
 	intensity += scene->ambient.intensity;
 	tmp = scene->lights;
 	while (tmp)
 	{
-		point_to_light = point3_sub(&tmp->position, &point);
-		light_dot_normal = dot_product(&point_to_light, &normal);
+		point_to_light = point3_sub(&tmp->position, point);
+		if (closest_intersect(point, &point_to_light, 0.001, 1).closest_sphere)
+		{
+			tmp = tmp->next;
+			continue;
+		}
+		light_dot_normal = dot_product(&point_to_light, normal);
 		if (light_dot_normal > 0)
 			intensity += tmp->intensity * light_dot_normal
-				/ (vector_length(&normal) * vector_length(&point_to_light));
+				/ (vector_length(normal) * vector_length(&point_to_light));
 		tmp = tmp->next;
 	}
 	return (intensity);

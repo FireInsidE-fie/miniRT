@@ -15,14 +15,6 @@
 #include <stdio.h>
 #include <assert.h>
 
-// Result if a ray intersects with a (for now) sphere and its closest t on that
-// ray
-typedef struct s_result
-{
-	t_sphere	*closest_sphere;
-	double		closest_t;
-}	t_result;
-
 /**
  * @brief Computes the closest intersection between a ray starting at `origin`
  * in direction `dir`, between `tmin` and `tmax`.
@@ -85,9 +77,9 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double c
 	normal = point3_sub(&intersection, &closest->center);
 	vector_normalize(&normal);
 	color = closest->color;
-	color.r *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
-	color.g *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
-	color.b *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
+	color.r *= clamp(get_light_intensity(&intersection, &normal), 0.0, 1.0);
+	color.g *= clamp(get_light_intensity(&intersection, &normal), 0.0, 1.0);
+	color.b *= clamp(get_light_intensity(&intersection, &normal), 0.0, 1.0);
 	return (color);
 }
 
