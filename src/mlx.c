@@ -58,10 +58,7 @@ static int	key_press(int key, void *param)
 	if (key == KEY_ESC)
 		return (rt_kill(core, 0));
 	if (key == 104 && get_core()->render.is_rendering == 0)
-	{ // touche H
 		swap_render_mode(core);
-		printf("\nALO\n");
-	}
 	if (key == 65361)
 		get_core()->scene.camera.position.x-=0.3;
 	if (key == 65363)
