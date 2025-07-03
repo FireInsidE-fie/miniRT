@@ -5,6 +5,7 @@
 
 #include <X11/X.h>
 #include <stdint.h>
+#include <stdio.h>
 
 #define KEY_ESC 65307
 
@@ -25,6 +26,27 @@ t_core	*get_core(void)
 	return (&core);
 }
 
+void	swap_render_mode(t_core *core)
+{
+	if (core->render_mode == 1)
+		core->render_mode = 0;
+	else
+	{
+		printf("Rendering\n");
+		core->render.is_rendering = 1;
+		core->render_mode = 1;
+	}
+	// Reset render
+	core->render.x = -WIN_WIDTH / 2;
+	core->render.y = -WIN_HEIGHT / 2;
+
+	if (core->render_mode == 0)
+		mlx_loop_hook(core->mlx, fast_render_loop, core);
+	else
+		mlx_loop_hook(core->mlx, render_loop, core);
+}
+
+
 /**
  * @brief MLX trigger for key presses, closing the window when `ESC` is pressed.
  */
@@ -35,6 +57,19 @@ static int	key_press(int key, void *param)
 	core = param;
 	if (key == KEY_ESC)
 		return (rt_kill(core, 0));
+	if (key == 104 && get_core()->render.is_rendering == 0)
+	{ // touche H
+		swap_render_mode(core);
+		printf("\nALO\n");
+	}
+	if (key == 65361)
+		get_core()->scene.camera.position.x-=0.3;
+	if (key == 65363)
+		get_core()->scene.camera.position.x+=0.3;
+	if (key == 65362)
+		get_core()->scene.camera.position.y+=0.3;
+	if (key == 65364)
+		get_core()->scene.camera.position.y-=0.3;
 	return (0);
 }
 

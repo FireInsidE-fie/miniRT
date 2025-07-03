@@ -15,6 +15,9 @@
 #include <stdio.h>
 #include <assert.h>
 
+#define FAST_STEP 10
+#define BLOCK_SIZE 1080
+
 /**
  * @brief Checks the (for now) diffuse lightning for a point of a (for now)
  * sphere, and computes that point's color with the lightning on top.
@@ -83,6 +86,99 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 	if (closest)
 		return (compute_light(&origin, &dir, closest, closest_t));
 	return ((t_color)SKY_COLOR);
+}
+
+void	process_fast_bloc(void)
+{
+	int		i;
+	int		j;
+	t_color color;
+
+	color = ray_color(
+				get_core()->scene.camera.position,
+				camera_to_viewport(get_core()->render.x, get_core()->render.y),
+				1,
+				INFINITY
+			);
+	j = 0;
+	while (j < FAST_STEP && get_core()->render.y + j <= WIN_HEIGHT / 2)
+	{
+		i = 0;
+		while (i < FAST_STEP && get_core()->render.x + i <= WIN_WIDTH / 2)
+		{
+			img_put_pixel(&get_core()->img,
+				get_core()->render.x + i + WIN_WIDTH / 2,
+				get_core()->render.y + j + WIN_HEIGHT / 2,
+				&color);
+			i++;
+		}
+		j++;
+	}
+}
+
+int fast_render_loop(void *param)
+{
+	(void)param;
+	get_core()->render.y = -WIN_HEIGHT / 2;
+	while (get_core()->render.y <= WIN_HEIGHT / 2)
+	{
+		get_core()->render.x = -WIN_WIDTH / 2;
+		while (get_core()->render.x <= WIN_WIDTH / 2)
+		{
+			process_fast_bloc();
+			get_core()->render.x += FAST_STEP;
+		}
+		get_core()->render.y += FAST_STEP;
+	}
+
+	mlx_put_image_to_window(get_core()->mlx, get_core()->win, get_core()->img.img, 0, 0);
+	return (0);
+}
+
+void	process_bloc_render(void)
+{
+	t_color color;
+
+	color = ray_color(
+                get_core()->scene.camera.position,
+                camera_to_viewport(get_core()->render.x, get_core()->render.y),
+                1,
+                INFINITY
+            );
+            img_put_pixel(&get_core()->img,
+                get_core()->render.x + WIN_WIDTH / 2,
+                get_core()->render.y + WIN_HEIGHT / 2,
+                &color);
+
+            get_core()->render.x++;
+}
+
+int render_loop(void *param)
+{
+	int			i;
+	int			j;
+
+	(void)param;
+	if (get_core()->render.y > WIN_HEIGHT / 2)
+	{
+		get_core()->render.is_rendering = 0;
+		return (0);
+	}
+	j = 0;
+    while (j < BLOCK_SIZE && get_core()->render.y <= WIN_HEIGHT / 2)
+    {
+		i = 0;
+        while (i++ < BLOCK_SIZE && get_core()->render.x <= WIN_WIDTH / 2)
+            process_bloc_render();
+		if (get_core()->render.x > WIN_WIDTH / 2)
+		{
+			get_core()->render.x = -WIN_WIDTH / 2;
+			get_core()->render.y++;
+		}
+		j++;
+    }
+    mlx_put_image_to_window(get_core()->mlx, get_core()->win, get_core()->img.img, 0, 0);
+	return (0);
 }
 
 /**

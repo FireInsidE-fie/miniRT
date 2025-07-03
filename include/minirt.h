@@ -20,6 +20,14 @@ typedef struct s_img
 	int		endian;		// Endianness
 }	t_img;
 
+
+typedef struct s_render
+{
+	int	x;
+	int	y;
+	int	is_rendering;
+}	t_render;
+
 // Holds all MLX-related data
 typedef struct s_core
 {
@@ -27,7 +35,10 @@ typedef struct s_core
 	void	*win;
 	t_img	img;
 	t_scene	scene;
+	int		render_mode;
+	t_render render;
 }	t_core;
+
 
 // Functions //
 
@@ -41,5 +52,7 @@ void	img_put_pixel(t_img *img, int x, int y, t_color *color);
 
 // Rendering functions - render.c
 int		render(t_core *core, t_camera *camera);
+int		render_loop(void *param);
+int		fast_render_loop(void *param);
 
 #endif //MINIRT_H
