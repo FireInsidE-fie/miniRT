@@ -59,13 +59,13 @@ static int	key_press(int key, void *param)
 		return (rt_kill(core, 0));
 	if (key == 104 && get_core()->render.is_rendering == 0)
 		swap_render_mode(core);
-	if (key == 65361)
+	if (key == 65361 && get_core()->render_mode == 0)
 		get_core()->scene.camera.position.x-=0.3;
-	if (key == 65363)
+	if (key == 65363 && get_core()->render_mode == 0)
 		get_core()->scene.camera.position.x+=0.3;
-	if (key == 65362)
+	if (key == 65362 && get_core()->render_mode == 0)
 		get_core()->scene.camera.position.y+=0.3;
-	if (key == 65364)
+	if (key == 65364 && get_core()->render_mode == 0)
 		get_core()->scene.camera.position.y-=0.3;
 	return (0);
 }
