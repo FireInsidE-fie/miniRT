@@ -96,15 +96,11 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double c
 // contained within, in a single go.
 static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
 {
-	t_sphere	*closest;
-	double		closest_t;
-	t_result	result;
+	t_result	r;
 
-	result = closest_intersect(&origin, &dir, tmin, tmax);
-	closest = result.closest_sphere;
-	closest_t = result.closest_t;
-	if (closest)
-		return (compute_light(&origin, &dir, closest, closest_t));
+	r = closest_intersect(&origin, &dir, tmin, tmax);
+	if (r.closest_sphere)
+		return (compute_light(&origin, &dir, r.closest_sphere, r.closest_t));
 	return ((t_color)SKY_COLOR);
 }
 
