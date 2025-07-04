@@ -21,7 +21,7 @@
  */
 t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double closest_t)
 {
-	t_point3	intersection;
+	t_point3	intersect;
 	t_vec3		normal;
 	t_color		color;
 
@@ -29,16 +29,16 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double c
 	assert("Direction" && dir);
 	assert("Closest" && closest);
 	assert("Closest_t" && closest_t >= 0.0);
-	intersection = *origin;
-	intersection.x += dir->x * closest_t;
-	intersection.y += dir->y * closest_t;
-	intersection.z += dir->z * closest_t;
-	normal = point3_sub(&intersection, &closest->center);
+	intersect = *origin;
+	intersect.x += dir->x * closest_t;
+	intersect.y += dir->y * closest_t;
+	intersect.z += dir->z * closest_t;
+	normal = point3_sub(&intersect, &closest->center);
 	vector_normalize(&normal);
 	color = closest->color;
-	color.r *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
-	color.g *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
-	color.b *= clamp(get_light_intensity(intersection, normal), 0.0, 1.0);
+	color.r *= clamp(get_light_intensity(intersect, normal), new_range(0.0, 1.0));
+	color.g *= clamp(get_light_intensity(intersect, normal), new_range(0.0, 1.0));
+	color.b *= clamp(get_light_intensity(intersect, normal), new_range(0.0, 1.0));
 	return (color);
 }
 
@@ -53,26 +53,26 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double c
 // each slot in the array containing the head of the linked list related to that
 // type. This would allow us to iterate over the array and each linked list
 // contained within, in a single go.
-static t_color	ray_color(t_point3 origin, t_vec3 dir, double tmin, double tmax)
+static t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
 {
 	t_sphere	*tmp;
 	t_sphere	*closest;
 	double		t[2];
 	double		closest_t;
 
-	closest_t = tmax;
+	closest_t = t_range.max;
 	closest = NULL;
 	tmp = get_core()->scene.spheres;
 	while (tmp)
 	{
 		if (hit_sphere(&origin, &dir, tmp, t))
 		{
-			if (t[0] <= tmax && t[0] >= tmin && t[0] < closest_t)
+			if (t[0] <= t_range.max && t[0] >= t_range.min && t[0] < closest_t)
 			{
 				closest = tmp;
 				closest_t = t[0];
 			}
-			if (t[1] <= tmax && t[1] >= tmin && t[1] < closest_t)
+			if (t[1] <= t_range.max && t[1] >= t_range.min && t[1] < closest_t)
 			{
 				closest = tmp;
 				closest_t = t[1];
@@ -107,7 +107,9 @@ int	render(t_core *core, t_camera *camera)
 		while (x <= WIN_WIDTH / 2)
 		{
 			color = ray_color(
-					camera->position, camera_to_viewport(x, y), 1, INFINITY
+					camera->position,
+					camera_to_viewport(x, y),
+					new_range(1, INFINITY)
 					);
 			img_put_pixel(&core->img,
 				x + WIN_WIDTH / 2, y + WIN_HEIGHT / 2, &color);
