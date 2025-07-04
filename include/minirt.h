@@ -7,6 +7,7 @@
 
 // Includes //
 # include "scene.h"
+# include "utils.h"
 
 // Structs //
 
@@ -49,6 +50,6 @@ void		img_put_pixel(t_img *img, int x, int y, t_color *color);
 
 // Rendering functions - render.c
 int			render(t_core *core, t_camera *camera);
-t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, double tmin, double tmax);
+t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range);
 
 #endif //MINIRT_H
