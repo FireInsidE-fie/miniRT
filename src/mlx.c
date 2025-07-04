@@ -7,7 +7,12 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#define KEY_R 114
 #define KEY_ESC 65307
+#define KEY_LEFT 65361
+#define KEY_UP 65362
+#define KEY_RIGHT 65363
+#define KEY_DOWN 65364
 
 /**
  * @brief The "core" struct of the program contains MLX-related data, the scene
@@ -57,15 +62,15 @@ static int	key_press(int key, void *param)
 	core = param;
 	if (key == KEY_ESC)
 		return (rt_kill(core, 0));
-	if (key == 104 && get_core()->render.is_rendering == 0)
+	if (key == KEY_R && get_core()->render.is_rendering == 0)
 		swap_render_mode(core);
-	if (key == 65361 && get_core()->render_mode == 0)
+	if (key == KEY_LEFT && get_core()->render_mode == 0)
 		get_core()->scene.camera.position.x-=0.3;
-	if (key == 65363 && get_core()->render_mode == 0)
+	if (key == KEY_RIGHT && get_core()->render_mode == 0)
 		get_core()->scene.camera.position.x+=0.3;
-	if (key == 65362 && get_core()->render_mode == 0)
+	if (key == KEY_UP && get_core()->render_mode == 0)
 		get_core()->scene.camera.position.y+=0.3;
-	if (key == 65364 && get_core()->render_mode == 0)
+	if (key == KEY_DOWN && get_core()->render_mode == 0)
 		get_core()->scene.camera.position.y-=0.3;
 	return (0);
 }
