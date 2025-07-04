@@ -92,14 +92,14 @@ void	process_fast_bloc(void)
 {
 	int		i;
 	int		j;
-	t_color color;
+	t_color	color;
 
 	color = ray_color(
-				get_core()->scene.camera.position,
-				camera_to_viewport(get_core()->render.x, get_core()->render.y),
-				1,
-				INFINITY
-			);
+			get_core()->scene.camera.position,
+			camera_to_viewport(get_core()->render.x, get_core()->render.y),
+			1,
+			INFINITY
+		);
 	j = 0;
 	while (j < FAST_STEP && get_core()->render.y + j <= WIN_HEIGHT / 2)
 	{
@@ -140,20 +140,20 @@ void	process_bloc_render(void)
 	t_color color;
 
 	color = ray_color(
-                get_core()->scene.camera.position,
-                camera_to_viewport(get_core()->render.x, get_core()->render.y),
-                1,
-                INFINITY
-            );
-            img_put_pixel(&get_core()->img,
-                get_core()->render.x + WIN_WIDTH / 2,
-                get_core()->render.y + WIN_HEIGHT / 2,
-                &color);
+			get_core()->scene.camera.position,
+			camera_to_viewport(get_core()->render.x, get_core()->render.y),
+			1,
+			INFINITY
+		);
+	img_put_pixel(&get_core()->img,
+		get_core()->render.x + WIN_WIDTH / 2,
+		get_core()->render.y + WIN_HEIGHT / 2,
+		&color);
 
-            get_core()->render.x++;
+	get_core()->render.x++;
 }
 
-int render_loop(void *param)
+int	render_loop(void *param)
 {
 	int			i;
 	int			j;
@@ -165,19 +165,19 @@ int render_loop(void *param)
 		return (0);
 	}
 	j = 0;
-    while (j < BLOCK_SIZE && get_core()->render.y <= WIN_HEIGHT / 2)
-    {
+	while (j < BLOCK_SIZE && get_core()->render.y <= WIN_HEIGHT / 2)
+	{
 		i = 0;
-        while (i++ < BLOCK_SIZE && get_core()->render.x <= WIN_WIDTH / 2)
-            process_bloc_render();
+		while (i++ < BLOCK_SIZE && get_core()->render.x <= WIN_WIDTH / 2)
+			process_bloc_render();
 		if (get_core()->render.x > WIN_WIDTH / 2)
 		{
 			get_core()->render.x = -WIN_WIDTH / 2;
 			get_core()->render.y++;
 		}
 		j++;
-    }
-    mlx_put_image_to_window(get_core()->mlx, get_core()->win, get_core()->img.img, 0, 0);
+	}
+	mlx_put_image_to_window(get_core()->mlx, get_core()->win, get_core()->img.img, 0, 0);
 	return (0);
 }
 

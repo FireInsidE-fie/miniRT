@@ -37,7 +37,7 @@ void	swap_render_mode(t_core *core)
 		core->render_mode = 0;
 	else
 	{
-		printf("Rendering\n");
+		printf("[!] - Rendering...\n");
 		core->render.is_rendering = 1;
 		core->render_mode = 1;
 	}
