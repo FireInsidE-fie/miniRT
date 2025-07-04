@@ -73,13 +73,13 @@ void	print_scene(t_scene *scene)
 		print_light(tmp);
 		tmp = ((t_light *)tmp)->next;
 	}
-	// printf("======== Planes ========\n");
-	// tmp = scene->planes;
-	// while (tmp)
-	// {
-	// 	print_plane(tmp);
-	// 	tmp = ((t_plane *)tmp)->next;
-	// }
+	printf("======== Planes ========\n");
+	tmp = scene->planes;
+	while (tmp)
+	{
+		print_plane(tmp);
+		tmp = ((t_plane *)tmp)->next;
+	}
 	// printf("======== Cylinders ========\n");
 	// tmp = scene->cylinders;
 	// while (tmp)

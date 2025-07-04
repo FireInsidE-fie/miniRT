@@ -6,6 +6,7 @@
 #include "point3.h"
 #include "scene.h"
 #include "sphere.h"
+#include "plane.h"
 #include "light.h"
 
 #include <stdlib.h>
@@ -34,7 +35,7 @@ void	test_scene(void)
 	create_sphere(make_point3(0.0, 0.0, 5.0), 1, make_color(0.0, 1.0, 0.0));
 	create_sphere(make_point3(-1.0, 1.0, 7.0), 1, make_color(0.0, 0.0, 1.0));
 
-	// create_sphere(make_point3(0.0, 0.0, 0.0), 1000, make_color(1.0, 0.0, 1.0));
+	create_plane(make_point3(0.0, -2.0, 0.0), make_point3(0.0, 1.0, 0.0), make_color(1.0, 0.0, 1.0));
 
 	for (float i = 0.0; i <= 1.0; i += 0.1)
 		create_sphere(make_point3(-5.0 + (i * 10), 8.0, 20.0), 1, make_color(i, i, i));
