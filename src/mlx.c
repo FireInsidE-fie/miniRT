@@ -7,7 +7,13 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#define KEY_A 97
+#define KEY_D 100
+#define KEY_E 101
+#define KEY_Q 113
 #define KEY_R 114
+#define KEY_S 115
+#define KEY_W 119
 #define KEY_ESC 65307
 #define KEY_LEFT 65361
 #define KEY_UP 65362
@@ -59,19 +65,24 @@ static int	key_press(int key, void *param)
 {
 	t_core	*core;
 
+	// printf("Key pressed: %d\n", key);
 	core = param;
 	if (key == KEY_ESC)
 		return (rt_kill(core, 0));
-	if (key == KEY_R && get_core()->render.is_rendering == 0)
+	if (key == KEY_R && core->render.is_rendering == 0)
 		swap_render_mode(core);
-	if (key == KEY_LEFT && get_core()->render_mode == 0)
-		get_core()->scene.camera.position.x-=0.3;
-	if (key == KEY_RIGHT && get_core()->render_mode == 0)
-		get_core()->scene.camera.position.x+=0.3;
-	if (key == KEY_UP && get_core()->render_mode == 0)
-		get_core()->scene.camera.position.y+=0.3;
-	if (key == KEY_DOWN && get_core()->render_mode == 0)
-		get_core()->scene.camera.position.y-=0.3;
+	if ((key == KEY_LEFT || key == KEY_A) && core->render_mode == 0)
+		core->scene.camera.position.x -= 0.3;
+	if ((key == KEY_RIGHT || key == KEY_D) && core->render_mode == 0)
+		core->scene.camera.position.x += 0.3;
+	if ((key == KEY_UP || key == KEY_E) && core->render_mode == 0)
+		core->scene.camera.position.y += 0.3;
+	if ((key == KEY_DOWN || key == KEY_Q) && core->render_mode == 0)
+		core->scene.camera.position.y -= 0.3;
+	if (key == KEY_W && core->render_mode == 0)
+		core->scene.camera.position.z += 0.3;
+	if (key == KEY_S && core->render_mode == 0)
+		core->scene.camera.position.z -= 0.3;
 	return (0);
 }
 
