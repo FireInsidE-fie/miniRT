@@ -55,13 +55,24 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double c
 // contained within, in a single go.
 static t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
 {
-	t_sphere	*tmp;
+	void		*tmp;
 	t_sphere	*closest;
 	double		t[2];
 	double		closest_t;
 
 	closest_t = t_range.max;
 	closest = NULL;
+	tmp = get_core()->scene.planes;
+	while (tmp)
+	{
+		if (hit_plane(&origin, &dir, (t_plane *)tmp, t)
+			&& t[0] <= t_range.max && t[0] >= t_range.min && t[0] < closest_t)
+		{
+			closest = tmp;
+			closest_t = *t;
+		}
+		tmp = ((t_plane *)tmp)->next;
+	}
 	tmp = get_core()->scene.spheres;
 	while (tmp)
 	{
@@ -78,7 +89,7 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
 				closest_t = t[1];
 			}
 		}
-		tmp = tmp->next;
+		tmp = ((t_sphere *)tmp)->next;
 	}
 	if (closest)
 		return (compute_light(&origin, &dir, closest, closest_t));

@@ -1,4 +1,5 @@
 #include "sphere.h"
+#include "point3.h"
 #include "scene.h"
 #include "vector.h"
 #include "minirt.h"
@@ -86,7 +87,7 @@ static bool	solve_quadratic(double a, double b, double c, double *t)
  */
 bool	hit_sphere(t_point3 *origin, t_vec3 *dir, t_sphere *sphere, double *t)
 {
-	t_point3	co;
+	t_vec3		co;
 	double		a;
 	double		b;
 	double		c;
@@ -95,9 +96,7 @@ bool	hit_sphere(t_point3 *origin, t_vec3 *dir, t_sphere *sphere, double *t)
 	assert("Direction" && dir);
 	assert("Sphere" && sphere);
 	assert("Time" && t);
-	co.x = (origin->x - sphere->center.x);
-	co.y = (origin->y - sphere->center.y);
-	co.z = (origin->z - sphere->center.z);
+	co = point3_sub(origin, &sphere->center);
 	a = dot_product(dir, dir);
 	b = 2 * dot_product(&co, dir);
 	c = dot_product(&co, &co) - (sphere->radius * sphere->radius);

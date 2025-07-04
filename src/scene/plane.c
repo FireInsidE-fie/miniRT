@@ -1,4 +1,6 @@
 #include "minirt.h"
+#include "point3.h"
+#include "vector.h"
 #include "plane.h"
 
 #include <assert.h>
@@ -17,7 +19,7 @@ int	create_plane(t_point3 origin, t_vec3 normal, t_color color)
 		&& color.b >= 0.0f && color.b <= 1.0f);
 	plane = malloc(sizeof(t_plane));
 	if (!plane)
-		return (1);
+		return (perror("miniRT (create_plane) - malloc"), 1);
 	plane->origin = origin;
 	plane->normal = normal;
 	plane->color = color;
@@ -49,10 +51,16 @@ void	print_plane(t_plane *plane)
 		);
 }
 
-bool	hit_plane(t_point3 *origin, t_vec3 *dir, t_plane *plane)
+bool	hit_plane(t_point3 *origin, t_vec3 *dir, t_plane *plane, double *t)
 {
+	t_vec3	po;
+
 	assert("Origin" && origin);
 	assert("Direction" && dir);
 	assert("Plane" && plane);
+	po = point3_sub(origin, &plane->origin);
+	*t = dot_product(&po, &plane->normal) / dot_product(dir, &plane->normal);
+	if (t)
+		return (true);
 	return (false);
 }
