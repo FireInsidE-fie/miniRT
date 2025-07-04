@@ -59,7 +59,13 @@ void	swap_render_mode(t_core *core)
 
 
 /**
- * @brief MLX trigger for key presses, closing the window when `ESC` is pressed.
+ * @brief MLX trigger for key presses.
+ *
+ * @details ESC closes the window.
+ * w and s go in depth (z axis).
+ * a and d go left and right (x axis).
+ * q and e go up and down (y axis).
+ * Arrow keys work as well for the x and y axes.
  */
 static int	key_press(int key, void *param)
 {
