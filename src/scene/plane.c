@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int	create_plane(t_point3 origin, t_vec3 normal, t_color color)
+int	create_plane(t_point3 position, t_vec3 normal, t_color color)
 {
 	t_scene	*scene;
 	t_plane	*plane;
@@ -20,7 +20,7 @@ int	create_plane(t_point3 origin, t_vec3 normal, t_color color)
 	plane = malloc(sizeof(t_plane));
 	if (!plane)
 		return (perror("miniRT (create_plane) - malloc"), 1);
-	plane->origin = origin;
+	plane->origin = position;
 	plane->normal = normal;
 	plane->color = color;
 	plane->next = NULL;
@@ -63,4 +63,19 @@ bool	hit_plane(t_point3 *origin, t_vec3 *dir, t_plane *plane, double *t)
 	if (t)
 		return (true);
 	return (false);
+}
+
+void	clear_planes(void)
+{
+	t_plane	*plane;
+	t_plane	*next;
+
+	plane = get_core()->scene.planes;
+	while (plane)
+	{
+		next = plane->next;
+		free(plane);
+		plane = next;
+	}
+	get_core()->scene.planes = NULL;
 }

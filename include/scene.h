@@ -22,7 +22,7 @@ typedef struct s_scene
 
 // Functions //
 
-void	clear_scene(t_scene *scene);
+void	clear_scene(void);
 void	print_scene(t_scene *scene);
 
 #endif // SCENE_H

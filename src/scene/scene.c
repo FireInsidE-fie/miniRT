@@ -3,31 +3,31 @@
 #include "sphere.h"
 #include "light.h"
 
-#include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 
 /**
- * @brief Clears a linked list of elements
+ * @brief Clears a linked list of elements.
+ * UNUSED
  *
  * @note Could be expanded to take in a function pointer in case we need to
  * clear specific stuff inside of each node.
  */
-static void	clear_list(void *first)
-{
-	t_sphere	*current;
-	t_sphere	*next;
+// static void	clear_list(void *first)
+// {
+// 	t_sphere	*current;
+// 	t_sphere	*next;
 
-	assert("First" && first);
-	current = first;
-	while (current)
-	{
-		printf("[!] - Freed one object.\n");
-		next = current->next;
-		free(current);
-		current = next;
-	}
-}
+// 	assert("First" && first);
+// 	current = first;
+// 	while (current)
+// 	{
+// 		printf("[!] - Freed one object.\n");
+// 		next = current->next;
+// 		free(current);
+// 		current = next;
+// 	}
+// }
 
 /**
  * @brief Frees all elements composing a given scene.
@@ -35,12 +35,15 @@ static void	clear_list(void *first)
  * allocated as a linked list. That's why ambient lightning and the camera are
  * nowhere to be seen here.
  */
-void	clear_scene(t_scene *scene)
+void	clear_scene(void)
 {
 	printf("[!] - Freeing spheres...\n");
-	clear_list(scene->spheres);
-	clear_list(scene->lights);
-	// clear_list(scene->planes);
+	clear_spheres();
+	printf("[!] - Freeing lights...\n");
+	clear_lights();
+	printf("[!] - Freeing planes...\n");
+	clear_planes();
+	// printf("[!] - Freeing cylinders...\n");
 	// clear_list(scene->cylinders);
 }
 

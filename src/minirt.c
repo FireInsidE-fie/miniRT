@@ -21,7 +21,7 @@ int	rt_kill(t_core *core, int exit_code)
 {
 	assert("Core" && core);
 	printf("[!] - Closing miniRT...\n");
-	clear_scene(&core->scene);
+	clear_scene();
 	mlx_destroy_image(core->mlx, core->img.img);
 	mlx_destroy_window(core->mlx, core->win);
 	mlx_destroy_display(core->mlx);

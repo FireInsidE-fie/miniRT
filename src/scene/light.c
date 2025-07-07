@@ -84,3 +84,18 @@ float	get_light_intensity(t_point3 point, t_vec3 normal)
 	}
 	return (intensity);
 }
+
+void	clear_lights(void)
+{
+	t_light	*light;
+	t_light	*next;
+
+	light = get_core()->scene.lights;
+	while (light)
+	{
+		next = light->next;
+		free(light);
+		light = next;
+	}
+	get_core()->scene.lights = NULL;
+}

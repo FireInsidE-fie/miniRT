@@ -102,3 +102,18 @@ bool	hit_sphere(t_point3 *origin, t_vec3 *dir, t_sphere *sphere, double *t)
 	c = dot_product(&co, &co) - (sphere->radius * sphere->radius);
 	return (solve_quadratic(a, b, c, t));
 }
+
+void	clear_spheres(void)
+{
+	t_sphere	*sphere;
+	t_sphere	*next;
+
+	sphere = get_core()->scene.spheres;
+	while (sphere)
+	{
+		next = sphere->next;
+		free(sphere);
+		sphere = next;
+	}
+	get_core()->scene.spheres = NULL;
+}

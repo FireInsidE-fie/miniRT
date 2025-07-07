@@ -17,5 +17,6 @@ typedef struct s_plane
 int		create_plane(t_point3 origin, t_vec3 normal, t_color color);
 bool	hit_plane(t_point3 *origin, t_vec3 *dir, t_plane *plane, double *t);
 void	print_plane(t_plane *plane);
+void	clear_planes(void);
 
 #endif // PLANE_H
