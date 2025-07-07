@@ -4,6 +4,7 @@
 // Macros //
 # define WIN_WIDTH 1080
 # define WIN_HEIGHT 1080
+# define RECURSION_DEPTH 3
 
 // Includes //
 # include "scene.h"

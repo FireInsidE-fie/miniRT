@@ -19,7 +19,7 @@
  * @brief Checks the (for now) diffuse lightning for a point of a (for now)
  * sphere, and computes that point's color with the lightning on top.
  */
-t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double closest_t)
+t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double closest_t, int depth)
 {
 	t_point3	intersect;
 	t_vec3		normal;
@@ -29,6 +29,7 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double c
 	assert("Direction" && dir);
 	assert("Closest" && closest);
 	assert("Closest_t" && closest_t >= 0.0);
+	printf("[!] - Entered compute_light() at depth %d!\n", depth);
 	intersect = *origin;
 	intersect.x += dir->x * closest_t;
 	intersect.y += dir->y * closest_t;
@@ -39,7 +40,24 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double c
 	color.r *= clamp(get_light_intensity(intersect, normal), new_range(0.0, 1.0));
 	color.g *= clamp(get_light_intensity(intersect, normal), new_range(0.0, 1.0));
 	color.b *= clamp(get_light_intensity(intersect, normal), new_range(0.0, 1.0));
-	return (color);
+	if (depth <= 0 || closest->mat.reflective <= 0.0)
+		return (color);
+
+
+	t_vec3		reflection;
+	t_color		reflected_color;
+	reflection.x = -dir->x;
+	reflection.y = -dir->y;
+	reflection.z = -dir->z;
+	reflection = reflect_ray(&reflection, &normal);
+	reflected_color = compute_light(origin, &reflection, closest, closest_t, depth - 1);
+	reflected_color.r *= closest->mat.reflective;
+	reflected_color.g *= closest->mat.reflective;
+	reflected_color.b *= closest->mat.reflective;
+	reflected_color.r += color.r * (1 - closest->mat.reflective);
+	reflected_color.g += color.g * (1 - closest->mat.reflective);
+	reflected_color.b += color.b * (1 - closest->mat.reflective);
+	return (reflected_color);
 }
 
 /**
@@ -81,7 +99,7 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
 		tmp = tmp->next;
 	}
 	if (closest)
-		return (compute_light(&origin, &dir, closest, closest_t));
+		return (compute_light(&origin, &dir, closest, closest_t, RECURSION_DEPTH));
 	return ((t_color)SKY_COLOR);
 }
 

@@ -57,12 +57,12 @@ void	vector_normalize(t_vec3 *v)
 /**
  * @brief Reflects a given ray over a surface of normal `normal`.
  */
-t_vec3	reflect_ray(t_vec3 ray, t_vec3 normal)
+t_vec3	reflect_ray(t_vec3 *ray, t_vec3 *normal)
 {
 	t_vec3	reflect;
 
-	reflect.x = 2 * normal.x * dot_product(&normal, &ray) - ray.x;
-	reflect.y = 2 * normal.y * dot_product(&normal, &ray) - ray.y;
-	reflect.z = 2 * normal.z * dot_product(&normal, &ray) - ray.z;
+	reflect.x = 2 * normal->x * dot_product(normal, ray) - ray->x;
+	reflect.y = 2 * normal->y * dot_product(normal, ray) - ray->y;
+	reflect.z = 2 * normal->z * dot_product(normal, ray) - ray->z;
 	return (reflect);
 }

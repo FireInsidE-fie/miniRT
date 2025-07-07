@@ -66,7 +66,7 @@ void	test_scene(void)
 	for (float i = 0.0; i <= 1.0; i += 0.1)
 		create_sphere(make_point3(-5.0 + (i * 10), 8.0, 20.0), 1, (t_material){
 			make_color(i, i, i),
-			i,
+			1 - i,
 		});
 
 	create_light(make_point3(0.0, 50.0, 10.0), 0.8, make_color(1.0, 1.0, 1.0));
