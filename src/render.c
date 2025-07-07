@@ -35,7 +35,7 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_sphere *closest, double c
 	intersect.z += dir->z * closest_t;
 	normal = point3_sub(&intersect, &closest->center);
 	vector_normalize(&normal);
-	color = closest->color;
+	color = closest->mat.color;
 	color.r *= clamp(get_light_intensity(intersect, normal), new_range(0.0, 1.0));
 	color.g *= clamp(get_light_intensity(intersect, normal), new_range(0.0, 1.0));
 	color.b *= clamp(get_light_intensity(intersect, normal), new_range(0.0, 1.0));

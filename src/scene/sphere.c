@@ -1,4 +1,5 @@
 #include "sphere.h"
+#include "material.h"
 #include "scene.h"
 #include "vector.h"
 #include "minirt.h"
@@ -15,22 +16,23 @@
 // TODO: when parsing is done, take structs by reference rather than by value
 // (for context, we can't yet because the test scene give `create_sphere`
 // rvalues)
-int	create_sphere(t_point3 position, float radius, t_color color)
+int	create_sphere(t_point3 position, float radius, t_material mat)
 {
 	t_scene		*scene;
 	t_sphere	*sphere;
 	t_sphere	*tmp;
 
 	assert("Radius" && radius > 0);
-	assert("Color" && color.r >= 0.0f && color.r <= 1.0f
-		&& color.g >= 0.0f && color.g <= 1.0f
-		&& color.b >= 0.0f && color.b <= 1.0f);
+	assert("Material" && mat.color.r >= 0.0f && mat.color.r <= 1.0f
+		&& mat.color.g >= 0.0f && mat.color.g <= 1.0f
+		&& mat.color.b >= 0.0f && mat.color.b <= 1.0f);
+	assert("Material" && mat.reflective >= 0.0f && mat.reflective <= 1.0f);
 	sphere = malloc(sizeof(t_sphere));
 	if (!sphere)
 		return (perror("miniRT (create_sphere) - malloc"), 1);
 	sphere->center = position;
 	sphere->radius = radius;
-	sphere->color = color;
+	sphere->mat = mat;
 	sphere->next = NULL;
 	scene = &get_core()->scene;
 	if (!scene->spheres)
@@ -52,10 +54,12 @@ void	print_sphere(t_sphere *sphere)
 		"[!] - Sphere\n"
 		"Position: (%f, %f, %f)\n"
 		"Radius: %f\n"
-		"Color: (%f, %f, %f)\n",
+		"Color: (%f, %f, %f)\n"
+		"Reflective: %f\n",
 		sphere->center.x, sphere->center.y, sphere->center.z,
 		sphere->radius,
-		sphere->color.r, sphere->color.g, sphere->color.b
+		sphere->mat.color.r, sphere->mat.color.g, sphere->mat.color.b,
+		sphere->mat.reflective
 		);
 }
 

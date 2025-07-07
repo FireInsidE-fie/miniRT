@@ -33,7 +33,8 @@ IFILES		=	$(INCLDIR)/minirt.h \
 				$(INCLDIR)/plane.h \
 				$(INCLDIR)/sphere.h \
 				$(INCLDIR)/vector.h \
-				$(INCLDIR)/utils.h
+				$(INCLDIR)/utils.h \
+				$(INCLDIR)/material.h
 
 LIBFT_DIR	=	./libft
 LIBFT		=	$(LIBFT_DIR)/libft.a
