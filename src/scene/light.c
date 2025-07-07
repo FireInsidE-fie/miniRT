@@ -76,7 +76,8 @@ float	get_light_intensity(t_point3 *point, t_vec3 *normal)
 	while (tmp)
 	{
 		point_to_light = point3_sub(&tmp->position, point);
-		if (closest_intersect(point, &point_to_light, new_range(0.001, 1)).closest_sphere)
+		if (closest_intersect(point, &point_to_light, new_range(0.001, 1))
+				.closest)
 		{
 			tmp = tmp->next;
 			continue;

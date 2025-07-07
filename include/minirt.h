@@ -34,8 +34,8 @@ typedef struct s_core
 // ray
 typedef struct s_result
 {
-	t_sphere	*closest_sphere;
-	double		closest_t;
+	t_sphere	*closest;		// Closest object found
+	double		closest_t;		// Closest t value for that object
 }	t_result;
 
 // Functions //
