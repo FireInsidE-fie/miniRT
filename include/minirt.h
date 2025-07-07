@@ -32,10 +32,10 @@ typedef struct s_core
 // Functions //
 
 // General functions - minirt.c
+t_core	*get_core(void);
 int		rt_kill(t_core *core, int exit_code);
 
 // MiniLibX helper functions - mlx.c
-t_core	*get_core(void);
 int		init_window(void);
 void	img_put_pixel(t_img *img, int x, int y, t_color *color);
 
