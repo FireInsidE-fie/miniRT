@@ -39,12 +39,12 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range)
 	{
 		if (hit_sphere(origin, dir, tmp, t))
 		{
-			if (t[0] <= t_range.max && t[0] >= t_range.min && t[0] < result.closest_t)
+			if (is_in_range(t[0], t_range) && t[0] < result.closest_t)
 			{
 				result.closest = tmp;
 				result.closest_t = t[0];
 			}
-			if (t[1] <= t_range.max && t[1] >= t_range.min && t[1] < result.closest_t)
+			if (is_in_range(t[1], t_range) && t[1] < result.closest_t)
 			{
 				result.closest = tmp;
 				result.closest_t = t[1];
