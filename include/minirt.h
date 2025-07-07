@@ -7,6 +7,7 @@
 
 // Includes //
 # include "scene.h"
+# include "utils.h"
 
 // Structs //
 
@@ -29,17 +30,26 @@ typedef struct s_core
 	t_scene	scene;
 }	t_core;
 
+// Result if a ray intersects with a (for now) sphere and its closest t on that
+// ray
+typedef struct s_result
+{
+	t_sphere	*closest;		// Closest object found
+	double		closest_t;		// Closest t value for that object
+}	t_result;
+
 // Functions //
 
 // General functions - minirt.c
-t_core	*get_core(void);
-int		rt_kill(t_core *core, int exit_code);
+t_core		*get_core(void);
+int			rt_kill(t_core *core, int exit_code);
 
 // MiniLibX helper functions - mlx.c
-int		init_window(void);
-void	img_put_pixel(t_img *img, int x, int y, t_color *color);
+int			init_window(void);
+void		img_put_pixel(t_img *img, int x, int y, t_color *color);
 
 // Rendering functions - render.c
-int		render(t_core *core, t_camera *camera);
+int			render(t_core *core, t_camera *camera);
+t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range);
 
 #endif //MINIRT_H

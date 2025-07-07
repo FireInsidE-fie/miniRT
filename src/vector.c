@@ -53,3 +53,10 @@ void	vector_normalize(t_vec3 *v)
 	v->y /= length;
 	v->z /= length;
 }
+
+double	vec_cos(t_vec3 *v1, t_vec3 *v2)
+{
+	assert("Vector 1" && v1);
+	assert("Vector 2" && v2);
+	return (dot_product(v1, v2) / (vector_length(v1) * vector_length(v2)));
+}
