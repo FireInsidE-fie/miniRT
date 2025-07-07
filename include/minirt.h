@@ -8,6 +8,19 @@
 // Includes //
 # include "scene.h"
 
+// Enums //
+
+// All the types of elements that a scene can contain
+typedef enum e_elem {
+	CAMERA,
+	AMBIENT,
+	LIGHT,
+	SPHERE,
+	PLANE,
+	CYLINDER,
+	N,
+}	t_elem;
+
 // Structs //
 
 // A MLX image
