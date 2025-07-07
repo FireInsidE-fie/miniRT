@@ -17,12 +17,12 @@
 
 /**
  * @brief Computes the closest intersection between a ray starting at `origin`
- * in direction `dir`, between `tmin` and `tmax`.
+ * in direction `dir`, contained within `range`.
  *
  * @return A `t_result` struct containing a pointer to the sphere intersected
  * and the t value at that point.
  */
-t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range)
+t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
 {
 	t_sphere	*tmp;
 	t_result	result;
@@ -30,21 +30,21 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range)
 
 	assert("Origin" && origin);
 	assert("Direction" && dir);
-	assert("T_range" && t_range.min >= 0.0);
-	assert("T_range" && t_range.max >= t_range.min);
+	assert("Range" && range.min >= 0.0);
+	assert("Range" && range.max >= range.min);
 	result.closest = NULL;
-	result.closest_t = t_range.max;
+	result.closest_t = range.max;
 	tmp = get_core()->scene.spheres;
 	while (tmp)
 	{
 		if (hit_sphere(origin, dir, tmp, t))
 		{
-			if (is_in_range(t[0], t_range) && t[0] < result.closest_t)
+			if (is_in_range(t[0], range) && t[0] < result.closest_t)
 			{
 				result.closest = tmp;
 				result.closest_t = t[0];
 			}
-			if (is_in_range(t[1], t_range) && t[1] < result.closest_t)
+			if (is_in_range(t[1], range) && t[1] < result.closest_t)
 			{
 				result.closest = tmp;
 				result.closest_t = t[1];
@@ -58,8 +58,10 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range)
 /**
  * @brief Checks the (for now) diffuse lightning for a point of a (for now)
  * sphere, and computes that point's color with the lightning on top.
+ * @details Uses the `t_result` struct to know the `t` value and the intersected
+ * sphere's color.
  */
-t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result result)
+t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 {
 	t_point3	intersect;
 	t_vec3		normal;
@@ -67,15 +69,15 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result result)
 
 	assert("Origin" && origin);
 	assert("Direction" && dir);
-	assert("Closest" && result.closest);
-	assert("Closest_t" && result.closest_t >= 0.0);
+	assert("Closest" && result->closest);
+	assert("Closest_t" && result->closest_t >= 0.0);
 	intersect = *origin;
-	intersect.x += dir->x * result.closest_t;
-	intersect.y += dir->y * result.closest_t;
-	intersect.z += dir->z * result.closest_t;
-	normal = point3_sub(&intersect, &result.closest->center);
+	intersect.x += dir->x * result->closest_t;
+	intersect.y += dir->y * result->closest_t;
+	intersect.z += dir->z * result->closest_t;
+	normal = point3_sub(&intersect, &result->closest->center);
 	vector_normalize(&normal);
-	color = result.closest->color;
+	color = result->closest->color;
 	color.r *= clamp(get_light_intensity(&intersect, &normal), new_range(0.0, 1.0));
 	color.g *= clamp(get_light_intensity(&intersect, &normal), new_range(0.0, 1.0));
 	color.b *= clamp(get_light_intensity(&intersect, &normal), new_range(0.0, 1.0));
@@ -95,11 +97,11 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result result)
 // contained within, in a single go.
 static t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
 {
-	t_result	r;
+	t_result	result;
 
-	r = closest_intersect(&origin, &dir, t_range);
-	if (r.closest)
-		return (compute_light(&origin, &dir, r));
+	result = closest_intersect(&origin, &dir, t_range);
+	if (result.closest)
+		return (compute_light(&origin, &dir, &result));
 	return ((t_color)SKY_COLOR);
 }
 

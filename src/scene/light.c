@@ -64,11 +64,11 @@ void	print_light(t_light *light)
  */
 float	get_light_intensity(t_point3 *point, t_vec3 *normal)
 {
-	t_scene		*scene;
-	float		intensity = 0.0;
-	t_light		*tmp;
-	t_vec3		point_to_light;
-	double		light_dot_normal;
+	t_scene	*scene;
+	float	intensity = 0.0;
+	t_light	*tmp;
+	t_vec3	point_to_light;
+	double	light_dot_normal;
 
 	scene = &get_core()->scene;
 	intensity += scene->ambient.intensity;
