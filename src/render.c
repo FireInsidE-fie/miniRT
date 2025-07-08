@@ -81,9 +81,10 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	normal = point3_sub(&intersect, &result->closest->center);
 	vector_normalize(&normal);
 	color = result->closest->color;
-	color.r *= clamp(get_light_intensity(&intersect, &normal), new_range(0.0, 1.0));
-	color.g *= clamp(get_light_intensity(&intersect, &normal), new_range(0.0, 1.0));
-	color.b *= clamp(get_light_intensity(&intersect, &normal), new_range(0.0, 1.0));
+	result->closest->specular = 300;
+	color.r *= clamp(get_light_intensity(&intersect, &normal, result->closest->specular), new_range(0.0, 1.0));
+	color.g *= clamp(get_light_intensity(&intersect, &normal, result->closest->specular), new_range(0.0, 1.0));
+	color.b *= clamp(get_light_intensity(&intersect, &normal, result->closest->specular), new_range(0.0, 1.0));
 	return (color);
 }
 
