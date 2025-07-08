@@ -82,7 +82,9 @@ int	main(void)
 			&core->img.line_len,
 			&core->img.endian
 			);
-	render(get_core(), &core->scene.camera);
+	core->render_mode = 0;
+	core->render.is_rendering = 0;
+	mlx_loop_hook(core->mlx, fast_render_loop, core);
 	printf("================\n");
 	mlx_loop(get_core()->mlx);
 }

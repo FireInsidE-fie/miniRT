@@ -15,6 +15,9 @@
 #include <stdio.h>
 #include <assert.h>
 
+#define BLOCK_SIZE 1080
+#define FAST_STEP 10
+
 /**
  * @brief Computes the closest intersection between a ray starting at `origin`
  * in direction `dir`, contained within `range`.
@@ -103,6 +106,112 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
 	if (result.closest)
 		return (compute_light(&origin, &dir, &result));
 	return ((t_color)SKY_COLOR);
+}
+
+/**
+ * @brief For every 10x10 pixels, prints the color, called inside the fast render func.
+ */
+
+void	process_fast_steps(void)
+{
+	int		i;
+	int		j;
+	t_color	color;
+
+	color = ray_color(
+			get_core()->scene.camera.position,
+			camera_to_viewport(get_core()->render.x, get_core()->render.y), new_range(1, INFINITY)
+		);
+	j = 0;
+	while (j < FAST_STEP && get_core()->render.y + j <= WIN_HEIGHT / 2)
+	{
+		i = 0;
+		while (i < FAST_STEP && get_core()->render.x + i <= WIN_WIDTH / 2)
+		{
+			img_put_pixel(&get_core()->img,
+				get_core()->render.x + i + WIN_WIDTH / 2,
+				get_core()->render.y + j + WIN_HEIGHT / 2,
+				&color);
+			i++;
+		}
+		j++;
+	}
+}
+
+/**
+ * @brief Simple rendering, but only prints every 10 pixels (FAST_STEP) to be less heavy
+ *	on the cpu.
+ */
+
+int fast_render_loop(void *param)
+{
+	(void)param;
+	get_core()->render.y = -WIN_HEIGHT / 2;
+	while (get_core()->render.y <= WIN_HEIGHT / 2)
+	{
+		get_core()->render.x = -WIN_WIDTH / 2;
+		while (get_core()->render.x <= WIN_WIDTH / 2)
+		{
+			process_fast_steps();
+			get_core()->render.x += FAST_STEP;
+		}
+		get_core()->render.y += FAST_STEP;
+	}
+
+	mlx_put_image_to_window(get_core()->mlx, get_core()->win, get_core()->img.img, 0, 0);
+	return (0);
+}
+
+/**
+ * @brief Gets called inside the double while statement of the render loop, prints each pixel
+ *	for each blocks.
+ */
+
+void	process_bloc_render(void)
+{
+	t_color color;
+
+	color = ray_color(
+			get_core()->scene.camera.position,
+			camera_to_viewport(get_core()->render.x, get_core()->render.y), new_range(1, INFINITY)
+		);
+	img_put_pixel(&get_core()->img,
+		get_core()->render.x + WIN_WIDTH / 2,
+		get_core()->render.y + WIN_HEIGHT / 2,
+		&color);
+
+	get_core()->render.x++;
+}
+
+/**
+ * @brief The "Pretty" render loop, used to we can interact with mlx while rendering.
+ */
+int	render_loop(void *param)
+{
+	int			i;
+	int			j;
+
+	(void)param;
+	if (get_core()->render.y > WIN_HEIGHT / 2)
+	{
+		get_core()->render.is_rendering = 0;
+		return (0);
+	}
+	j = 0;
+	while (j < BLOCK_SIZE && get_core()->render.y <= WIN_HEIGHT / 2)
+	{
+		i = 0;
+		while (i++ < BLOCK_SIZE && get_core()->render.x <= WIN_WIDTH / 2)
+			process_bloc_render();
+		if (get_core()->render.x > WIN_WIDTH / 2)
+		{
+			get_core()->render.x = -WIN_WIDTH / 2;
+			get_core()->render.y++;
+		}
+		j++;
+	}
+	mlx_put_image_to_window(get_core()->mlx, get_core()->win, get_core()->img.img, 0, 0);
+	return (0);
 }
 
 /**

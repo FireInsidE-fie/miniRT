@@ -21,6 +21,14 @@ typedef struct s_img
 	int		endian;		// Endianness
 }	t_img;
 
+//	Holds render related variables
+typedef struct s_render
+{
+	int	x;
+	int	y;
+	int	is_rendering;
+}	t_render;
+
 // Holds all MLX-related data
 typedef struct s_core
 {
@@ -28,6 +36,8 @@ typedef struct s_core
 	void	*win;
 	t_img	img;
 	t_scene	scene;
+	int		render_mode;
+	t_render render;
 }	t_core;
 
 // Result if a ray intersects with a (for now) sphere and its closest t on that
@@ -50,6 +60,8 @@ void		img_put_pixel(t_img *img, int x, int y, t_color *color);
 
 // Rendering functions - render.c
 int			render(t_core *core, t_camera *camera);
+int			render_loop(void *param);
+int			fast_render_loop(void *param);
 t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range);
 
 #endif //MINIRT_H
