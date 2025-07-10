@@ -21,7 +21,7 @@ typedef struct s_img
 	int		endian;		// Endianness
 }	t_img;
 
-//	Holds render related variables
+// Holds render related variables
 typedef struct s_render
 {
 	int	x;
@@ -44,7 +44,7 @@ typedef struct s_core
 // ray
 typedef struct s_result
 {
-	t_sphere	*closest;		// Closest object found
+	t_shape		*closest;		// Closest object found
 	double		closest_t;		// Closest t value for that object
 }	t_result;
 

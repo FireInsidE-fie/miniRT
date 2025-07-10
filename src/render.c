@@ -27,7 +27,7 @@
  */
 t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
 {
-	t_sphere	*tmp;
+	t_shape		*tmp;
 	t_result	result;
 	double		t[2];
 
@@ -37,7 +37,7 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
 	assert("Range" && range.max >= range.min);
 	result.closest = NULL;
 	result.closest_t = range.max;
-	tmp = get_core()->scene.spheres;
+	tmp = get_core()->scene.shapes;
 	while (tmp)
 	{
 		if (hit_sphere(origin, dir, tmp, t))
@@ -78,7 +78,7 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	intersect.x += dir->x * result->closest_t;
 	intersect.y += dir->y * result->closest_t;
 	intersect.z += dir->z * result->closest_t;
-	normal = point3_sub(&intersect, &result->closest->center);
+	normal = point3_sub(&intersect, &result->closest->position);
 	vector_normalize(&normal);
 	color = result->closest->color;
 	color.r *= clamp(get_light_intensity(&intersect, &normal), new_range(0.0, 1.0));

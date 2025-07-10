@@ -1,7 +1,7 @@
 #include "scene.h"
-#include "ambient.h"
-#include "sphere.h"
-#include "light.h"
+// #include "ambient.h"
+// #include "sphere.h"
+// #include "light.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -13,10 +13,10 @@
  * @note Could be expanded to take in a function pointer in case we need to
  * clear specific stuff inside of each node.
  */
-static void	clear_list(void *first)
+void	clear_list(void *first)
 {
-	t_sphere	*current;
-	t_sphere	*next;
+	t_shape	*current;
+	t_shape	*next;
 
 	assert("First" && first);
 	current = first;
@@ -30,49 +30,34 @@ static void	clear_list(void *first)
 }
 
 /**
- * @brief Frees all elements composing a given scene.
- * Only clears element that can have multiple instances, because they're
- * allocated as a linked list. That's why ambient lightning and the camera are
- * nowhere to be seen here.
- */
-void	clear_scene(t_scene *scene)
-{
-	printf("[!] - Freeing spheres...\n");
-	clear_list(scene->spheres);
-	clear_list(scene->lights);
-	// clear_list(scene->planes);
-	// clear_list(scene->cylinders);
-}
-
-/**
  * @brief Debug print statements to display the current scene as understood by
  * miniRT.
  * Should be veeeeeery useful for parsing.
  */
 void	print_scene(t_scene *scene)
 {
-	void	*tmp;
+	// void	*tmp;
 
 	assert("Scene" && scene);
-	printf("[!] - Printing scene...\n");
-	printf("======== Camera ========\n");
-	print_camera(&scene->camera);
-	printf("======== Ambient ========\n");
-	print_ambient(&scene->ambient);
-	printf("======== Spheres ========\n");
-	tmp = scene->spheres;
-	while (tmp)
-	{
-		print_sphere(tmp);
-		tmp = ((t_sphere *)tmp)->next;
-	}
-	printf("======== Lights ========\n");
-	tmp = scene->lights;
-	while (tmp)
-	{
-		print_light(tmp);
-		tmp = ((t_light *)tmp)->next;
-	}
+	printf("[!] - NOT Printing scene (function needs rewriting)...\n");
+	// printf("======== Camera ========\n");
+	// print_camera(&scene->camera);
+	// printf("======== Ambient ========\n");
+	// print_ambient(&scene->ambient);
+	// printf("======== Spheres ========\n");
+	// tmp = scene->shapes;
+	// while (tmp)
+	// {
+	// 	print_sphere(tmp);
+	// 	tmp = ((t_shape *)tmp)->next;
+	// }
+	// printf("======== Lights ========\n");
+	// tmp = scene->lights;
+	// while (tmp)
+	// {
+	// 	print_light(tmp);
+	// 	tmp = ((t_light *)tmp)->next;
+	// }
 	// printf("======== Planes ========\n");
 	// tmp = scene->planes;
 	// while (tmp)

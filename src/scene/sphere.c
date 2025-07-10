@@ -18,42 +18,43 @@
 int	create_sphere(t_point3 position, float radius, t_color color)
 {
 	t_scene		*scene;
-	t_sphere	*sphere;
-	t_sphere	*tmp;
+	t_shape		*sphere;
+	t_shape		*tmp;
 
 	assert("Radius" && radius > 0);
 	assert("Color" && color.r >= 0.0f && color.r <= 1.0f
 		&& color.g >= 0.0f && color.g <= 1.0f
 		&& color.b >= 0.0f && color.b <= 1.0f);
-	sphere = malloc(sizeof(t_sphere));
+	sphere = malloc(sizeof(t_shape));
 	if (!sphere)
 		return (perror("miniRT (create_sphere) - malloc"), 1);
-	sphere->center = position;
+	sphere->position = position;
 	sphere->radius = radius;
 	sphere->color = color;
 	sphere->next = NULL;
 	scene = &get_core()->scene;
-	if (!scene->spheres)
+	if (!scene->shapes)
 	{
-		scene->spheres = sphere;
+		scene->shapes = sphere;
 		return (0);
 	}
-	tmp = scene->spheres;
+	tmp = scene->shapes;
 	while (tmp && tmp->next)
 		tmp = tmp->next;
 	tmp->next = sphere;
 	return (0);
 }
 
-void	print_sphere(t_sphere *sphere)
+void	print_sphere(t_shape *sphere)
 {
 	assert("Sphere" && sphere);
+	assert("Sphere type" && sphere->type == SPHERE);
 	printf(
 		"[!] - Sphere\n"
 		"Position: (%f, %f, %f)\n"
 		"Radius: %f\n"
 		"Color: (%f, %f, %f)\n",
-		sphere->center.x, sphere->center.y, sphere->center.z,
+		sphere->position.x, sphere->position.y, sphere->position.z,
 		sphere->radius,
 		sphere->color.r, sphere->color.g, sphere->color.b
 		);
@@ -84,7 +85,7 @@ static bool	solve_quadratic(double a, double b, double c, double *t)
  * solutions of the quadratic equation used to check if a ray is hitting the
  * sphere.
  */
-bool	hit_sphere(t_point3 *origin, t_vec3 *dir, t_sphere *sphere, double *t)
+bool	hit_sphere(t_point3 *origin, t_vec3 *dir, t_shape *sphere, double *t)
 {
 	t_point3	co;
 	double		a;
@@ -95,9 +96,9 @@ bool	hit_sphere(t_point3 *origin, t_vec3 *dir, t_sphere *sphere, double *t)
 	assert("Direction" && dir);
 	assert("Sphere" && sphere);
 	assert("Time" && t);
-	co.x = (origin->x - sphere->center.x);
-	co.y = (origin->y - sphere->center.y);
-	co.z = (origin->z - sphere->center.z);
+	co.x = (origin->x - sphere->position.x);
+	co.y = (origin->y - sphere->position.y);
+	co.z = (origin->z - sphere->position.z);
 	a = dot_product(dir, dir);
 	b = 2 * dot_product(&co, dir);
 	c = dot_product(&co, &co) - (sphere->radius * sphere->radius);
