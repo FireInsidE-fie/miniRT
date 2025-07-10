@@ -28,6 +28,10 @@ int	create_sphere(t_point3 position, float radius, t_color color)
 	sphere = malloc(sizeof(t_shape));
 	if (!sphere)
 		return (perror("miniRT (create_sphere) - malloc"), 1);
+	sphere->type = SPHERE;
+	sphere->specular = 300;
+	sphere->reflection = 0.0;
+	sphere->height = -1.0;
 	sphere->position = position;
 	sphere->radius = radius;
 	sphere->color = color;

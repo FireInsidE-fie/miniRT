@@ -40,7 +40,7 @@ typedef struct s_scene
 
 // Functions //
 
-void	clear_list(void *first);
+void	clear_shapes(void *first);
 void	print_scene(t_scene *scene);
 
 #endif // SCENE_H

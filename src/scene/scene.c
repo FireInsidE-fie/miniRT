@@ -13,7 +13,7 @@
  * @note Could be expanded to take in a function pointer in case we need to
  * clear specific stuff inside of each node.
  */
-void	clear_list(void *first)
+void	clear_shapes(void *first)
 {
 	t_shape	*current;
 	t_shape	*next;
@@ -22,7 +22,7 @@ void	clear_list(void *first)
 	current = first;
 	while (current)
 	{
-		printf("[!] - Freed one object.\n");
+		printf("[!] Freeing shape %p\n", (void *)current);
 		next = current->next;
 		free(current);
 		current = next;

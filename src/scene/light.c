@@ -8,6 +8,22 @@
 #include <stdio.h>
 #include <assert.h>
 
+void	clear_lights(void *first)
+{
+	t_light	*current;
+	t_light	*next;
+
+	assert("First" && first);
+	current = first;
+	while (current)
+	{
+		printf("[!] Freeing light %p\n", (void *)current);
+		next = current->next;
+		free(current);
+		current = next;
+	}
+}
+
 int	create_light(t_point3 position, float intensity, t_color color)
 {
 	t_scene	*scene;
