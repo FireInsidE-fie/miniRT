@@ -13,6 +13,7 @@ typedef struct s_sphere
 	t_point3		center;
 	float			radius;
 	t_color			color;
+	int				specular;
 	struct s_sphere	*next;
 }	t_sphere;
 

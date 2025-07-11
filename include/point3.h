@@ -17,5 +17,6 @@ typedef t_point3	t_vec3;
 
 t_point3	make_point3(float x, float y, float z);
 t_vec3		point3_sub(t_point3 *a, t_point3 *b);
+t_vec3		point3_scale(t_vec3 *v, double scalar);
 
 #endif // POINT3_H
