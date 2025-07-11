@@ -1,7 +1,7 @@
 #ifndef AMBIENT_H
 # define AMBIENT_H
 
-# include "color.h"
+# include "material.h"
 
 typedef struct s_ambient
 {

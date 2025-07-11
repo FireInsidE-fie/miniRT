@@ -2,7 +2,7 @@
 # define LIGHT_H
 
 # include "point3.h"
-# include "color.h"
+# include "material.h"
 
 typedef struct s_light
 {
@@ -13,6 +13,7 @@ typedef struct s_light
 }	t_light;
 
 int		create_light(t_point3 position, float intensity, t_color color);
+void	clear_lights(void *first);
 void	print_light(t_light *light);
 float	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular);
 

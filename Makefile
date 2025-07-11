@@ -7,33 +7,30 @@ RMFLAGS		=	-f
 SRCDIR		=	./src
 CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/mlx.c \
-				$(SRCDIR)/point3.c \
 				$(SRCDIR)/render.c \
-				$(SRCDIR)/vector.c \
-				$(SRCDIR)/utils.c \
-				$(SRCDIR)/scene/scene.c \
+				$(SRCDIR)/fast_render.c \
+				$(SRCDIR)/utils/point3.c \
+				$(SRCDIR)/utils/utils.c \
+				$(SRCDIR)/utils/vector.c \
 				$(SRCDIR)/scene/ambient.c \
 				$(SRCDIR)/scene/camera.c \
-				$(SRCDIR)/scene/color.c \
-				$(SRCDIR)/scene/cylinder.c \
+				$(SRCDIR)/scene/material.c \
 				$(SRCDIR)/scene/light.c \
-				$(SRCDIR)/scene/plane.c \
+				$(SRCDIR)/scene/scene.c \
 				$(SRCDIR)/scene/sphere.c \
 
 OBJS		=	$(CFILES:.c=.o)
 
 INCLDIR		=	include
 IFILES		=	$(INCLDIR)/minirt.h \
-				$(INCLDIR)/scene.h \
 				$(INCLDIR)/ambient.h \
 				$(INCLDIR)/camera.h \
-				$(INCLDIR)/color.h \
-				$(INCLDIR)/cylinder.h \
 				$(INCLDIR)/light.h \
-				$(INCLDIR)/plane.h \
+				$(INCLDIR)/material.h \
 				$(INCLDIR)/sphere.h \
-				$(INCLDIR)/vector.h \
-				$(INCLDIR)/utils.h
+				$(INCLDIR)/scene.h \
+				$(INCLDIR)/utils.h \
+				$(INCLDIR)/vector.h
 
 LIBFT_DIR	=	./libft
 LIBFT		=	$(LIBFT_DIR)/libft.a
