@@ -4,6 +4,7 @@
 // Macros //
 # define WIN_WIDTH 1080
 # define WIN_HEIGHT 1080
+# define BLOCK_SIZE 480
 
 // Includes //
 # include "scene.h"
@@ -59,9 +60,12 @@ int			init_window(void);
 void		img_put_pixel(t_img *img, int x, int y, t_color *color);
 
 // Rendering functions - render.c
-int			render(t_core *core, t_camera *camera);
-int			render_loop(void *param);
-int			fast_render_loop(void *param);
 t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range);
+t_color		ray_color(t_point3 origin, t_vec3 dir, t_range t_range);
+int			render(void *param);
+int			fast_render(void *param);
+
+// Fast rendering functions - fast_render.c
+int	fast_render(void *param);
 
 #endif //MINIRT_H

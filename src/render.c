@@ -15,9 +15,6 @@
 #include <stdio.h>
 #include <assert.h>
 
-#define BLOCK_SIZE 480
-#define FAST_STEP 10
-
 /**
  * @brief Computes the closest intersection between a ray starting at `origin`
  * in direction `dir`, contained within `range`.
@@ -63,7 +60,7 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
  * @details Uses the `t_result` struct to know the `t` value and the intersected
  * sphere's color.
  */
-t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
+static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 {
 	t_point3	intersect;
 	t_vec3		normal;
@@ -96,7 +93,7 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
  * @brief Finds the closest object to the `origin` on a ray with `direction`,
  * and returns its color.
  */
-static t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
+t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
 {
 	t_result	result;
 
@@ -107,65 +104,10 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
 }
 
 /**
- * @brief For every 10x10 pixels, prints the color.
- * Called inside the fast render func.
- */
-void	process_fast_steps(void)
-{
-	int		i;
-	int		j;
-	t_color	color;
-
-	color = ray_color(
-			get_scene()->camera.position,
-			camera_to_viewport(get_core()->render.x, get_core()->render.y),
-			new_range(1, INFINITY)
-			);
-	j = 0;
-	while (j < FAST_STEP && get_core()->render.y + j <= WIN_HEIGHT / 2)
-	{
-		i = 0;
-		while (i < FAST_STEP && get_core()->render.x + i <= WIN_WIDTH / 2)
-		{
-			img_put_pixel(&get_core()->img,
-				get_core()->render.x + i + WIN_WIDTH / 2,
-				get_core()->render.y + j + WIN_HEIGHT / 2,
-				&color);
-			i++;
-		}
-		j++;
-	}
-}
-
-/**
- * @brief Simple rendering.
- * Only prints every 10 pixels (FAST_STEP) to be less heavy on the cpu.
- */
-int	fast_render_loop(void *param)
-{
-	(void)param;
-	get_core()->render.y = -WIN_HEIGHT / 2;
-	while (get_core()->render.y <= WIN_HEIGHT / 2)
-	{
-		get_core()->render.x = -WIN_WIDTH / 2;
-		while (get_core()->render.x <= WIN_WIDTH / 2)
-		{
-			process_fast_steps();
-			get_core()->render.x += FAST_STEP;
-		}
-		get_core()->render.y += FAST_STEP;
-	}
-	mlx_put_image_to_window(
-		get_core()->mlx, get_core()->win, get_core()->img.img, 0, 0
-		);
-	return (0);
-}
-
-/**
  * @brief Gets called inside the double while statement of the render loop.
  * Prints each pixel for each blocks.
  */
-void	process_bloc_render(void)
+static void	process_bloc_render(void)
 {
 	t_color	color;
 
@@ -185,7 +127,7 @@ void	process_bloc_render(void)
  * @brief The "Pretty" render loop.
  * Used so we can interact with mlx while rendering.
  */
-int	render_loop(void *param)
+int	render(void *param)
 {
 	int	i;
 	int	j;
@@ -210,46 +152,6 @@ int	render_loop(void *param)
 		j++;
 	}
 	mlx_put_image_to_window(
-		get_core()->mlx, get_core()->win, get_core()->img.img, 0, 0
-		);
-	return (0);
-}
-
-/**
- * @brief The main render loop, sending a ray through each pixel on the
- * viewport's canvas, and getting the color that ray (and pixel) is going to be.
- *
- * @note We have to start `x` and `y` at a value before 0, because the center
- * of the camera is the (0, 0) point of the canvas. If we started at (0, 0),
- * the camera would be offset on the lower right.
- */
-int	render(t_core *core, t_camera *camera)
-{
-	int		x;
-	int		y;
-	t_color	color;
-
-	assert("Core" && core);
-	assert("Camera" && camera);
-	y = -WIN_HEIGHT / 2;
-	while (y <= WIN_HEIGHT / 2)
-	{
-		x = -WIN_WIDTH / 2;
-		printf("[!] - Rendering row %d...\r", y);
-		while (x <= WIN_WIDTH / 2)
-		{
-			color = ray_color(
-					camera->position,
-					camera_to_viewport(x, y),
-					new_range(1, INFINITY)
-					);
-			img_put_pixel(&core->img,
-				x + WIN_WIDTH / 2, y + WIN_HEIGHT / 2, &color);
-			++x;
-		}
-		mlx_put_image_to_window(core->mlx, core->win, core->img.img, 0, 0);
-		++y;
-	}
-	printf("[!] - Rendering complete.\n");
+		get_core()->mlx, get_core()->win, get_core()->img.img, 0, 0);
 	return (0);
 }

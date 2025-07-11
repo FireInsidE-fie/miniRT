@@ -37,9 +37,9 @@ void	swap_render_mode(t_core *core)
 	core->render.x = -WIN_WIDTH / 2;
 	core->render.y = -WIN_HEIGHT / 2;
 	if (core->render_mode == 0)
-		mlx_loop_hook(core->mlx, fast_render_loop, core);
+		mlx_loop_hook(core->mlx, fast_render, core);
 	else
-		mlx_loop_hook(core->mlx, render_loop, core);
+		mlx_loop_hook(core->mlx, render, core);
 }
 
 /**

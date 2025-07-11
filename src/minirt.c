@@ -85,7 +85,7 @@ int	main(void)
 			);
 	core->render_mode = 0;
 	core->render.is_rendering = 0;
-	mlx_loop_hook(core->mlx, fast_render_loop, core);
+	mlx_loop_hook(core->mlx, fast_render, core);
 	printf("================\n");
 	mlx_loop(get_core()->mlx);
 }

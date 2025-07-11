@@ -8,6 +8,7 @@ SRCDIR		=	./src
 CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/mlx.c \
 				$(SRCDIR)/render.c \
+				$(SRCDIR)/fast_render.c \
 				$(SRCDIR)/utils/point3.c \
 				$(SRCDIR)/utils/utils.c \
 				$(SRCDIR)/utils/vector.c \
