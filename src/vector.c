@@ -33,7 +33,7 @@ t_vec3	cross_product(t_vec3 *v1, t_vec3 *v2)
  * @brief Computes a vector's length: the square root of the dot product of that
  * vector with itself.
  */
-double	vector_length(t_vec3 *v)
+double	vec_len(t_vec3 *v)
 {
 	assert("Vector" && v);
 	return (sqrt(dot_product(v, v)));
@@ -43,12 +43,12 @@ double	vector_length(t_vec3 *v)
  * @brief Normalize a vector, or adapt it to a scale between 0 and 1
  * (unit length).
  */
-void	vector_normalize(t_vec3 *v)
+void	vec_normalize(t_vec3 *v)
 {
 	double	length;
 
 	assert("Vector" && v);
-	length = vector_length(v);
+	length = vec_len(v);
 	v->x /= length;
 	v->y /= length;
 	v->z /= length;
@@ -58,5 +58,5 @@ double	vec_cos(t_vec3 *v1, t_vec3 *v2)
 {
 	assert("Vector 1" && v1);
 	assert("Vector 2" && v2);
-	return (dot_product(v1, v2) / (vector_length(v1) * vector_length(v2)));
+	return (dot_product(v1, v2) / (vec_len(v1) * vec_len(v2)));
 }

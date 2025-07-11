@@ -5,6 +5,7 @@
 #include "minirt.h"
 
 #include <stdlib.h>
+#include <math.h>
 #include <stdio.h>
 #include <assert.h>
 
@@ -53,6 +54,24 @@ void	print_light(t_light *light)
 		);
 }
 
+float	get_specular_reflection(t_vec3 *point,
+								t_vec3 *normal,
+								t_vec3 *point_to_light,
+								int specular)
+{
+	t_vec3 reflected;
+	double r_dot_v;
+	t_vec3 view;
+
+	view = point3_sub(&get_core()->scene.camera.position, point);
+	reflected = point3_scale(normal,2 * dot_product(normal, point_to_light));
+	reflected = point3_sub(&reflected, point_to_light);
+	r_dot_v = dot_product(&reflected, &view);
+	if (r_dot_v > 0)
+		return (pow(r_dot_v / (vec_len(&reflected) * vec_len(&view)), specular));
+	return (0.0);
+}
+
 /**
  * @brief Goes through all lights in the scene and computes a point's total
  * exposition to them, which is the addition of all lightning that hits it,
@@ -62,7 +81,7 @@ void	print_light(t_light *light)
  * Down the line, when this value is applied to the colors of an object, it will
  * be clamped down to 1.0 to ensure no color value goes over the maximum of 255.
  */
-float	get_light_intensity(t_point3 *point, t_vec3 *normal)
+float	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular)
 {
 	t_scene	*scene;
 	float	intensity = 0.0;
@@ -85,7 +104,10 @@ float	get_light_intensity(t_point3 *point, t_vec3 *normal)
 		light_dot_normal = dot_product(&point_to_light, normal);
 		if (light_dot_normal > 0)
 			intensity += tmp->intensity * light_dot_normal
-				/ (vector_length(normal) * vector_length(&point_to_light));
+				/ (vec_len(normal) * vec_len(&point_to_light));
+		if (specular <= 0)
+			intensity += tmp->intensity
+				* get_specular_reflection(point, normal, &point_to_light, specular);
 		tmp = tmp->next;
 	}
 	return (intensity);
