@@ -15,7 +15,6 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/ambient.c \
 				$(SRCDIR)/scene/camera.c \
 				$(SRCDIR)/scene/material.c \
-				$(SRCDIR)/scene/cylinder.c \
 				$(SRCDIR)/scene/light.c \
 				$(SRCDIR)/scene/sphere.c \
 
@@ -27,7 +26,6 @@ IFILES		=	$(INCLDIR)/minirt.h \
 				$(INCLDIR)/ambient.h \
 				$(INCLDIR)/camera.h \
 				$(INCLDIR)/material.h \
-				$(INCLDIR)/cylinder.h \
 				$(INCLDIR)/light.h \
 				$(INCLDIR)/sphere.h \
 				$(INCLDIR)/vector.h \
