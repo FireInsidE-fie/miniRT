@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#define BLOCK_SIZE 1080
+#define BLOCK_SIZE 480
 #define FAST_STEP 10
 
 /**
@@ -33,8 +33,7 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
 
 	assert("Origin" && origin);
 	assert("Direction" && dir);
-	assert("Range" && range.min >= 0.0);
-	assert("Range" && range.max >= range.min);
+	assert("Range" && range.min >= 0.0 && range.max >= range.min);
 	result.closest = NULL;
 	result.closest_t = range.max;
 	tmp = get_scene()->shapes;

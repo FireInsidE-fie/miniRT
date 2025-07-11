@@ -18,7 +18,11 @@
 #define KEY_UP 65362
 #define KEY_RIGHT 65363
 #define KEY_DOWN 65364
+#define MOVE_INTERVAL 0.3
 
+/**
+ * @brief Swaps miniRT between full render and fast render modes.
+ */
 void	swap_render_mode(t_core *core)
 {
 	if (core->render_mode == 1)
@@ -29,10 +33,9 @@ void	swap_render_mode(t_core *core)
 		core->render.is_rendering = 1;
 		core->render_mode = 1;
 	}
-	// Reset render
+	// Reset render position
 	core->render.x = -WIN_WIDTH / 2;
 	core->render.y = -WIN_HEIGHT / 2;
-
 	if (core->render_mode == 0)
 		mlx_loop_hook(core->mlx, fast_render_loop, core);
 	else
@@ -41,7 +44,7 @@ void	swap_render_mode(t_core *core)
 
 /**
  * @brief MLX trigger for key presses, closing the window when `ESC`
- 	or movement keys are pressed.
+ * or movement keys are pressed.
  */
 static int	key_press(int key, void *param)
 {
@@ -54,17 +57,17 @@ static int	key_press(int key, void *param)
 	if (key == KEY_R && core->render.is_rendering == 0)
 		swap_render_mode(core);
 	if ((key == KEY_LEFT || key == KEY_A) && core->render_mode == 0)
-		core->scene.camera.position.x -= 0.3;
+		core->scene.camera.position.x -= MOVE_INTERVAL;
 	if ((key == KEY_RIGHT || key == KEY_D) && core->render_mode == 0)
-		core->scene.camera.position.x += 0.3;
+		core->scene.camera.position.x += MOVE_INTERVAL;
 	if ((key == KEY_UP || key == KEY_E) && core->render_mode == 0)
-		core->scene.camera.position.y += 0.3;
+		core->scene.camera.position.y += MOVE_INTERVAL;
 	if ((key == KEY_DOWN || key == KEY_Q) && core->render_mode == 0)
-		core->scene.camera.position.y -= 0.3;
+		core->scene.camera.position.y -= MOVE_INTERVAL;
 	if (key == KEY_W && core->render_mode == 0)
-		core->scene.camera.position.z += 0.3;
+		core->scene.camera.position.z += MOVE_INTERVAL;
 	if (key == KEY_S && core->render_mode == 0)
-		core->scene.camera.position.z -= 0.3;
+		core->scene.camera.position.z -= MOVE_INTERVAL;
 	return (0);
 }
 
