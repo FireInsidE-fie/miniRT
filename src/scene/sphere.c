@@ -49,24 +49,6 @@ void	print_sphere(t_shape *sphere)
 }
 
 /**
- * @brief Store the result(s) of a quadratic equation inside of the
- * double[2] `t`.
- * @return `true` if an answer was found, false if there is no answer.
- */
-static bool	solve_quadratic(double a, double b, double c, double *t)
-{
-	double		discriminant;
-
-	assert("t" && t);
-	discriminant = (b * b) - (4 * a * c);
-	if (discriminant < 0)
-		return (false);
-	t[0] = (-b + sqrt(discriminant)) / (2 * a);
-	t[1] = (-b - sqrt(discriminant)) / (2 * a);
-	return (true);
-}
-
-/**
  * @brief Checks if a ray starting at `origin` in direction `dir` hits a sphere
  * `sphere`.
  *
@@ -80,16 +62,22 @@ bool	hit_sphere(t_point3 *origin, t_vec3 *dir, t_shape *sphere, double *t)
 	double		a;
 	double		b;
 	double		c;
+	double		discriminant;
 
 	assert("Origin" && origin);
 	assert("Direction" && dir);
 	assert("Sphere" && sphere && sphere->type == SPHERE);
-	assert("Time" && t);
+	assert("t" && t);
 	co.x = (origin->x - sphere->position.x);
 	co.y = (origin->y - sphere->position.y);
 	co.z = (origin->z - sphere->position.z);
 	a = dot_product(dir, dir);
 	b = 2 * dot_product(&co, dir);
 	c = dot_product(&co, &co) - (sphere->radius * sphere->radius);
-	return (solve_quadratic(a, b, c, t));
+	discriminant = (b * b) - (4 * a * c);
+	if (discriminant < 0)
+		return (false);
+	t[0] = (-b + sqrt(discriminant)) / (2 * a);
+	t[1] = (-b - sqrt(discriminant)) / (2 * a);
+	return (true);
 }
