@@ -14,7 +14,7 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/scene.c \
 				$(SRCDIR)/scene/ambient.c \
 				$(SRCDIR)/scene/camera.c \
-				$(SRCDIR)/scene/color.c \
+				$(SRCDIR)/scene/material.c \
 				$(SRCDIR)/scene/cylinder.c \
 				$(SRCDIR)/scene/light.c \
 				$(SRCDIR)/scene/plane.c \
@@ -27,7 +27,7 @@ IFILES		=	$(INCLDIR)/minirt.h \
 				$(INCLDIR)/scene.h \
 				$(INCLDIR)/ambient.h \
 				$(INCLDIR)/camera.h \
-				$(INCLDIR)/color.h \
+				$(INCLDIR)/material.h \
 				$(INCLDIR)/cylinder.h \
 				$(INCLDIR)/light.h \
 				$(INCLDIR)/plane.h \

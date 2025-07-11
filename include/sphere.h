@@ -3,7 +3,7 @@
 
 # include "scene.h"
 # include "point3.h"
-# include "color.h"
+# include "material.h"
 
 # include <stdbool.h>
 

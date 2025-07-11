@@ -2,7 +2,7 @@
 #include "light.h"
 #include "minirt.h"
 #include "point3.h"
-#include "color.h"
+#include "material.h"
 #include "scene.h"
 #include "sphere.h"
 #include "math.h"

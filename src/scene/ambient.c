@@ -1,6 +1,6 @@
 #include "scene.h"
 #include "ambient.h"
-#include "color.h"
+#include "material.h"
 
 #include <assert.h>
 #include <stdio.h>

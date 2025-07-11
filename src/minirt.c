@@ -1,7 +1,7 @@
 #include "minirt.h"
 #include "ambient.h"
 #include "camera.h"
-#include "color.h"
+#include "material.h"
 #include "mlx.h"
 #include "point3.h"
 #include "scene.h"
