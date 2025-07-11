@@ -1,7 +1,6 @@
 #include "sphere.h"
 #include "scene.h"
 #include "vector.h"
-#include "minirt.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -36,7 +35,7 @@ int	create_sphere(t_point3 position, float radius, t_color color)
 	sphere->radius = radius;
 	sphere->color = color;
 	sphere->next = NULL;
-	scene = &get_core()->scene;
+	scene = get_scene();
 	if (!scene->shapes)
 	{
 		scene->shapes = sphere;

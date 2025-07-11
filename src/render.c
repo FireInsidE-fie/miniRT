@@ -37,7 +37,7 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
 	assert("Range" && range.max >= range.min);
 	result.closest = NULL;
 	result.closest_t = range.max;
-	tmp = get_core()->scene.shapes;
+	tmp = get_scene()->shapes;
 	while (tmp)
 	{
 		if (hit_sphere(origin, dir, tmp, t))
@@ -119,7 +119,7 @@ void	process_fast_steps(void)
 	t_color	color;
 
 	color = ray_color(
-			get_core()->scene.camera.position,
+			get_scene()->camera.position,
 			camera_to_viewport(get_core()->render.x, get_core()->render.y),
 			new_range(1, INFINITY)
 			);
@@ -172,7 +172,7 @@ void	process_bloc_render(void)
 	t_color	color;
 
 	color = ray_color(
-			get_core()->scene.camera.position,
+			get_scene()->camera.position,
 			camera_to_viewport(get_core()->render.x, get_core()->render.y),
 			new_range(1, INFINITY)
 		);

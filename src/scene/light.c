@@ -43,7 +43,7 @@ int	create_light(t_point3 position, float intensity, t_color color)
 	light->intensity = intensity;
 	light->color = color;
 	light->next = NULL;
-	scene = &get_core()->scene;
+	scene = get_scene();
 	if (!scene->lights)
 	{
 		scene->lights = light;
@@ -79,7 +79,7 @@ float	get_specular_reflection(t_vec3 *point,
 	double r_dot_v;
 	t_vec3 view;
 
-	view = point3_sub(&get_core()->scene.camera.position, point);
+	view = point3_sub(&get_scene()->camera.position, point);
 	reflected = point3_scale(normal,2 * dot_product(normal, point_to_light));
 	reflected = point3_sub(&reflected, point_to_light);
 	r_dot_v = dot_product(&reflected, &view);
@@ -105,7 +105,7 @@ float	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular)
 	t_vec3	point_to_light;
 	double	light_dot_normal;
 
-	scene = &get_core()->scene;
+	scene = get_scene();
 	intensity += scene->ambient.intensity;
 	tmp = scene->lights;
 	while (tmp)

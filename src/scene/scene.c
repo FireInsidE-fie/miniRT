@@ -1,3 +1,4 @@
+#include "minirt.h"
 #include "scene.h"
 #include "ambient.h"
 #include "sphere.h"
@@ -6,6 +7,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+
+/**
+ * @brief Static getter for the miniRT scene.
+ */
+t_scene	*get_scene(void)
+{
+	static t_scene	*scene;
+
+	if (!scene)
+		scene = &get_core()->scene;
+	return (scene);
+}
 
 /**
  * @brief Clears a linked list of elements
