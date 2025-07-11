@@ -121,7 +121,7 @@ float	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular)
 		if (light_dot_normal > 0)
 			intensity += tmp->intensity * light_dot_normal
 				/ (vec_len(normal) * vec_len(&point_to_light));
-		if (specular <= 0)
+		if (specular != 1)
 			intensity += tmp->intensity
 				* get_specular_reflection(point, normal, &point_to_light, specular);
 		tmp = tmp->next;
