@@ -17,7 +17,6 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/material.c \
 				$(SRCDIR)/scene/cylinder.c \
 				$(SRCDIR)/scene/light.c \
-				$(SRCDIR)/scene/plane.c \
 				$(SRCDIR)/scene/sphere.c \
 
 OBJS		=	$(CFILES:.c=.o)
@@ -30,7 +29,6 @@ IFILES		=	$(INCLDIR)/minirt.h \
 				$(INCLDIR)/material.h \
 				$(INCLDIR)/cylinder.h \
 				$(INCLDIR)/light.h \
-				$(INCLDIR)/plane.h \
 				$(INCLDIR)/sphere.h \
 				$(INCLDIR)/vector.h \
 				$(INCLDIR)/utils.h
