@@ -41,16 +41,11 @@ void	print_sphere(t_shape *sphere)
 	printf(
 		"[!] - Sphere\n"
 		"Position: (%f, %f, %f)\n"
-		"Radius: %f\n"
-		"Color: (%f, %f, %f)\n"
-		"Specular: %f\n",
+		"Radius: %f\n",
 		sphere->position.x, sphere->position.y, sphere->position.z,
-		sphere->radius,
-		sphere->mat.color.r,
-		sphere->mat.color.g,
-		sphere->mat.color.b,
-		sphere->mat.specular
+		sphere->radius
 		);
+	print_mat(&sphere->mat);
 }
 
 /**
@@ -88,7 +83,7 @@ bool	hit_sphere(t_point3 *origin, t_vec3 *dir, t_shape *sphere, double *t)
 
 	assert("Origin" && origin);
 	assert("Direction" && dir);
-	assert("Sphere" && sphere);
+	assert("Sphere" && sphere && sphere->type == SPHERE);
 	assert("Time" && t);
 	co.x = (origin->x - sphere->position.x);
 	co.y = (origin->y - sphere->position.y);

@@ -1,5 +1,6 @@
 #include "material.h"
 
+#include <stdio.h>
 #include <stdint.h>
 #include <assert.h>
 
@@ -52,4 +53,11 @@ t_material	make_mat(t_color color, float specular, float reflection)
 	mat.specular = specular;
 	mat.reflection = reflection;
 	return (mat);
+}
+
+void	print_mat(t_material *mat)
+{
+	printf("Color: (%f, %f, %f)\n", mat->color.r, mat->color.g, mat->color.b);
+	printf("Specular: %f\n", mat->specular);
+	printf("Reflection: %f\n", mat->reflection);
 }
