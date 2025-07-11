@@ -1,7 +1,7 @@
 #include "scene.h"
-// #include "ambient.h"
-// #include "sphere.h"
-// #include "light.h"
+#include "ambient.h"
+#include "sphere.h"
+#include "light.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -36,40 +36,30 @@ void	clear_shapes(void *first)
  */
 void	print_scene(t_scene *scene)
 {
-	// void	*tmp;
+	void	*tmp;
 
 	assert("Scene" && scene);
-	printf("[!] - NOT Printing scene (function needs rewriting)...\n");
-	// printf("======== Camera ========\n");
-	// print_camera(&scene->camera);
-	// printf("======== Ambient ========\n");
-	// print_ambient(&scene->ambient);
-	// printf("======== Spheres ========\n");
-	// tmp = scene->shapes;
-	// while (tmp)
-	// {
-	// 	print_sphere(tmp);
-	// 	tmp = ((t_shape *)tmp)->next;
-	// }
-	// printf("======== Lights ========\n");
-	// tmp = scene->lights;
-	// while (tmp)
-	// {
-	// 	print_light(tmp);
-	// 	tmp = ((t_light *)tmp)->next;
-	// }
-	// printf("======== Planes ========\n");
-	// tmp = scene->planes;
-	// while (tmp)
-	// {
-	// 	print_plane(tmp);
-	// 	tmp = ((t_plane *)tmp)->next;
-	// }
-	// printf("======== Cylinders ========\n");
-	// tmp = scene->cylinders;
-	// while (tmp)
-	// {
-	// 	print_cylinder(tmp);
-	// 	tmp = ((t_cylinder *)tmp)->next;
-	// }
+	printf("======== Camera ========\n");
+	print_camera(&scene->camera);
+	printf("======== Ambient ========\n");
+	print_ambient(&scene->ambient);
+	printf("======== Lights ========\n");
+	tmp = scene->lights;
+	while (tmp)
+	{
+		print_light(tmp);
+		tmp = ((t_light *)tmp)->next;
+	}
+	printf("======== Shapes ========\n");
+	tmp = scene->shapes;
+	while (tmp)
+	{
+		if (((t_shape *)tmp)->type == SPHERE)
+			print_sphere(tmp);
+		// else if (((t_shape *)tmp)->type == PLANE)
+		// 	print_plane(tmp);
+		// else if (((t_shape *)tmp)->type == CYLINDER)
+		// 	print_cylinder(tmp);
+		tmp = ((t_shape *)tmp)->next;
+	}
 }
