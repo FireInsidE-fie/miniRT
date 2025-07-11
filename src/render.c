@@ -65,6 +65,7 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	t_point3	intersect;
 	t_vec3		normal;
 	t_color		color;
+	float		intensity;
 
 	assert("Origin" && origin);
 	assert("Direction" && dir);
@@ -77,15 +78,12 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	normal = point3_sub(&intersect, &result->closest->position);
 	vec_normalize(&normal);
 	color = result->closest->mat.color;
-	color.r *= clamp(
+	intensity = clamp(
 			get_light_intensity(&intersect, &normal, result->closest->mat.specular),
 			new_range(0.0, 1.0));
-	color.g *= clamp(
-			get_light_intensity(&intersect, &normal, result->closest->mat.specular),
-			new_range(0.0, 1.0));
-	color.b *= clamp(
-			get_light_intensity(&intersect, &normal, result->closest->mat.specular),
-			new_range(0.0, 1.0));
+	color.r *= intensity;
+	color.g *= intensity;
+	color.b *= intensity;
 	return (color);
 }
 
