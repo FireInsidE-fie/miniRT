@@ -41,6 +41,7 @@ typedef struct s_scene
 // Functions //
 
 t_scene	*get_scene(void);
+void	add_shape(t_shape *new_shape);
 void	clear_shapes(void *first);
 void	print_scene(t_scene *scene);
 

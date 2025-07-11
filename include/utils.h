@@ -4,7 +4,8 @@
 # include <stdbool.h>
 
 // Represents a range between two values.
-typedef struct s_range {
+typedef struct s_range
+{
 	double	min;
 	double	max;
 }	t_range;

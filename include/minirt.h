@@ -32,12 +32,12 @@ typedef struct s_render
 // Holds all MLX-related data
 typedef struct s_core
 {
-	void	*mlx;
-	void	*win;
-	t_img	img;
-	t_scene	scene;
-	int		render_mode;
-	t_render render;
+	void		*mlx;
+	void		*win;
+	t_img		img;
+	t_scene		scene;
+	int			render_mode;
+	t_render	render;
 }	t_core;
 
 // Result if a ray intersects with a (for now) sphere and its closest t on that

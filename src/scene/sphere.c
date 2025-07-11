@@ -12,13 +12,11 @@
  * @brief Adds a new sphere element to the miniRT scene.
  */
 // TODO: when parsing is done, take structs by reference rather than by value
-// (for context, we can't yet because the test scene give `create_sphere`
+// (for context, we can't yet because the test scene gives `create_sphere`
 // rvalues)
 int	create_sphere(t_point3 position, float radius, t_color color)
 {
-	t_scene		*scene;
 	t_shape		*sphere;
-	t_shape		*tmp;
 
 	assert("Radius" && radius > 0);
 	assert("Color" && color.r >= 0.0f && color.r <= 1.0f
@@ -35,16 +33,7 @@ int	create_sphere(t_point3 position, float radius, t_color color)
 	sphere->radius = radius;
 	sphere->color = color;
 	sphere->next = NULL;
-	scene = get_scene();
-	if (!scene->shapes)
-	{
-		scene->shapes = sphere;
-		return (0);
-	}
-	tmp = scene->shapes;
-	while (tmp && tmp->next)
-		tmp = tmp->next;
-	tmp->next = sphere;
+	add_shape(sphere);
 	return (0);
 }
 
@@ -64,7 +53,8 @@ void	print_sphere(t_shape *sphere)
 }
 
 /**
- * @brief Store the result(s) of a quadratic equation inside of the double[2] `t`.
+ * @brief Store the result(s) of a quadratic equation inside of the
+ * double[2] `t`.
  * @return `true` if an answer was found, false if there is no answer.
  */
 static bool	solve_quadratic(double a, double b, double c, double *t)

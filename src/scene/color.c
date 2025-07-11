@@ -38,6 +38,5 @@ uint32_t	color_to_int(t_color *color)
 	rgba |= (uint32_t)(color->r * 255) << 16;
 	rgba |= (uint32_t)(color->g * 255) << 8;
 	rgba |= (uint32_t)(color->b * 255);
-
 	return (rgba);
 }

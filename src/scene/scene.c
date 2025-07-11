@@ -21,6 +21,26 @@ t_scene	*get_scene(void)
 }
 
 /**
+ * @brief Appends a new shape at the end of the shapes linked list.
+ */
+void	add_shape(t_shape *new_shape)
+{
+	t_scene		*scene;
+	t_shape		*tmp;
+
+	scene = get_scene();
+	if (!scene->shapes)
+	{
+		scene->shapes = new_shape;
+		return ;
+	}
+	tmp = scene->shapes;
+	while (tmp && tmp->next)
+		tmp = tmp->next;
+	tmp->next = new_shape;
+}
+
+/**
  * @brief Clears a linked list of elements
  *
  * @note Could be expanded to take in a function pointer in case we need to
