@@ -14,24 +14,21 @@
 // TODO: when parsing is done, take structs by reference rather than by value
 // (for context, we can't yet because the test scene gives `create_sphere`
 // rvalues)
-int	create_sphere(t_point3 position, float radius, t_color color)
+int	create_sphere(t_point3 position, float radius, t_material mat)
 {
 	t_shape		*sphere;
 
 	assert("Radius" && radius > 0);
-	assert("Color" && color.r >= 0.0f && color.r <= 1.0f
-		&& color.g >= 0.0f && color.g <= 1.0f
-		&& color.b >= 0.0f && color.b <= 1.0f);
+	assert("Material" && mat.color.r >= 0.0f && mat.color.r <= 1.0f
+		&& mat.color.g >= 0.0f && mat.color.g <= 1.0f
+		&& mat.color.b >= 0.0f && mat.color.b <= 1.0f);
 	sphere = malloc(sizeof(t_shape));
 	if (!sphere)
 		return (perror("miniRT (create_sphere) - malloc"), 1);
 	sphere->type = SPHERE;
-	sphere->specular = 300;
-	sphere->reflection = 0.0;
-	sphere->height = -1.0;
 	sphere->position = position;
 	sphere->radius = radius;
-	sphere->color = color;
+	sphere->mat= mat;
 	sphere->next = NULL;
 	add_shape(sphere);
 	return (0);
@@ -45,10 +42,14 @@ void	print_sphere(t_shape *sphere)
 		"[!] - Sphere\n"
 		"Position: (%f, %f, %f)\n"
 		"Radius: %f\n"
-		"Color: (%f, %f, %f)\n",
+		"Color: (%f, %f, %f)\n"
+		"Specular: %f\n",
 		sphere->position.x, sphere->position.y, sphere->position.z,
 		sphere->radius,
-		sphere->color.r, sphere->color.g, sphere->color.b
+		sphere->mat.color.r,
+		sphere->mat.color.g,
+		sphere->mat.color.b,
+		sphere->mat.specular
 		);
 }
 

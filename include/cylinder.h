@@ -10,7 +10,7 @@ typedef struct s_cylinder
 	t_vec3				axis;
 	float				radius;
 	float				height;
-	t_color				color;
+	t_material			mat;
 	struct s_cylinder	*next;
 }	t_cylinder;
 

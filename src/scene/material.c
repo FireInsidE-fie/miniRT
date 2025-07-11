@@ -44,12 +44,12 @@ uint32_t	color_to_int(t_color *color)
 /**
  * @brief Create a new temporary material element.
  */
-t_material	make_material(t_color color, float specular, float reflection)
+t_material	make_mat(t_color color, float specular, float reflection)
 {
-	t_material	material;
+	t_material	mat;
 
-	material.color = color;
-	material.specular = specular;
-	material.reflection = reflection;
-	return (material);
+	mat.color = color;
+	mat.specular = specular;
+	mat.reflection = reflection;
+	return (mat);
 }

@@ -21,9 +21,7 @@ typedef struct s_shape
 {
 	t_type			type;
 	t_point3		position;
-	t_color			color;
-	float			specular;
-	float			reflection;
+	t_material		mat;
 	float			radius;				// For spheres and cylinders
 	float			height;				// For cylinders
 	t_vec3			normal;				// For planes

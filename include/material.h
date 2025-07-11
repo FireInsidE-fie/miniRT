@@ -25,6 +25,6 @@ typedef struct s_material
 
 t_color		make_color(float r, float g, float b);
 uint32_t	color_to_int(t_color *color);
-t_material	make_material(t_color color, float specular, float reflection);
+t_material	make_mat(t_color color, float specular, float reflection);
 
 #endif // MATERIAL_H
