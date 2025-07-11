@@ -82,9 +82,15 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	vec_normalize(&normal);
 	color = result->closest->color;
 	result->closest->specular = 300;
-	color.r *= clamp(get_light_intensity(&intersect, &normal, result->closest->specular), new_range(0.0, 1.0));
-	color.g *= clamp(get_light_intensity(&intersect, &normal, result->closest->specular), new_range(0.0, 1.0));
-	color.b *= clamp(get_light_intensity(&intersect, &normal, result->closest->specular), new_range(0.0, 1.0));
+	color.r *= clamp(
+			get_light_intensity(&intersect, &normal, result->closest->specular),
+			new_range(0.0, 1.0));
+	color.g *= clamp(
+			get_light_intensity(&intersect, &normal, result->closest->specular),
+			new_range(0.0, 1.0));
+	color.b *= clamp(
+			get_light_intensity(&intersect, &normal, result->closest->specular),
+			new_range(0.0, 1.0));
 	return (color);
 }
 
@@ -92,13 +98,6 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
  * @brief Finds the closest object to the `origin` on a ray with `direction`,
  * and returns its color.
  */
-// TODO: there's a big problem with the current approach. Since we have a
-// distinct linked list for every type of object, we can't easily iterate over
-// all object types when trying to find a ray color (spheres, planes, cylinders)
-// As such, we could maybe for example create an array[number_of_types], with
-// each slot in the array containing the head of the linked list related to that
-// type. This would allow us to iterate over the array and each linked list
-// contained within, in a single go.
 static t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
 {
 	t_result	result;
@@ -110,9 +109,9 @@ static t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
 }
 
 /**
- * @brief For every 10x10 pixels, prints the color, called inside the fast render func.
+ * @brief For every 10x10 pixels, prints the color.
+ * Called inside the fast render func.
  */
-
 void	process_fast_steps(void)
 {
 	int		i;
@@ -121,8 +120,9 @@ void	process_fast_steps(void)
 
 	color = ray_color(
 			get_core()->scene.camera.position,
-			camera_to_viewport(get_core()->render.x, get_core()->render.y), new_range(1, INFINITY)
-		);
+			camera_to_viewport(get_core()->render.x, get_core()->render.y),
+			new_range(1, INFINITY)
+			);
 	j = 0;
 	while (j < FAST_STEP && get_core()->render.y + j <= WIN_HEIGHT / 2)
 	{
@@ -140,11 +140,10 @@ void	process_fast_steps(void)
 }
 
 /**
- * @brief Simple rendering, but only prints every 10 pixels (FAST_STEP) to be less heavy
- *	on the cpu.
+ * @brief Simple rendering.
+ * Only prints every 10 pixels (FAST_STEP) to be less heavy on the cpu.
  */
-
-int fast_render_loop(void *param)
+int	fast_render_loop(void *param)
 {
 	(void)param;
 	get_core()->render.y = -WIN_HEIGHT / 2;
@@ -158,39 +157,40 @@ int fast_render_loop(void *param)
 		}
 		get_core()->render.y += FAST_STEP;
 	}
-
-	mlx_put_image_to_window(get_core()->mlx, get_core()->win, get_core()->img.img, 0, 0);
+	mlx_put_image_to_window(
+		get_core()->mlx, get_core()->win, get_core()->img.img, 0, 0
+		);
 	return (0);
 }
 
 /**
- * @brief Gets called inside the double while statement of the render loop, prints each pixel
- *	for each blocks.
+ * @brief Gets called inside the double while statement of the render loop.
+ * Prints each pixel for each blocks.
  */
-
 void	process_bloc_render(void)
 {
-	t_color color;
+	t_color	color;
 
 	color = ray_color(
 			get_core()->scene.camera.position,
-			camera_to_viewport(get_core()->render.x, get_core()->render.y), new_range(1, INFINITY)
+			camera_to_viewport(get_core()->render.x, get_core()->render.y),
+			new_range(1, INFINITY)
 		);
 	img_put_pixel(&get_core()->img,
 		get_core()->render.x + WIN_WIDTH / 2,
 		get_core()->render.y + WIN_HEIGHT / 2,
 		&color);
-
 	get_core()->render.x++;
 }
 
 /**
- * @brief The "Pretty" render loop, used to we can interact with mlx while rendering.
+ * @brief The "Pretty" render loop.
+ * Used so we can interact with mlx while rendering.
  */
 int	render_loop(void *param)
 {
-	int			i;
-	int			j;
+	int	i;
+	int	j;
 
 	(void)param;
 	if (get_core()->render.y > WIN_HEIGHT / 2)
@@ -211,7 +211,9 @@ int	render_loop(void *param)
 		}
 		j++;
 	}
-	mlx_put_image_to_window(get_core()->mlx, get_core()->win, get_core()->img.img, 0, 0);
+	mlx_put_image_to_window(
+		get_core()->mlx, get_core()->win, get_core()->img.img, 0, 0
+		);
 	return (0);
 }
 

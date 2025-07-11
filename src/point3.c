@@ -29,7 +29,7 @@ t_vec3	point3_sub(t_point3 *a, t_point3 *b)
 
 t_vec3	point3_scale(t_vec3 *v, double scalar)
 {
-	t_vec3 vec;
+	t_vec3	vec;
 
 	vec.x = v->x * scalar;
 	vec.y = v->y * scalar;
