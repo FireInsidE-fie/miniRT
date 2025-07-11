@@ -2,7 +2,7 @@
 # define CYLINDER_H
 
 # include "point3.h"
-# include "color.h"
+# include "material.h"
 
 typedef struct s_cylinder
 {
@@ -10,7 +10,7 @@ typedef struct s_cylinder
 	t_vec3				axis;
 	float				radius;
 	float				height;
-	t_color				color;
+	t_material			mat;
 	struct s_cylinder	*next;
 }	t_cylinder;
 

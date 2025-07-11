@@ -2,7 +2,7 @@
 #include "light.h"
 #include "minirt.h"
 #include "point3.h"
-#include "color.h"
+#include "material.h"
 #include "scene.h"
 #include "sphere.h"
 #include "math.h"
@@ -80,16 +80,15 @@ t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	intersect.z += dir->z * result->closest_t;
 	normal = point3_sub(&intersect, &result->closest->position);
 	vec_normalize(&normal);
-	color = result->closest->color;
-	result->closest->specular = 300;
+	color = result->closest->mat.color;
 	color.r *= clamp(
-			get_light_intensity(&intersect, &normal, result->closest->specular),
+			get_light_intensity(&intersect, &normal, result->closest->mat.specular),
 			new_range(0.0, 1.0));
 	color.g *= clamp(
-			get_light_intensity(&intersect, &normal, result->closest->specular),
+			get_light_intensity(&intersect, &normal, result->closest->mat.specular),
 			new_range(0.0, 1.0));
 	color.b *= clamp(
-			get_light_intensity(&intersect, &normal, result->closest->specular),
+			get_light_intensity(&intersect, &normal, result->closest->mat.specular),
 			new_range(0.0, 1.0));
 	return (color);
 }

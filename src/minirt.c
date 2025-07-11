@@ -1,7 +1,7 @@
 #include "minirt.h"
 #include "ambient.h"
 #include "camera.h"
-#include "color.h"
+#include "material.h"
 #include "mlx.h"
 #include "point3.h"
 #include "scene.h"
@@ -49,14 +49,14 @@ int	rt_kill(t_core *core, int exit_code)
 
 void	test_scene(void)
 {
-	create_sphere(make_point3(1.0, -1.0, 3.0), 1, make_color(1.0, 0.0, 0.0));
-	create_sphere(make_point3(0.0, 0.0, 5.0), 1, make_color(0.0, 1.0, 0.0));
-	create_sphere(make_point3(-1.0, 1.0, 7.0), 1, make_color(0.0, 0.0, 1.0));
+	create_sphere(make_point3(1.0, -1.0, 3.0), 1, make_mat(make_color(1.0, 0.0, 0.0), 300, 0));
+	create_sphere(make_point3(0.0, 0.0, 5.0), 1, make_mat(make_color(0.0, 1.0, 0.0), 300, 0));
+	create_sphere(make_point3(-1.0, 1.0, 7.0), 1, make_mat(make_color(0.0, 0.0, 1.0), 300, 0));
 
-	create_sphere(make_point3(0.0, -101.0, 0.0), 100, make_color(1.0, 0.0, 1.0));
+	create_sphere(make_point3(0.0, -101.0, 0.0), 100, make_mat(make_color(1.0, 0.0, 1.0), 300, 0));
 
 	for (float i = 0.0; i <= 1.0; i += 0.1)
-		create_sphere(make_point3(-5.0 + (i * 10), 8.0, 20.0), 1, make_color(i, i, i));
+		create_sphere(make_point3(-5.0 + (i * 10), 8.0, 20.0), 1, make_mat(make_color(i, i, i), 300, 0.5));
 
 	create_light(make_point3(10.0, 20.0, 10.0), 0.8, make_color(1.0, 1.0, 1.0));
 

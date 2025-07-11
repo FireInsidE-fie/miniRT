@@ -2,7 +2,7 @@
 # define LIGHT_H
 
 # include "point3.h"
-# include "color.h"
+# include "material.h"
 
 typedef struct s_light
 {

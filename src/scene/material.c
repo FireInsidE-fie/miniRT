@@ -1,4 +1,4 @@
-#include "color.h"
+#include "material.h"
 
 #include <stdint.h>
 #include <assert.h>
@@ -39,4 +39,17 @@ uint32_t	color_to_int(t_color *color)
 	rgba |= (uint32_t)(color->g * 255) << 8;
 	rgba |= (uint32_t)(color->b * 255);
 	return (rgba);
+}
+
+/**
+ * @brief Create a new temporary material element.
+ */
+t_material	make_mat(t_color color, float specular, float reflection)
+{
+	t_material	mat;
+
+	mat.color = color;
+	mat.specular = specular;
+	mat.reflection = reflection;
+	return (mat);
 }

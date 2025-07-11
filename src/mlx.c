@@ -1,4 +1,4 @@
-#include "color.h"
+#include "material.h"
 #include "minirt.h"
 #include "mlx.h"
 
