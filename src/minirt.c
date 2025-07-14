@@ -38,9 +38,13 @@ int	rt_kill(t_core *core, int exit_code)
 {
 	assert("Core" && core);
 	printf("[!] - Closing miniRT...\n");
+	if (core->prevent_close)
+		return (printf("[!] - Close edit Window before quitting\n"), 0);
 	clear_lights(core->scene.lights);
 	clear_shapes(core->scene.shapes);
 	mlx_destroy_image(core->mlx, core->img.img);
+	mlx_destroy_image(core->mlx, core->ui_img.img);
+	mlx_destroy_window(core->mlx, core->altwin);
 	mlx_destroy_window(core->mlx, core->win);
 	mlx_destroy_display(core->mlx);
 	free(core->mlx);
@@ -117,7 +121,10 @@ int	main(void)
 			);
 	core->render_mode = 0;
 	core->render.is_rendering = 0;
+	core->page_idx = 0;
+	core->prevent_close = 0;
 	mlx_loop_hook(core->mlx, fast_render, core);
 	printf("================\n");
+	mlx_mouse_hook(core->altwin, on_mouse_debug, core);
 	mlx_loop(get_core()->mlx);
 }

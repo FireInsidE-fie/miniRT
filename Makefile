@@ -18,6 +18,8 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/light.c \
 				$(SRCDIR)/scene/scene.c \
 				$(SRCDIR)/scene/sphere.c \
+				$(SRCDIR)/hierarchy/hierarchy.c \
+				$(SRCDIR)/hierarchy/hierarchy_utils.c \
 
 OBJS		=	$(CFILES:.c=.o)
 
@@ -30,6 +32,7 @@ IFILES		=	$(INCLDIR)/minirt.h \
 				$(INCLDIR)/sphere.h \
 				$(INCLDIR)/scene.h \
 				$(INCLDIR)/utils.h \
+				$(INCLDIR)/hierarchy.h \
 				$(INCLDIR)/vector.h
 
 LIBFT_DIR	=	./libft

@@ -96,6 +96,9 @@ int	init_window(void)
 		= mlx_new_window(core->mlx, WIN_WIDTH, WIN_HEIGHT, "Obsolete Meat");
 	if (!core->win)
 		return (1);
+	core->altwin
+		= mlx_new_window(core->mlx, 400, 615, "Obsolete Meat - Hierarchy");
+	render_shape_list(core);
 	init_hooks(core);
 	return (0);
 }

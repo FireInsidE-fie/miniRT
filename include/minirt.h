@@ -39,6 +39,11 @@ typedef struct s_core
 	t_scene		scene;
 	int			render_mode;
 	t_render	render;
+	void		*altwin;
+	t_img		ui_img;
+	int			ui_img_init;
+	int			prevent_close;
+	int			page_idx;
 }	t_core;
 
 // Result if a ray intersects with a (for now) sphere and its closest t on that
@@ -63,9 +68,12 @@ void		img_put_pixel(t_img *img, int x, int y, t_color *color);
 t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range);
 t_color		ray_color(t_point3 origin, t_vec3 dir, t_range t_range);
 int			render(void *param);
-int			fast_render(void *param);
 
 // Fast rendering functions - fast_render.c
-int	fast_render(void *param);
+int			fast_render(void *param);
+
+// UI related functions - hierarchy.c / hierarchy_utils.c
+int			on_mouse_debug(int button, int x, int y, void *param);
+void		render_shape_list(t_core *core);
 
 #endif //MINIRT_H
