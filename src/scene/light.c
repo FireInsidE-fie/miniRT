@@ -74,6 +74,8 @@ t_vec3	reflect_ray(t_vec3 *ray, t_vec3 *normal)
 {
 	t_vec3	reflected;
 
+	assert("Ray" && ray);
+	assert("Normal" && normal);
 	reflected = point3_scale(normal, 2 * dot_product(normal, ray));
 	reflected = point3_sub(&reflected, ray);
 	return (reflected);

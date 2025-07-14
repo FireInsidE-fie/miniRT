@@ -5,6 +5,7 @@
 # define WIN_WIDTH 1080
 # define WIN_HEIGHT 1080
 # define BLOCK_SIZE 480
+# define RECURSION_DEPTH 3
 
 // Includes //
 # include "scene.h"
@@ -61,7 +62,7 @@ void		img_put_pixel(t_img *img, int x, int y, t_color *color);
 
 // Rendering functions - render.c
 t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range);
-t_color		ray_color(t_point3 origin, t_vec3 dir, t_range t_range);
+t_color		ray_color(t_point3 origin, t_vec3 dir, t_range t_range, int depth);
 int			render(void *param);
 int			fast_render(void *param);
 

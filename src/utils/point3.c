@@ -39,3 +39,14 @@ t_vec3	point3_scale(t_vec3 *v, double scalar)
 	vec.z = v->z * scalar;
 	return (vec);
 }
+
+t_point3	point3_invert(t_point3 *point)
+{
+	t_point3	inverted;
+
+	assert("Point" && point);
+	inverted.x = -point->x;
+	inverted.y = -point->y;
+	inverted.z = -point->z;
+	return (inverted);
+}

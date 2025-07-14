@@ -60,7 +60,11 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
  * @details Uses the `t_result` struct to know the `t` value and the intersected
  * sphere's color.
  */
-static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
+static t_color	compute_light(
+	t_point3 *origin,
+	t_vec3 *dir,
+	t_result *result,
+	int depth)
 {
 	t_point3	intersect;
 	t_vec3		normal;
@@ -84,6 +88,18 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	color.r *= intensity;
 	color.g *= intensity;
 	color.b *= intensity;
+	if (depth <= 0 || result->closest->mat.reflection <= 0.0)
+		return (color);
+
+	// Recursive ray tracing ===================================================
+
+	float	r_ratio = result->closest->mat.reflection;
+	t_vec3	reflected = point3_invert(dir);
+	reflected = reflect_ray(&reflected, &normal);
+	t_color	reflected_color = ray_color(*origin, *dir, new_range(0.001, INFINITY), depth - 1);
+	color.r = color.r * (1 - r_ratio) + reflected_color.r * r_ratio;
+	color.g = color.g * (1 - r_ratio) + reflected_color.g * r_ratio;
+	color.b = color.b * (1 - r_ratio) + reflected_color.b * r_ratio;
 	return (color);
 }
 
@@ -91,13 +107,13 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
  * @brief Finds the closest object to the `origin` on a ray with `direction`,
  * and returns its color.
  */
-t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
+t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range, int depth)
 {
 	t_result	result;
 
 	result = closest_intersect(&origin, &dir, t_range);
 	if (result.closest)
-		return (compute_light(&origin, &dir, &result));
+		return (compute_light(&origin, &dir, &result, depth));
 	return ((t_color)SKY_COLOR);
 }
 
@@ -112,7 +128,8 @@ static void	process_bloc_render(void)
 	color = ray_color(
 			get_scene()->camera.position,
 			camera_to_viewport(get_core()->render.x, get_core()->render.y),
-			new_range(1, INFINITY)
+			new_range(0.001, INFINITY),
+			RECURSION_DEPTH
 		);
 	img_put_pixel(&get_core()->img,
 		get_core()->render.x + WIN_WIDTH / 2,

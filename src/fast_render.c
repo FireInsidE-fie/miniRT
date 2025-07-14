@@ -3,6 +3,7 @@
 
 #include <math.h>
 
+#define FAST_RECURSION_DEPTH 1
 #define FAST_STEP 10
 
 /**
@@ -18,8 +19,8 @@ static void	process_fast_steps(void)
 	color = ray_color(
 			get_scene()->camera.position,
 			camera_to_viewport(get_core()->render.x, get_core()->render.y),
-			new_range(1, INFINITY)
-			);
+			new_range(0.001, INFINITY),
+			FAST_RECURSION_DEPTH);
 	j = 0;
 	while (j < FAST_STEP && get_core()->render.y + j <= WIN_HEIGHT / 2)
 	{
