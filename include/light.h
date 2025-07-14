@@ -15,6 +15,7 @@ typedef struct s_light
 int		create_light(t_point3 position, float intensity, t_color color);
 void	clear_lights(void *first);
 void	print_light(t_light *light);
+t_vec3	reflect_ray(t_vec3 *ray, t_vec3 *normal);
 float	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular);
 
 #endif // LIGHT_H

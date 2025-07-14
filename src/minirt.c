@@ -47,22 +47,54 @@ int	rt_kill(t_core *core, int exit_code)
 	return (exit(exit_code), exit_code);
 }
 
+/**
+ * @brief Temporary function to test scene creation and rendering. Will be
+ * removed once parsing is here.
+ */
 void	test_scene(void)
 {
-	create_sphere(make_point3(1.0, -1.0, 3.0), 1, make_mat(make_color(1.0, 0.0, 0.0), 300, 0));
-	create_sphere(make_point3(0.0, 0.0, 5.0), 1, make_mat(make_color(0.0, 1.0, 0.0), 300, 0));
-	create_sphere(make_point3(-1.0, 1.0, 7.0), 1, make_mat(make_color(0.0, 0.0, 1.0), 300, 0));
+	create_sphere(
+		make_point3(1.0, -1.0, 3.0),
+		1,
+		make_mat(make_color(1.0, 0.0, 0.0), 300, 0.2f)
+	);
+	create_sphere(
+		make_point3(0.0, 0.0, 5.0),
+		1,
+		make_mat(make_color(0.0, 1.0, 0.0), 300, 0.3f)
+	);
+	create_sphere(
+		make_point3(-1.0, 1.0, 7.0),
+		1,
+		make_mat(make_color(0.0, 0.0, 1.0), 300, 0.4f)
+	);
 
-	create_sphere(make_point3(0.0, -101.0, 0.0), 100, make_mat(make_color(0.3, 0.3, 0.3), 300, 0));
+	create_sphere(
+		make_point3(0.0, -101.0, 0.0),
+		100,
+		make_mat(make_color(0.3, 0.3, 0.3), 300, 0.5f)
+	);
 
 	for (float i = 0.0; i <= 1.0; i += 0.1)
-		create_sphere(make_point3(-5.0 + (i * 10), 8.0, 20.0), 1, make_mat(make_color(i, i, i), 300, 0.5));
+		create_sphere(
+			make_point3(-5.0 + (i * 10), 8.0, 20.0),
+			1,
+			make_mat(make_color(i, i, i), 300, 0.5)
+		);
 
-	create_light(make_point3(10.0, 20.0, 10.0), 1.0, make_color(1.0, 1.0, 1.0));
+	create_light(
+		make_point3(10.0, 20.0, 10.0),
+		1.0,
+		make_color(1.0, 1.0, 1.0)
+	);
 
 	create_ambient(0.2, make_color(1.0, 1.0, 1.0));
 
-	create_camera(make_point3(0.0, 0.0, 0.0), make_point3(1.0, 0.0, 0.0), 90.0);
+	create_camera(
+		make_point3(0.0, 0.0, 0.0),
+		make_point3(1.0, 0.0, 0.0),
+		90.0
+	);
 }
 
 int	main(void)

@@ -70,7 +70,16 @@ void	print_light(t_light *light)
 		);
 }
 
-float	get_specular_reflection(t_vec3 *point,
+t_vec3	reflect_ray(t_vec3 *ray, t_vec3 *normal)
+{
+	t_vec3	reflected;
+
+	reflected = point3_scale(normal, 2 * dot_product(normal, ray));
+	reflected = point3_sub(&reflected, ray);
+	return (reflected);
+}
+
+static float	get_specular_reflection(t_vec3 *point,
 								t_vec3 *normal,
 								t_vec3 *point_to_light,
 								int specular)
@@ -80,8 +89,7 @@ float	get_specular_reflection(t_vec3 *point,
 	t_vec3 view;
 
 	view = point3_sub(&get_scene()->camera.position, point);
-	reflected = point3_scale(normal,2 * dot_product(normal, point_to_light));
-	reflected = point3_sub(&reflected, point_to_light);
+	reflected = reflect_ray(point_to_light, normal);
 	r_dot_v = dot_product(&reflected, &view);
 	if (r_dot_v > 0)
 		return (pow(r_dot_v / (vec_len(&reflected) * vec_len(&view)), specular));
