@@ -33,3 +33,4 @@ int			on_mouse_debug(int button, int x, int y, void *param);
 t_rectangle new_rectangle(int width, int height, int color);
 
 #endif
+
