@@ -6,6 +6,7 @@
 #include "point3.h"
 #include "scene.h"
 #include "sphere.h"
+#include "plane.h"
 #include "light.h"
 #include "libft.h"
 
@@ -57,6 +58,12 @@ int	rt_kill(t_core *core, int exit_code)
  */
 void	test_scene(void)
 {
+	t_vec3 normalplane; // don't mind the 3 following lines we just need a normalized vector beforehand so far.
+
+	normalplane = make_vec3(0.0, 1.0, 0.0);
+	vec_normalize(&normalplane);
+	create_plane(make_point3(0.0, -1.0, 0.0), normalplane, make_mat(make_color(0.7, 0.7, 0.7), -1, 0.0f));
+
 	create_sphere(
 		make_point3(1.0, -1.0, 3.0),
 		1,
@@ -73,12 +80,6 @@ void	test_scene(void)
 		make_mat(make_color(0.0, 0.0, 1.0), 300, 0.4f)
 	);
 
-	create_sphere(
-		make_point3(0.0, -101.0, 0.0),
-		100,
-		make_mat(make_color(0.3, 0.3, 0.3), 300, 0.5f)
-	);
-
 	for (float i = 0.0; i <= 1.0; i += 0.1)
 		create_sphere(
 			make_point3(-5.0 + (i * 10), 8.0, 20.0),
@@ -87,8 +88,8 @@ void	test_scene(void)
 		);
 
 	create_light(
-		make_point3(10.0, 20.0, 10.0),
-		1.0,
+		make_point3(-10.0, 20.0, 15.0),
+		0.6,
 		make_color(1.0, 1.0, 1.0)
 	);
 

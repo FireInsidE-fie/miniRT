@@ -39,3 +39,12 @@ t_vec3	point3_scale(t_vec3 *v, double scalar)
 	vec.z = v->z * scalar;
 	return (vec);
 }
+
+t_vec3 make_vec3(float x, float y, float z)
+{
+	t_vec3 v;
+	v.x = x;
+	v.y = y;
+	v.z = z;
+	return v;
+}
