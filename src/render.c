@@ -9,11 +9,35 @@
 #include "mlx.h"
 #include "vector.h"
 #include "utils.h"
+#include "plane.h"
 
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <assert.h>
+
+void		handle_plane_intersect(double t[2], t_shape *tmp, t_range range, t_result *result)
+{
+	if (is_in_range(t[0], range) && t[0] < result->closest_t)
+	{
+		result->closest = tmp;
+		result->closest_t = t[0];
+	}
+}
+
+void		handle_sphere_intersect(double t[2], t_shape *tmp, t_range range, t_result *result)
+{
+	if (is_in_range(t[0], range) && t[0] < result->closest_t)
+	{
+		result->closest = tmp;
+		result->closest_t = t[0];
+	}
+	if (is_in_range(t[1], range) && t[1] < result->closest_t)
+	{
+		result->closest = tmp;
+		result->closest_t = t[1];
+	}
+}
 
 /**
  * @brief Computes the closest intersection between a ray starting at `origin`
@@ -36,19 +60,10 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
 	tmp = get_scene()->shapes;
 	while (tmp)
 	{
-		if (hit_sphere(origin, dir, tmp, t))
-		{
-			if (is_in_range(t[0], range) && t[0] < result.closest_t)
-			{
-				result.closest = tmp;
-				result.closest_t = t[0];
-			}
-			if (is_in_range(t[1], range) && t[1] < result.closest_t)
-			{
-				result.closest = tmp;
-				result.closest_t = t[1];
-			}
-		}
+		if (tmp->type == SPHERE && hit_sphere(origin, dir, tmp, t))
+			handle_sphere_intersect(t, tmp, range, &result);
+		else if (tmp->type == PLANE && hit_plane(origin, dir, tmp, t))
+			handle_plane_intersect(t, tmp, range, &result);
 		tmp = tmp->next;
 	}
 	return (result);
@@ -72,12 +87,20 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	assert("Closest" && result->closest);
 	assert("Closest_t" && result->closest_t >= 0.0);
 	intersect = *origin;
-	intersect.x += dir->x * result->closest_t;
+	intersect.x += dir->x * result->closest_t; // Make a point3_add function for this.
 	intersect.y += dir->y * result->closest_t;
 	intersect.z += dir->z * result->closest_t;
-	normal = point3_sub(&intersect, &result->closest->position);
-	vec_normalize(&normal);
-	color = result->closest->mat.color;
+	if (result->closest->type == SPHERE)
+	{
+		normal = point3_sub(&intersect, &result->closest->position);
+		vec_normalize(&normal);
+		color = result->closest->mat.color;
+	}
+	else if (result->closest->type == PLANE)
+	{
+		normal = result->closest->normal;
+		color = result->closest->mat.color;
+	}
 	intensity = clamp(
 			get_light_intensity(&intersect, &normal, result->closest->mat.specular),
 			new_range(0.0, 1.0));

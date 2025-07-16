@@ -18,6 +18,7 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/light.c \
 				$(SRCDIR)/scene/scene.c \
 				$(SRCDIR)/scene/sphere.c \
+				$(SRCDIR)/scene/plane.c \
 				$(SRCDIR)/hierarchy/hierarchy.c \
 				$(SRCDIR)/hierarchy/hierarchy_utils.c \
 
