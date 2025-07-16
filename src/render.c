@@ -69,6 +69,8 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
 	return (result);
 }
 
+// TODO for myself i'm tired i'm going home, wanted to move the if else statements in seperate functions but did it on intersect instead yea gn
+
 /**
  * @brief Checks the (for now) diffuse lightning for a point of a (for now)
  * sphere, and computes that point's color with the lightning on top.
