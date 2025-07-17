@@ -62,34 +62,34 @@ void	test_scene(void)
 
 	normalplane = make_vec3(0.0, 1.0, 0.0);
 	vec_normalize(&normalplane);
-	create_plane(make_point3(0.0, -1.0, 0.0), normalplane, make_mat(make_color(0.7, 0.7, 0.7), -1, 0.0f));
+	create_plane(make_point3(0.0, -1.0, 0.0), normalplane, make_mat(make_color(0.3, 0.3, 0.4), 1000, 0.0f));
 
 	create_sphere(
 		make_point3(1.0, -1.0, 3.0),
 		1,
-		make_mat(make_color(1.0, 0.0, 0.0), 300, 0.2f)
+		make_mat(make_color(0.86, 1.0, 0.21), 1000, 0.2f)
 	);
 	create_sphere(
 		make_point3(0.0, 0.0, 5.0),
 		1,
-		make_mat(make_color(0.0, 1.0, 0.0), 300, 0.3f)
+		make_mat(make_color(0.0, 1.0, 0.0), 1000, 0.3f)
 	);
 	create_sphere(
 		make_point3(-1.0, 1.0, 7.0),
 		1,
-		make_mat(make_color(0.0, 0.0, 1.0), 300, 0.4f)
+		make_mat(make_color(0.0, 0.0, 1.0), 1000, 0.4f)
 	);
 
 	for (float i = 0.0; i <= 1.0; i += 0.1)
 		create_sphere(
 			make_point3(-5.0 + (i * 10), 8.0, 20.0),
 			1,
-			make_mat(make_color(i, i, i), 300, 0.5)
+			make_mat(make_color(i, i, i), 1000, 0.5)
 		);
 
 	create_light(
-		make_point3(-10.0, 20.0, 15.0),
-		0.6,
+		make_point3(-7.0, 10.0, 15.0),
+		0.9,
 		make_color(1.0, 1.0, 1.0)
 	);
 

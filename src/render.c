@@ -69,7 +69,21 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
 	return (result);
 }
 
-// TODO for myself i'm tired i'm going home, wanted to move the if else statements in seperate functions but did it on intersect instead yea gn
+/* TODO feel free to rearrange things, add static statements because the following functions were made
+	for norm and readability purposes. but they're just part of compute_light()
+*/
+void	compute_sphere_light(t_vec3 *normal, t_point3 *intersect, t_color *color, t_result *result)
+{
+	*normal = point3_sub(intersect, &result->closest->position);
+	vec_normalize(normal);
+	*color = result->closest->mat.color;
+}
+
+void	compute_plane_light(t_vec3 *normal, t_color *color, t_result *result)
+{
+	*normal = result->closest->normal;
+	*color = result->closest->mat.color;
+}
 
 /**
  * @brief Checks the (for now) diffuse lightning for a point of a (for now)
@@ -93,16 +107,9 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	intersect.y += dir->y * result->closest_t;
 	intersect.z += dir->z * result->closest_t;
 	if (result->closest->type == SPHERE)
-	{
-		normal = point3_sub(&intersect, &result->closest->position);
-		vec_normalize(&normal);
-		color = result->closest->mat.color;
-	}
+		compute_sphere_light(&normal, &intersect, &color, result);
 	else if (result->closest->type == PLANE)
-	{
-		normal = result->closest->normal;
-		color = result->closest->mat.color;
-	}
+		compute_plane_light(&normal, &color, result);
 	intensity = clamp(
 			get_light_intensity(&intersect, &normal, result->closest->mat.specular),
 			new_range(0.0, 1.0));
