@@ -25,6 +25,7 @@ typedef struct s_shape
 	float			radius;				// For spheres and cylinders
 	float			height;				// For cylinders
 	t_vec3			normal;				// For planes
+	t_vec3			direction;
 	struct s_shape	*next;
 }	t_shape;
 

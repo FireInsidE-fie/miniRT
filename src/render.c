@@ -10,11 +10,58 @@
 #include "vector.h"
 #include "utils.h"
 #include "plane.h"
+#include "cylinder.h"
 
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <assert.h>
+
+/* TODO feel free to rearrange things, add static statements because the following functions were made
+	for norm and readability purposes. but they're just part of compute_light()
+*/
+
+t_vec3	get_cylinder_normal(t_shape *cyl, t_point3 *intersect)
+{
+	t_vec3		base_to_p;
+	t_vec3		proj;
+	t_vec3		normal;
+	double		axis_height;
+
+	base_to_p = point3_sub(intersect, &cyl->position);
+	axis_height = dot_product(&base_to_p, &cyl->direction);
+	proj = point3_scale(&cyl->direction, axis_height);
+	normal = point3_sub(&base_to_p, &proj);
+	vec_normalize(&normal);
+	return (normal);
+}
+
+void	compute_sphere_light(t_vec3 *normal, t_point3 *intersect, t_color *color, t_result *result)
+{
+	*normal = point3_sub(intersect, &result->closest->position);
+	vec_normalize(normal);
+	*color = result->closest->mat.color;
+}
+
+void	compute_plane_light(t_vec3 *normal, t_color *color, t_result *result)
+{
+	*normal = result->closest->normal;
+	*color = result->closest->mat.color;
+}
+
+void	compute_cylinder_light(t_vec3 *normal, t_point3 *intersect,
+								t_color *color, t_result *result)
+{
+	t_shape	*cyl;
+
+	assert("Normal" && normal);
+	assert("Intersect" && intersect);
+	assert("Color" && color);
+	assert("Result" && result);
+	cyl = result->closest;
+	*normal = get_cylinder_normal(cyl, intersect);
+	*color = cyl->mat.color;
+}
 
 void		handle_plane_intersect(double t[2], t_shape *tmp, t_range range, t_result *result)
 {
@@ -35,6 +82,20 @@ void		handle_sphere_intersect(double t[2], t_shape *tmp, t_range range, t_result
 	if (is_in_range(t[1], range) && t[1] < result->closest_t)
 	{
 		result->closest = tmp;
+		result->closest_t = t[1];
+	}
+}
+
+void	handle_cylinder_intersect(double t[2], t_shape *cyl, t_range range, t_result *result)
+{
+	if (is_in_range(t[0], range) && t[0] < result->closest_t)
+	{
+		result->closest = cyl;
+		result->closest_t = t[0];
+	}
+	if (is_in_range(t[1], range) && t[1] < result->closest_t)
+	{
+		result->closest = cyl;
 		result->closest_t = t[1];
 	}
 }
@@ -64,25 +125,11 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
 			handle_sphere_intersect(t, tmp, range, &result);
 		else if (tmp->type == PLANE && hit_plane(origin, dir, tmp, t))
 			handle_plane_intersect(t, tmp, range, &result);
+		else if (tmp->type == CYLINDER && hit_cylinder(origin, dir, tmp, t))
+			handle_cylinder_intersect(t, tmp, range, &result);
 		tmp = tmp->next;
 	}
 	return (result);
-}
-
-/* TODO feel free to rearrange things, add static statements because the following functions were made
-	for norm and readability purposes. but they're just part of compute_light()
-*/
-void	compute_sphere_light(t_vec3 *normal, t_point3 *intersect, t_color *color, t_result *result)
-{
-	*normal = point3_sub(intersect, &result->closest->position);
-	vec_normalize(normal);
-	*color = result->closest->mat.color;
-}
-
-void	compute_plane_light(t_vec3 *normal, t_color *color, t_result *result)
-{
-	*normal = result->closest->normal;
-	*color = result->closest->mat.color;
 }
 
 /**
@@ -110,6 +157,8 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 		compute_sphere_light(&normal, &intersect, &color, result);
 	else if (result->closest->type == PLANE)
 		compute_plane_light(&normal, &color, result);
+	else if (result->closest->type == CYLINDER)
+		compute_cylinder_light(&normal, &intersect, &color, result);
 	intensity = clamp(
 			get_light_intensity(&intersect, &normal, result->closest->mat.specular),
 			new_range(0.0, 1.0));

@@ -7,6 +7,7 @@
 #include "scene.h"
 #include "sphere.h"
 #include "plane.h"
+#include "cylinder.h"
 #include "light.h"
 #include "libft.h"
 
@@ -64,6 +65,23 @@ void	test_scene(void)
 	vec_normalize(&normalplane);
 	create_plane(make_point3(0.0, -1.0, 0.0), normalplane, make_mat(make_color(0.3, 0.3, 0.4), 1000, 0.0f));
 
+	create_cylinder(
+		make_point3(10.0, 3.0, 5.0),
+		make_vec3(0.0, 1.0, 0.0),
+		0.4,
+		3.0,
+		make_mat(make_color(1.0, 0.0, 0.0), 500, 0.5)
+	);
+	create_sphere(
+		make_point3(10.0, 6.0, 5.0),
+		0.7,
+		make_mat(make_color(1.0, 0.0, 0.0), 1000, 0.2f)
+	);
+	create_sphere(
+		make_point3(10.0, 3.0, 5.0),
+		0.7,
+		make_mat(make_color(1.0, 0.0, 0.0), 1000, 0.2f)
+	);
 	create_sphere(
 		make_point3(1.0, -1.0, 3.0),
 		1,
