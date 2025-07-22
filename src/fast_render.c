@@ -4,6 +4,7 @@
 #include <math.h>
 
 #define FAST_STEP 10
+#define	MAXDEPTH 3
 
 /**
  * @brief For every fast step block of pixels, output the same color as a block.
@@ -18,7 +19,7 @@ static void	process_fast_steps(void)
 	color = ray_color(
 			get_scene()->camera.position,
 			camera_to_viewport(get_core()->render.x, get_core()->render.y),
-			new_range(1, INFINITY)
+			new_range(1, INFINITY), MAXDEPTH
 			);
 	j = 0;
 	while (j < FAST_STEP && get_core()->render.y + j <= WIN_HEIGHT / 2)
