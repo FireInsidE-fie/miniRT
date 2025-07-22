@@ -26,7 +26,7 @@ int	close_edit_window(t_edit_win *editwin)
 		mlx_destroy_image(editwin->core->mlx, editwin->img.img);
 	if (editwin->win)
 		mlx_destroy_window(editwin->core->mlx, editwin->win);
-	editwin->core->prevent_close = 0;
+	editwin->core->prevent_close -= 1;
 	free(editwin);
 	return (0);
 }
@@ -107,7 +107,7 @@ void	open_edit_window(t_core *core, t_shape *shape)
 		return ;
 	editwin->core = core;
 	editwin->shape = shape;
-	core->prevent_close = 1;
+	core->prevent_close += 1;
 	editwin->win = mlx_new_window(core->mlx, 400, 300, "Edit Shape");
 	editwin->img.img = mlx_new_image(core->mlx, 400, 300);
 	editwin->img.addr = mlx_get_data_addr(editwin->img.img,
