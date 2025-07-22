@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include <assert.h>
 
+#define MAXDEPTH 3
+
 /* TODO feel free to rearrange things, add static statements because the following functions were made
 	for norm and readability purposes. but they're just part of compute_light()
 */
@@ -168,18 +170,27 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	return (color);
 }
 
+
 /**
  * @brief Finds the closest object to the `origin` on a ray with `direction`,
  * and returns its color.
  */
-t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
+t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range, int depth)
 {
 	t_result	result;
-
+	t_color		local_color;
+	t_color		reflected;
+	float		r;
+	
 	result = closest_intersect(&origin, &dir, t_range);
-	if (result.closest)
-		return (compute_light(&origin, &dir, &result));
-	return ((t_color)SKY_COLOR);
+	if (!result.closest)
+		return ((t_color)SKY_COLOR);
+	local_color = compute_light(&origin, &dir, &result);
+	r = result.closest->mat.reflection;
+	if (depth <= 0 || r <= 0.0f)
+		return local_color;
+	reflected = compute_reflection(&origin, &dir, &result, depth);
+	return (add_color(scale_color(local_color, 1 - r), reflected));
 }
 
 /**
@@ -193,7 +204,7 @@ static void	process_bloc_render(void)
 	color = ray_color(
 			get_scene()->camera.position,
 			camera_to_viewport(get_core()->render.x, get_core()->render.y),
-			new_range(1, INFINITY)
+			new_range(1, INFINITY), MAXDEPTH
 		);
 	img_put_pixel(&get_core()->img,
 		get_core()->render.x + WIN_WIDTH / 2,

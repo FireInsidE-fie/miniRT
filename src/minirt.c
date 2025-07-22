@@ -60,52 +60,49 @@ int	rt_kill(t_core *core, int exit_code)
 void	test_scene(void)
 {
 	t_vec3 normalplane; // don't mind the 3 following lines we just need a normalized vector beforehand so far.
-	t_vec3 dangplane;
+
 	normalplane = make_vec3(0.0, 1.0, 0.0);
-	dangplane = make_vec3(0.0, 1.0, 0.0);
-	vec_normalize(&dangplane);
 	vec_normalize(&normalplane);
-	create_plane(make_point3(0.0, 15.0, 0.0), dangplane, make_mat(make_color(0.3, 0.3, 1.0), 1000, 0.0f));
-	create_plane(make_point3(0.0, -1.0, 0.0), normalplane, make_mat(make_color(0.7, 0.7, 0.7), 1000, 0.0f));
+	create_plane(make_point3(0.0, -1.0, 0.0), normalplane, make_mat(make_color(0.7, 0.7, 0.7), -1, 0.1));
 
 	create_cylinder(
 		make_point3(10.0, 1.5, 1.0),
 		make_vec3(0.0, 1.0, 0.0),
 		3.005,
 		0.5,
-		make_mat(make_color(0.0, 0.0, 0.0), 500, 0.5)
-	);
-	create_sphere(
-		make_point3(10.0, 2.0, 1.0),
-		3.0,
-		make_mat(make_color(1.0, 0.0, 0.0), 1000, 0.2f)
+		make_mat(make_color(0.0, 0.0, 0.0), 1000, 0.1)
 	);
 	create_sphere(
 		make_point3(10.0, 1.9, 1.0),
 		3.0,
-		make_mat(make_color(1.0, 1.0, 1.0), 1000, 0.2f)
+		make_mat(make_color(1.0, 0.0, 0.0), 1000, 0.1)
+	);
+	create_sphere(
+		make_point3(10.0, 1.8, 1.0),
+		3.0,
+		make_mat(make_color(1.0, 1.0, 1.0), 1000, 0.1)
 	);
 	create_sphere(
 		make_point3(1.0, -1.0, 3.0),
 		1,
-		make_mat(make_color(0.86, 1.0, 0.21), 1000, 0.2f)
+		make_mat(make_color(0.86, 1.0, 0.21), 1000, 0.1)
 	);
 	create_sphere(
 		make_point3(0.0, 0.0, 5.0),
 		1,
-		make_mat(make_color(0.0, 1.0, 0.0), 1000, 0.3f)
+		make_mat(make_color(0.0, 1.0, 0.0), 1000, 0.1)
 	);
 	create_sphere(
 		make_point3(-1.0, 1.0, 7.0),
 		1,
-		make_mat(make_color(0.0, 0.0, 1.0), 1000, 0.4f)
+		make_mat(make_color(0.0, 0.0, 1.0), 1000, 0.1)
 	);
 
 	for (float i = 0.0; i <= 1.0; i += 0.1)
 		create_sphere(
 			make_point3(-5.0 + (i * 10), 8.0, 20.0),
 			1,
-			make_mat(make_color(i, i, i), 1000, 0.5)
+			make_mat(make_color(i, i, i), 1000, 0.1)
 		);
 
 	create_light(

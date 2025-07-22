@@ -22,6 +22,7 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/cylinder.c \
 				$(SRCDIR)/hierarchy/hierarchy.c \
 				$(SRCDIR)/hierarchy/hierarchy_utils.c \
+				$(SRCDIR)/reflections/reflections.c \
 
 OBJS		=	$(CFILES:.c=.o)
 
