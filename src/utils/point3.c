@@ -27,6 +27,16 @@ t_vec3	point3_sub(t_point3 *a, t_point3 *b)
 	return (vec);
 }
 
+t_point3	point3_add(t_point3 *a, t_vec3 *b)
+{
+	t_point3	result;
+
+	result.x = a->x + b->x;
+	result.y = a->y + b->y;
+	result.z = a->z + b->z;
+	return (result);
+}
+
 /**
  * @brief Scale a vector or point by a scalar value.
  */
