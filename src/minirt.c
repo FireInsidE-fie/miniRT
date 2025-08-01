@@ -59,11 +59,7 @@ int	rt_kill(t_core *core, int exit_code)
  */
 void	test_scene(void)
 {
-	t_vec3 normalplane; // don't mind the 3 following lines we just need a normalized vector beforehand so far.
-
-	normalplane = make_vec3(0.0, 1.0, 0.0);
-	vec_normalize(&normalplane);
-	create_plane(make_point3(0.0, -1.0, 0.0), normalplane, make_mat(make_color(0.7, 0.7, 0.7), -1, 0.1));
+	create_plane(make_point3(0.0, -1.0, 0.0), make_vec3(0.0, 1.0, 0.0), make_mat(make_color(0.7, 0.7, 0.7), -1, 0.1));
 
 	create_cylinder(
 		make_point3(10.0, 1.5, 1.0),

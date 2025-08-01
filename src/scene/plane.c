@@ -10,7 +10,7 @@
 #include <assert.h>
 
 /**
- *	Find out if we are hitting a plane with our ray.
+ *	Find out if we are hitting a cylinder with our ray.
  */
 bool hit_plane(t_point3 *origin, t_vec3 *dir, t_shape *plane, double *t)
 {
@@ -38,6 +38,7 @@ int	create_plane(t_point3 position, t_vec3 normal, t_material mat)
 	plane = malloc(sizeof(t_shape));
 	if (!plane)
 		return (perror("miniRT (create_plane) - malloc"), 1);
+	vec_normalize(&normal);
 	plane->type = PLANE;
 	plane->position = position;
     plane->normal = normal;
