@@ -59,7 +59,7 @@ static t_vec3	get_normal(t_result *result, t_point3 *point)
 	}
 	else if (result->closest->type == PLANE)
 		normal = result->closest->normal;
-	else
+	else if (result->closest->type == CYLINDER)
 		normal = get_cylinder_normal(result->closest, point);
 	return (normal);
 }
@@ -77,8 +77,10 @@ t_color	compute_reflection(t_point3 *origin, t_vec3 *dir, t_result *result,
 	normal = get_normal(result, &intersect);
 	view_dir = point3_scale(dir, -1);
 	reflected_dir = reflect_ray(&view_dir, &normal);
+	// once depth reaches 0, quit reflections
 	if (depth <= 0 || result->closest->mat.reflection <= 0.0f)
 		return ((t_color){0, 0, 0});
+	// Recall ray_color recursively with lower depth until 0
 	reflected = ray_color(intersect, reflected_dir,
 			new_range(0.001f, INFINITY), depth - 1);
 	return (scale_color(reflected, result->closest->mat.reflection));

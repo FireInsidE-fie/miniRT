@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <assert.h>
 
+// Reflection Depth, going over 3 barely adds anything visually
 #define MAXDEPTH 3
 
 /* TODO feel free to rearrange things, add static statements because the following functions were made
@@ -56,10 +57,6 @@ void	compute_cylinder_light(t_vec3 *normal, t_point3 *intersect,
 {
 	t_shape	*cyl;
 
-	assert("Normal" && normal);
-	assert("Intersect" && intersect);
-	assert("Color" && color);
-	assert("Result" && result);
 	cyl = result->closest;
 	*normal = get_cylinder_normal(cyl, intersect);
 	*color = cyl->mat.color;
@@ -180,17 +177,17 @@ t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range, int depth)
 	t_result	result;
 	t_color		local_color;
 	t_color		reflected;
-	float		r;
 	
 	result = closest_intersect(&origin, &dir, t_range);
 	if (!result.closest)
 		return ((t_color)SKY_COLOR);
 	local_color = compute_light(&origin, &dir, &result);
-	r = result.closest->mat.reflection;
-	if (depth <= 0 || r <= 0.0f)
+	if (depth <= 0 || result.closest->mat.reflection <= 0.0f)
 		return local_color;
 	reflected = compute_reflection(&origin, &dir, &result, depth);
-	return (add_color(scale_color(local_color, 1 - r), reflected));
+	return (add_color(scale_color(
+		local_color, 1 - result.closest->mat.reflection)
+		, reflected));
 }
 
 /**

@@ -35,7 +35,7 @@ static bool	is_inside_cylinder_height(t_point3 *origin, t_vec3 *dir,
 	return (true);
 }
 /**
- * @brief Projects supposedly normalized vector "v" on a "u" axis
+ * @brief Projects a supposedly normalized vector "v" on a "u" axis
  */
 static t_vec3	project_vec(t_vec3 *v, t_vec3 *axis)
 {
@@ -49,7 +49,7 @@ static t_vec3	project_vec(t_vec3 *v, t_vec3 *axis)
 
 /**
 	Computes the coefficients of the quadratic equation for cylinders.
-		(seatbelt on sweetie this one's harder)
+		(put the seatbelt on sweetie this one's harder)
 	Coeffs 0 1 2 indicates a, b, c
  */
 static void	compute_cylinder_coeffs(t_vec3 *origin, t_vec3 *dir,
@@ -59,9 +59,9 @@ static void	compute_cylinder_coeffs(t_vec3 *origin, t_vec3 *dir,
 	t_vec3	proj_d;		// direction parallel to axis
 	t_vec3	proj_oc;	// direction perpendicular to axis
 	t_vec3	d_proj;		// origin parallel to axis
-	t_vec3	oc_proj;	// oridin perpendicular to axis
+	t_vec3	oc_proj;	// origin perpendicular to axis
 
-	// Cylinder base to oriding ray
+	// Cylinder base to origin ray
 	oc = point3_sub(origin, &cyl->position);
 
 	// Projection of the ray's direction on the cylinder's axis
