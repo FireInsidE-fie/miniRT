@@ -168,13 +168,15 @@ void	draw_edit_text(t_core *core, t_shape *shape, int y_offset)
 void	handle_page_click(int x)
 {
 	int	max_page;
+	t_core *core;
 
-	max_page = (shape_lst_size(get_core()->scene.shapes) - 1) / MAX_PER_PAGE;
-	if (x >= 0 && x <= 100 && get_core()->page_idx > 0)
-		get_core()->page_idx--;
-	else if (x >= 300 && x <= 400 && get_core()->page_idx < max_page)
-		get_core()->page_idx++;
-	printf("Page %d/%d\n", get_core()->page_idx + 1,
-		(shape_lst_size(get_core()->scene.shapes) / MAX_PER_PAGE) + 1);
-	render_shape_list(get_core());
+	core = get_core();
+	max_page = (shape_lst_size(core->scene.shapes) - 1) / MAX_PER_PAGE;
+	if (x >= 0 && x <= 100 && core->page_idx > 0)
+		core->page_idx--;
+	else if (x >= 300 && x <= 400 && core->page_idx < max_page)
+		core->page_idx++;
+	printf("Page %d/%d\n", core->page_idx + 1,
+		(shape_lst_size(core->scene.shapes) / MAX_PER_PAGE) + 1);
+	render_shape_list(core);
 }
