@@ -10,7 +10,7 @@
 #include <assert.h>
 
 /**
- *	Find out if we are hitting a cylinder with our ray.
+ *	Find out if we are hitting a plane with our ray.
  */
 bool hit_plane(t_point3 *origin, t_vec3 *dir, t_shape *plane, double *t)
 {
