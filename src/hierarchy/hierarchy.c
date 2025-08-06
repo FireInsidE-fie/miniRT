@@ -7,6 +7,8 @@
 #include <stdio.h>
 
 #define UI_SHAPE_HEIGHT 50
+#define UI_BG_COLOR 0x343434
+#define UI_DARK_GRAY 0x555555
 #define MAX_PER_PAGE 12
 
 // list size but for t_shape type
@@ -80,8 +82,8 @@ void	draw_button(t_shape *shape, t_img *img, int start, int y_offset)
 	i = 0;
 	while (shape && i++ < MAX_PER_PAGE)
 	{
-		draw_rect(img, 0, y_offset, new_rectangle(400, 50, 0x343434));
-		draw_rect(img, 300, y_offset + 10, new_rectangle(80, 30, 0x555555));
+		draw_rect(img, 0, y_offset, new_rectangle(400, 50, UI_BG_COLOR));
+		draw_rect(img, 300, y_offset + 10, new_rectangle(80, 30, UI_DARK_GRAY));
 		y_offset += 50;
 		shape = shape->next;
 	}
@@ -117,8 +119,8 @@ void	render_shape_list(t_core *core)
 	shape = core->scene.shapes;
 	y_offset = 0;
 	draw_button(shape, img, start, y_offset);
-	draw_rect(img, 0, 600, new_rectangle(100, 15, 0x555555));
-	draw_rect(img, 300, 600, new_rectangle(100, 15, 0x555555));
+	draw_rect(img, 0, 600, new_rectangle(100, 15, UI_DARK_GRAY));
+	draw_rect(img, 300, 600, new_rectangle(100, 15, UI_DARK_GRAY));
 	mlx_put_image_to_window(core->mlx, core->altwin, img->img, 0, 0);
 	mlx_string_put(core->mlx, core->altwin, 20, 612, 0xFFFFFF, "< Prev");
 	mlx_string_put(core->mlx, core->altwin, 330, 612, 0xFFFFFF, "Next >");
