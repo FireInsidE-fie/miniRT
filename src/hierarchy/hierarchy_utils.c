@@ -7,8 +7,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Hierarchy window
+#define UI_BG_COLOR 0x343434
 #define UI_SHAPE_HEIGHT 50
 #define MAX_PER_PAGE 12
+
+// Edit object window
+#define	EWIN_RED 0xfc5656
+#define EWIN_GREEN 0x56fc61
+#define EWIN_BUTTON 30
+#define EWIN_WIDTH 400
+#define EWIN_HEIGHT 300
 
 /* Closes and frees the temporary edit window
 
@@ -65,25 +74,22 @@ int	on_mouse_edit(int button, int x, int y, void *param)
 	return (0);
 }
 
-/* Draws colored rectangles for the Edit window
-
-	First one is the overall window background color.
-	Last one is the Close button.
-	everything in between is the red and green action buttons.
+/*
+	Draws colored rectangles for the Edit window
 */ 
 
 void	draw_edit_win_rec(t_edit_win *editwin)
 {
-	draw_rect(&editwin->img, 0, 0, new_rectangle(400, 300, 0x343434));
-	draw_rect(&editwin->img, 50, 40, new_rectangle(30, 30, 0x56fc61));
-	draw_rect(&editwin->img, 90, 40, new_rectangle(30, 30, 0xfc5656));
-	draw_rect(&editwin->img, 50, 90, new_rectangle(30, 30, 0x56fc61));
-	draw_rect(&editwin->img, 90, 90, new_rectangle(30, 30, 0xfc5656));
-	draw_rect(&editwin->img, 50, 140, new_rectangle(30, 30, 0x56fc61));
-	draw_rect(&editwin->img, 90, 140, new_rectangle(30, 30, 0xfc5656));
-	draw_rect(&editwin->img, 50, 190, new_rectangle(30, 30, 0x56fc61));
-	draw_rect(&editwin->img, 90, 190, new_rectangle(30, 30, 0xfc5656));
-	draw_rect(&editwin->img, 300, 250, new_rectangle(80, 30, 0xCC3333));
+	draw_rect(&editwin->img, 0, 0, new_rectangle(EWIN_WIDTH, EWIN_HEIGHT, UI_BG_COLOR));
+	draw_rect(&editwin->img, 50, 40, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
+	draw_rect(&editwin->img, 90, 40, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_RED));
+	draw_rect(&editwin->img, 50, 90, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
+	draw_rect(&editwin->img, 90, 90, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_RED));
+	draw_rect(&editwin->img, 50, 140, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
+	draw_rect(&editwin->img, 90, 140, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_RED));
+	draw_rect(&editwin->img, 50, 190, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
+	draw_rect(&editwin->img, 90, 190, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_RED));
+	draw_rect(&editwin->img, 300, 250, new_rectangle(80, 30, 0xCC3333)); // No macro for close as we could replace it with using the cross
 }
 
 /* Creates/Mallocs a new edit window
@@ -108,8 +114,8 @@ void	open_edit_window(t_core *core, t_shape *shape)
 	editwin->core = core;
 	editwin->shape = shape;
 	core->prevent_close += 1;
-	editwin->win = mlx_new_window(core->mlx, 400, 300, "Edit Shape");
-	editwin->img.img = mlx_new_image(core->mlx, 400, 300);
+	editwin->win = mlx_new_window(core->mlx, EWIN_WIDTH, EWIN_HEIGHT, "Edit Shape");
+	editwin->img.img = mlx_new_image(core->mlx, EWIN_WIDTH, EWIN_HEIGHT);
 	editwin->img.addr = mlx_get_data_addr(editwin->img.img,
 			&editwin->img.bpp, &editwin->img.line_len, &editwin->img.endian);
 	draw_edit_win_rec(editwin);
