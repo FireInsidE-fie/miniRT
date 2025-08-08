@@ -58,7 +58,7 @@ typedef struct s_result
 
 // General functions - minirt.c
 t_core		*get_core(void);
-int			rt_kill(t_core *core, int exit_code);
+int			rt_kill(int exit_code);
 
 // MiniLibX helper functions - mlx.c
 int			init_window(void);
