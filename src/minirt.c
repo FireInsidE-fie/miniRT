@@ -36,12 +36,14 @@ t_core	*get_core(void)
  * @brief Closes the program and cleans its heap-allocated memory.
  * Also takes care of MLX ressources.
  */
-int	rt_kill(t_core *core, int exit_code)
+int	rt_kill(int exit_code)
 {
-	assert("Core" && core);
-	printf("[!] - Closing miniRT...\n");
+	t_core	*core;
+
+	core = get_core();
 	if (core->prevent_close)
 		return (printf("[!] - Close edit Window before quitting\n"), 0);
+	printf("[!] - Closing miniRT...\n");
 	clear_lights(core->scene.lights);
 	clear_shapes(core->scene.shapes);
 	mlx_destroy_image(core->mlx, core->img.img);
@@ -59,7 +61,11 @@ int	rt_kill(t_core *core, int exit_code)
  */
 void	test_scene(void)
 {
-	create_plane(make_point3(0.0, -1.0, 0.0), make_vec3(0.0, 1.0, 0.0), make_mat(make_color(0.7, 0.7, 0.7), -1, 0.1));
+	create_plane(
+		make_point3(0.0, -1.0, 0.0),
+		make_vec3(0.0, 1.0, 0.0),
+		make_mat(make_color(0.7, 0.7, 0.7), -1, 0.1)
+	);
 
 	create_cylinder(
 		make_point3(10.0, 1.5, 1.0),
@@ -127,7 +133,7 @@ int	main(void)
 	init_window();
 	core->img.img = mlx_new_image(core->mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!core->img.img)
-		rt_kill(core, 1);
+		rt_kill(1);
 	core->img.addr = mlx_get_data_addr(
 			core->img.img,
 			&core->img.bpp,
