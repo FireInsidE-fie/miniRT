@@ -18,6 +18,7 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/light.c \
 				$(SRCDIR)/scene/scene.c \
 				$(SRCDIR)/scene/sphere.c \
+				$(SRCDIR)/parsing/parsing.c
 
 OBJS		=	$(CFILES:.c=.o)
 

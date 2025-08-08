@@ -8,6 +8,7 @@
 #include "sphere.h"
 #include "light.h"
 #include "libft.h"
+#include "parsing.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -97,12 +98,18 @@ void	test_scene(void)
 	);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_core	*core;
+	int		parse_status;
 
+	if (argc != 2)
+		return (-1);
+	parse_status = parse_scene(argv[1]);
+	if (parse_status != 0)
+		return (printf("[!] - Error during parsing!\n"), parse_status);
 	core = get_core();
-	test_scene();
+	// test_scene();
 	print_scene(&core->scene);
 	printf("================\n");
 	init_window();
