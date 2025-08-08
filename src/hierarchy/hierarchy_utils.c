@@ -7,17 +7,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Hierarchy window
-#define UI_BG_COLOR 0x343434
-#define UI_SHAPE_HEIGHT 50
-#define MAX_PER_PAGE 12
-
-// Edit object window
-#define	EWIN_RED 0xfc5656
-#define EWIN_GREEN 0x56fc61
-#define EWIN_BUTTON 30
-#define EWIN_WIDTH 400
-#define EWIN_HEIGHT 300
+#define	EWIN_RED	0xfc5656
+#define EWIN_GREEN	0x56fc61
+#define EWIN_BUTTON	30
+#define EWIN_WIDTH	400
+#define EWIN_HEIGHT	300
 
 /* Closes and frees the temporary edit window
 
@@ -27,9 +21,9 @@
 	Core's prevent_close flag is used here to avoid closing miniRT
 	while the edit window is opened. Edit window(s) are not accessible
 	from core directly to avoid filling it with too much stuff.
-*/ 
+*/
 
-int	close_edit_window(t_edit_win *editwin)
+int	close_edit_window(t_ewin *editwin)
 {
 	if (editwin->img.img)
 		mlx_destroy_image(editwin->core->mlx, editwin->img.img);
@@ -44,13 +38,13 @@ int	close_edit_window(t_edit_win *editwin)
 
 	Checks for the area clicked, matches the colored
 	red and green squares buttons.
-*/ 
+*/
 
 int	on_mouse_edit(int button, int x, int y, void *param)
 {
-	t_edit_win	*editwin;
+	t_ewin	*editwin;
 
-	editwin = (t_edit_win *)param;
+	editwin = (t_ewin *)param;
 	if (button != 1)
 		return (0);
 	if (x >= 50 && x <= 80 && y >= 40 && y <= 70)
@@ -76,9 +70,9 @@ int	on_mouse_edit(int button, int x, int y, void *param)
 
 /*
 	Draws colored rectangles for the Edit window
-*/ 
+*/
 
-void	draw_edit_win_rec(t_edit_win *editwin)
+void	draw_edit_win_rec(t_ewin *editwin)
 {
 	draw_rect(&editwin->img, 0, 0, new_rectangle(EWIN_WIDTH, EWIN_HEIGHT, UI_BG_COLOR));
 	draw_rect(&editwin->img, 50, 40, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
@@ -95,20 +89,20 @@ void	draw_edit_win_rec(t_edit_win *editwin)
 /* Creates/Mallocs a new edit window
 
 	Assigns core, the wanted shape to edit, and prevents miniRT from closing.
-	
+
 	Calls draw_edit_win_rec() to draw all the needed rectangles.
-	
+
 	mlx_string_put prints string after anything else as it would be overwritten
 	otherwise.
 
 	Calls mlx_mouse_hook allow click checks on the edit window.
-*/ 
+*/
 
 void	open_edit_window(t_core *core, t_shape *shape)
 {
-	t_edit_win	*editwin;
+	t_ewin	*editwin;
 
-	editwin = malloc(sizeof(t_edit_win));
+	editwin = malloc(sizeof(t_ewin));
 	if (!editwin)
 		return ;
 	editwin->core = core;
@@ -134,10 +128,10 @@ void	open_edit_window(t_core *core, t_shape *shape)
 	the current page/shape and print text for the right shapes.
 
 	once at the right index, it will print the wanted page, up to 12 shapes.
-	
+
 	We hard print those pieces of text after any other render, or the text
-	would get overwritten by rectangles. mlx_string_put doesn't require frees. 
-*/ 
+	would get overwritten by rectangles. mlx_string_put doesn't require frees.
+*/
 
 void	draw_edit_text(t_core *core, t_shape *shape, int y_offset)
 {
@@ -169,7 +163,7 @@ void	draw_edit_text(t_core *core, t_shape *shape, int y_offset)
 	Pages 0 to 2 would have 12 shapes and page 3 would have 2 shapes.
 
 	once edited, rerender with render_shape_list()
-*/ 
+*/
 
 void	handle_page_click(int x)
 {
