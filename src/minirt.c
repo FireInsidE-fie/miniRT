@@ -63,13 +63,13 @@ void	test_scene(void)
 {
 	create_plane(
 		make_point3(0.0, -1.0, 0.0),
-		make_vec3(0.0, 1.0, 0.0),
+		(t_vec3){0.0, 1.0, 0.0},
 		make_mat(make_color(0.7, 0.7, 0.7), -1, 0.1)
 	);
 
 	create_cylinder(
 		make_point3(10.0, 1.5, 1.0),
-		make_vec3(0.0, 1.0, 0.0),
+		(t_vec3){0.0, 1.0, 0.0},
 		3.005,
 		0.5,
 		make_mat(make_color(0.0, 0.0, 0.0), 1000, 0.1)
