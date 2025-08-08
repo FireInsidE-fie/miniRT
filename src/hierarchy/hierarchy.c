@@ -4,7 +4,6 @@
 
 #include <X11/X.h>
 #include <stdint.h>
-#include <stdio.h>
 
 #define UI_SHAPE_HEIGHT 50
 #define UI_BG_COLOR 0x343434
@@ -70,9 +69,11 @@ void	draw_rect(t_img *img, int x, int y, t_rectangle rec)
 	}
 }
 
-// Draws the gray rectangle and the edit button per shape 
-
-void	draw_button(t_shape *shape, t_img *img, int start, int y_offset)
+/*
+ * @brief Draws the gray rectangle and the edit button for all shapes on the
+ * current page
+*/
+void	draw_buttons(t_shape *shape, t_img *img, int start, int y_offset)
 {
 	int	i;
 
@@ -99,7 +100,7 @@ void	draw_button(t_shape *shape, t_img *img, int start, int y_offset)
 	when changes are made, such as changing pages or even clicking
 	anywhere on the ui, this last case fixes a specific issue where
 	the window would appear pitch back when resized.
-*/ 
+*/
 
 void	render_shape_list(t_core *core)
 {
@@ -118,7 +119,7 @@ void	render_shape_list(t_core *core)
 	start = core->page_idx * MAX_PER_PAGE;
 	shape = core->scene.shapes;
 	y_offset = 0;
-	draw_button(shape, img, start, y_offset);
+	draw_buttons(shape, img, start, y_offset);
 	draw_rect(img, 0, 600, new_rectangle(100, 15, UI_DARK_GRAY));
 	draw_rect(img, 300, 600, new_rectangle(100, 15, UI_DARK_GRAY));
 	mlx_put_image_to_window(core->mlx, core->altwin, img->img, 0, 0);
@@ -137,32 +138,29 @@ void	render_shape_list(t_core *core)
 	anywhere on the ui, this fixes a specific issue where the window
 	would appear pitch back when resized.
 
-*/ 
+*/
 
 int	on_mouse_debug(int button, int x, int y, void *param)
 {
+	t_core	*core;
 	t_shape	*shape;
 	int		i;
 	int		index;
-	int		block_height;
 
 	(void)param;
-	block_height = 50;
-	index = y / block_height;
-	shape = get_core()->scene.shapes;
-	if (y >= 580)
+	core = get_core();
+	index = y / UI_SHAPE_HEIGHT;
+	shape = core->scene.shapes;
+	if (button == 1 && y >= 580)
 		return (handle_page_click(x), 0);
-	index = get_core()->page_idx * MAX_PER_PAGE + (y / block_height);
+	index = core->page_idx * MAX_PER_PAGE + (y / UI_SHAPE_HEIGHT);
 	i = 0;
 	while (shape && i++ < index)
 		shape = shape->next;
 	if (!shape)
 		return (0);
-	if (button == 1)
-	{
-		if (x >= 300 && x <= 380)
-			return (open_edit_window(get_core(), shape), 0);
-	}
-	render_shape_list(get_core());
+	if (button == 1 && x >= 300 && x <= 380)
+		return (open_edit_window(core, shape), 0);
+	render_shape_list(core);
 	return (0);
 }
