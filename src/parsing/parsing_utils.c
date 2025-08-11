@@ -2,7 +2,7 @@
 
 #include <assert.h>
 #include <stdbool.h>
-#include <stdio.h>
+// #include <stdio.h>
 
 float	ft_atof(char *str)
 {
@@ -14,7 +14,7 @@ float	ft_atof(char *str)
 		++str;
 	if (*str == '.')
 		result += ft_atoi(++str) / 10.0f;
-	printf("[!] - ft_atof gave %.2f back!\n", result);
+	// printf("[!] - ft_atof gave %.2f back!\n", result);
 	return (result);
 }
 
@@ -33,12 +33,12 @@ int	parse_triad(char *str, float *result)
 	while (*str && (*str != '-' && !ft_isdigit(*str)))
 		++str;
 	result[0] = ft_atof(str);
-	while (*str && (*str == '-' || *str == '+' || ft_isdigit(*str)))
+	while (*str && (*str == '-' || *str == '+' || *str == '.' || ft_isdigit(*str)))
 		++str;
 	if (*(str++) != ',')
 		return (1);
 	result[1] = ft_atof(str);
-	while (*str && (*str == '-' || *str == '+' || ft_isdigit(*str)))
+	while (*str && (*str == '-' || *str == '+' || *str == '.' || ft_isdigit(*str)))
 		++str;
 	if (*(str++) != ',')
 		return (1);

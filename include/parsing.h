@@ -12,6 +12,7 @@ typedef enum e_parsing_status {
 	TRIAD_ERR,		// An error occurred while parsing a triad of numbers.
 	CHAR_ERR,		// Line contained an invalid character.
 	MISSING_ERR,	// A value was missing from the line given the element type
+	VALUE_ERR,		// A value was incorrect (negative colors for example)
 }	t_parsing_status;
 
 // Main parsing functions - parsing.c

@@ -3,6 +3,7 @@
 #include "minirt.h"
 #include "scene.h"
 #include "libft.h"
+#include "utils.h"
 
 #include <assert.h>
 #include <stdio.h>
@@ -30,6 +31,10 @@ int	parse_ambient(char *line)
 		return (MISSING_ERR);
 	if (parse_triad(line, triad) != 0)
 		return (TRIAD_ERR);
+	if (!is_in_range(triad[0], (t_range){0, 255})
+		|| !is_in_range(triad[1], (t_range){0, 255})
+		|| !is_in_range(triad[2], (t_range){0, 255}))
+		return (VALUE_ERR);
 	scene_ambient->color.r = triad[0] / 255;
 	scene_ambient->color.g = triad[1] / 255;
 	scene_ambient->color.b = triad[2] / 255;
