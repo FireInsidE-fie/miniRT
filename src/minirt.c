@@ -111,6 +111,7 @@ int	main(int argc, char **argv)
 	core = get_core();
 	// test_scene();
 	print_scene(&core->scene);
+	return (0);		// Break the main loop before starting up the window
 	printf("================\n");
 	init_window();
 	core->img.img = mlx_new_image(core->mlx, WIN_WIDTH, WIN_HEIGHT);

@@ -1,3 +1,4 @@
+#include "get_next_line.h"
 #include <assert.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -14,13 +15,17 @@
 int	parse_scene(char *scene_path)
 {
 	int		scene_fd;
-	char	c;
+	char	*line;
 
 	assert(scene_path && "Scene Path");
 	scene_fd = open(scene_path, O_RDONLY);
 	if (scene_fd == -1)
 		return (perror("miniRT - parse_scene (open)"), 2);
-	while (read(scene_fd, &c, 1) > 0)
-		write(1, &c, 1);
+	line = get_next_line(scene_fd);
+	while (line)
+	{
+		write(1, line, ft_strlen(line));
+		line = get_next_line(scene_fd);
+	}
 	return (0);
 }
