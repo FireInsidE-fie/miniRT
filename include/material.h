@@ -5,7 +5,7 @@
 
 # define SKY_COLOR {0.2, 0.2, 0.2}
 
-// Struct for an RGB color representation //
+// Struct for an RGB color representation
 typedef struct s_color
 {
 	float	r;		// Value from 0 to 1
