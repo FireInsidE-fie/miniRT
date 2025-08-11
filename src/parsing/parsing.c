@@ -1,3 +1,4 @@
+#include "parsing.h"
 #include "get_next_line.h"
 #include "libft.h"
 #include <assert.h>
@@ -10,9 +11,22 @@
  */
 int	parse_meta(char *line)
 {
-	(void)line;
+	int	length;
+
+	assert(line && "Line");
 	printf("[!] - Parsing a meta element...\n");
-	return (0);
+	length = 0;
+	while (ft_isalpha(line[length]))
+		length++;
+	if (length != META_ABBR_LENGTH)
+		return (3);
+	if (ft_strncmp(line, "A", META_ABBR_LENGTH) == 0)
+		return parse_ambient(line);
+	else if (ft_strncmp(line, "C", META_ABBR_LENGTH) == 0)
+		return parse_camera(line);
+	else if (ft_strncmp(line, "L", META_ABBR_LENGTH) == 0)
+		return parse_light(line);
+	return (3);
 }
 
 /**
@@ -20,9 +34,22 @@ int	parse_meta(char *line)
  */
 int	parse_shape(char *line)
 {
-	(void)line;
+	int	length;
+
+	assert(line && "Line");
 	printf("[!] - Parsing a shape...\n");
-	return (1);
+	length = 0;
+	while (ft_isalpha(line[length]))
+		length++;
+	if (length != SHAPE_ABBR_LENGTH)
+		return (3);
+	if (ft_strncmp(line, "sp", SHAPE_ABBR_LENGTH) == 0)
+		return parse_sphere(line);
+	else if (ft_strncmp(line, "cy", SHAPE_ABBR_LENGTH) == 0)
+		return parse_cylinder(line);
+	else if (ft_strncmp(line, "pl", SHAPE_ABBR_LENGTH) == 0)
+		return parse_plane(line);
+	return (3);
 }
 
 /**
@@ -32,7 +59,9 @@ int	parse_shape(char *line)
  * 0 - All went well
  * 1 - Path is not a .rt file
  * 2 - Failed to open the file
+ * 3 - Abbreviation at start of line is wrong
  */
+// TODO: make the above errors into macros evaluating to strings, so they can be printed when they occur (instead of just "error during parsing")
 int	parse_scene(char *scene_path)
 {
 	int		scene_fd;
