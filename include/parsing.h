@@ -17,4 +17,7 @@ int	parse_sphere(char *line);
 int	parse_cylinder(char *line);
 int	parse_plane(char *line);
 
+// Parsing utilities - parsing_utils.c
+float	ft_atof(char *str);
+
 #endif // PARSING_H

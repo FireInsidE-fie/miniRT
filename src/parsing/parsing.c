@@ -9,15 +9,15 @@
 /**
  * @brief Parses a line containing a meta element (lightning, camera).
  */
-int	parse_meta(char *line)
+static int	parse_meta(char *line)
 {
 	int	length;
 
 	assert(line && "Line");
-	printf("[!] - Parsing a meta element...\n");
+	// printf("[!] - Parsing a meta element...\n");
 	length = 0;
 	while (ft_isalpha(line[length]))
-		length++;
+		++length;
 	if (length != META_ABBR_LENGTH)
 		return (3);
 	if (ft_strncmp(line, "A", META_ABBR_LENGTH) == 0)
@@ -32,15 +32,15 @@ int	parse_meta(char *line)
 /**
  * @brief Parses a line containing a shape element (sphere, cylinder, plane...).
  */
-int	parse_shape(char *line)
+static int	parse_shape(char *line)
 {
 	int	length;
 
 	assert(line && "Line");
-	printf("[!] - Parsing a shape...\n");
+	// printf("[!] - Parsing a shape...\n");
 	length = 0;
 	while (ft_isalpha(line[length]))
-		length++;
+		++length;
 	if (length != SHAPE_ABBR_LENGTH)
 		return (3);
 	if (ft_strncmp(line, "sp", SHAPE_ABBR_LENGTH) == 0)
@@ -50,6 +50,16 @@ int	parse_shape(char *line)
 	else if (ft_strncmp(line, "pl", SHAPE_ABBR_LENGTH) == 0)
 		return parse_plane(line);
 	return (3);
+}
+
+/**
+ * @brief Checks for forbidden characters inside of a given .rt line.
+ */
+int	check_line(char *line)
+{
+	(void)line;
+	//TODO
+	return (0);
 }
 
 /**
