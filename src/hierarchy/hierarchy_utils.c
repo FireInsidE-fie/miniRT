@@ -119,7 +119,8 @@ void	open_edit_window(t_core *core, t_shape *shape)
 	mlx_string_put(core->mlx, editwin->win, 130, 105, 0xFFFFFF, "Y Axis");
 	mlx_string_put(core->mlx, editwin->win, 130, 55, 0xFFFFFF, "Z Axis");
 	mlx_string_put(core->mlx, editwin->win, 130, 205, 0xFFFFFF, "Size/Radius");
-	mlx_hook(editwin->win, DestroyNotify, 0, close_edit_window, editwin);
+	// mlx_hook(editwin->win, DestroyNotify, 0, close_edit_window, editwin);
+	// TODO: mlx shits itself when closing the edit window with the red cross
 	mlx_mouse_hook(editwin->win, on_mouse_edit, editwin);
 }
 

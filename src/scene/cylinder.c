@@ -14,7 +14,7 @@
 	height	h = dot(v, direction)
 
 	the shape's base is cyl->position. direction is the shape's central axis.
-	
+
 	with the "base position", we can make an infinite cylinder growing
 	towards "direction". with h, we can decide to only grow a certain height.
  */

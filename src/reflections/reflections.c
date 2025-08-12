@@ -59,7 +59,7 @@ static t_vec3	get_normal(t_result *result, t_point3 *point)
 	}
 	else if (result->closest->type == PLANE)
 		normal = result->closest->normal;
-	else if (result->closest->type == CYLINDER)
+	else
 		normal = get_cylinder_normal(result->closest, point);
 	return (normal);
 }
