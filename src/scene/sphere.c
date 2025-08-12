@@ -1,12 +1,35 @@
 #include "sphere.h"
 #include "scene.h"
 #include "vector.h"
+#include "minirt.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
 #include <assert.h>
+
+void	compute_sphere_light(t_vec3 *normal, t_point3 *intersect, t_color *color, t_result *result)
+{
+	*normal = point3_sub(intersect, &result->closest->position);
+	vec_normalize(normal);
+	*color = result->closest->mat.color;
+}
+
+void		handle_sphere_intersect(double t[2], t_shape *tmp, t_range range, t_result *result)
+{
+	if (is_in_range(t[0], range) && t[0] < result->closest_t)
+	{
+		result->closest = tmp;
+		result->closest_t = t[0];
+	}
+	if (is_in_range(t[1], range) && t[1] < result->closest_t)
+	{
+		result->closest = tmp;
+		result->closest_t = t[1];
+	}
+}
+
 
 /**
  * @brief Adds a new sphere element to the miniRT scene.

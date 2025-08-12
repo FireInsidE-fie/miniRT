@@ -34,6 +34,31 @@ static bool	is_inside_cylinder_height(t_point3 *origin, t_vec3 *dir,
 		return (false);
 	return (true);
 }
+
+void	compute_cylinder_light(t_vec3 *normal, t_point3 *intersect,
+								t_color *color, t_result *result)
+{
+	t_shape	*cyl;
+
+	cyl = result->closest;
+	*normal = get_cylinder_normal(cyl, intersect);
+	*color = cyl->mat.color;
+}
+
+void	handle_cylinder_intersect(double t[2], t_shape *cyl, t_range range, t_result *result)
+{
+	if (is_in_range(t[0], range) && t[0] < result->closest_t)
+	{
+		result->closest = cyl;
+		result->closest_t = t[0];
+	}
+	if (is_in_range(t[1], range) && t[1] < result->closest_t)
+	{
+		result->closest = cyl;
+		result->closest_t = t[1];
+	}
+}
+
 /**
  * @brief Projects a supposedly normalized vector "v" on a "u" axis
  */
@@ -124,4 +149,19 @@ void	create_cylinder(t_point3 pos, t_vec3 dir, float radius, float height, t_mat
 	cyl->mat = mat;
 	cyl->next = NULL;
 	add_shape(cyl);
+}
+
+t_vec3	get_cylinder_normal(t_shape *cyl, t_point3 *intersect)
+{
+	t_vec3		base_to_p;
+	t_vec3		proj;
+	t_vec3		normal;
+	double		axis_height;
+
+	base_to_p = point3_sub(intersect, &cyl->position);
+	axis_height = dot_product(&base_to_p, &cyl->direction);
+	proj = point3_scale(&cyl->direction, axis_height);
+	normal = point3_sub(&base_to_p, &proj);
+	vec_normalize(&normal);
+	return (normal);
 }

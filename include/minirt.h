@@ -68,7 +68,6 @@ void		img_put_pixel(t_img *img, int x, int y, t_color *color);
 t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range);
 t_color		ray_color(t_point3 origin, t_vec3 dir, t_range t_range, int depth);
 int			render(void *param);
-t_vec3		get_cylinder_normal(t_shape *cyl, t_point3 *intersect);
 
 // Fast rendering functions - fast_render.c
 int			fast_render(void *param);
