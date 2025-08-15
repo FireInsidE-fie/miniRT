@@ -53,6 +53,7 @@ int	parse_triad(char *str, float *result)
  * @details Uses a double pointer to be able to do pointer arithmetic on the
  * original line back in the parsing functions.
  */
+// TODO: also handle skipping over the current word once it's read (over numbers)
 int	goto_next_word(char **line)
 {
 	while (**line && (**line == ' ' || !ft_isprint(**line)))
