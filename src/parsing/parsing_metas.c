@@ -7,6 +7,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <threads.h>
 
 int	parse_ambient(char *line)
 {
@@ -18,16 +19,14 @@ int	parse_ambient(char *line)
 	scene_ambient = &get_core()->scene.ambient;
 	while (*line && ft_isalpha(*line))
 		++line;
-	while (*line && (*line == ' ' || !ft_isprint(*line)))
-		++line;
-	if (!*line || *line == '\n')
+	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	scene_ambient->intensity = ft_atof(line);
+	if (scene_ambient->intensity < 0)
+		return (VALUE_ERR);
 	while (*line && (ft_isdigit(*line) || *line == '.'))
 		++line;
-	while (*line && (*line == ' ' || !ft_isprint(*line)))
-		++line;
-	if (!*line || *line == '\n')
+	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	if (parse_triad(line, triad) != 0)
 		return (TRIAD_ERR);
