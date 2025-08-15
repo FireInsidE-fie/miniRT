@@ -1,4 +1,5 @@
 #include "libft.h"
+#include "parsing.h"
 
 #include <assert.h>
 #include <stdbool.h>
@@ -43,5 +44,20 @@ int	parse_triad(char *str, float *result)
 	if (*(str++) != ',')
 		return (1);
 	result[2] = ft_atof(str);
+	return (0);
+}
+
+/**
+ * @brief Goes to the next slice of data in a .rt line, skipping
+ * over whitespace.
+ * @details Uses a double pointer to be able to do pointer arithmetic on the
+ * original line back in the parsing functions.
+ */
+int	goto_next_word(char **line)
+{
+	while (**line && (**line == ' ' || !ft_isprint(**line)))
+		++(*line);
+	if (!*line || **line == '\n')
+		return (MISSING_ERR);
 	return (0);
 }

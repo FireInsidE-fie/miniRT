@@ -31,5 +31,6 @@ int		parse_plane(char *line);
 // Parsing utilities - parsing_utils.c
 float	ft_atof(char *str);
 int		parse_triad(char *str, float *result);
+int		goto_next_word(char **line);
 
 #endif // PARSING_H
