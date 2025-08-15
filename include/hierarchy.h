@@ -26,6 +26,11 @@ typedef struct s_ewin
 	t_shape		*shape;
 	void		*win;
 	t_img		img;
+	void		*color_picker_img;
+	int			cp_x;
+	int			cp_y;
+	int			cp_w;
+	int			cp_h;
 }	t_ewin;
 
 // UI related functions - hierarchy.c / hierarchy_utils.c
