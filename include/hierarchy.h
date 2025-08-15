@@ -50,9 +50,9 @@ void		draw_edit_win_rec_p(t_ewin *editwin);
 int			on_mouse_edit_p(int button, int x, int y, void *param);
 
 // Cylinder editing
-void    edit_win_cylinder(t_ewin *editwin);
-void	draw_edit_win_rec_c(t_ewin *editwin);
-int		on_mouse_edit_c(int button, int x, int y, void *param);
+void    	edit_win_cylinder(t_ewin *editwin);
+void		draw_edit_win_rec_c(t_ewin *editwin);
+int			on_mouse_edit_c(int button, int x, int y, void *param);
 
 
 #endif
