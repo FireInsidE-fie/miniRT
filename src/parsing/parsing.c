@@ -113,6 +113,7 @@ int	parse_scene(char *scene_path)
 			if (status != DONE)
 				return (status);
 		}
+		free(line);
 		line = get_next_line(scene_fd);
 	}
 	return (status);
