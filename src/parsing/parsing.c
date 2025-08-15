@@ -54,18 +54,37 @@ static int	parse_shape(char *line)
 
 /**
  * @brief Checks for forbidden characters inside of a given .rt line.
+ * @details Checks for preceding whitespace
  */
 int	check_line(char *line)
 {
-	(void)line;
-	//TODO
+	// letters only on the first word
+	// after that, only numbers and .,-+
+	if (ft_isprint(*line) && *line != ' ' && !ft_isalpha(*line))
+		return (CHAR_ERR);
+	while (*line && !ft_isalpha(*line) && *line != '\n')
+		++line;
+	if (!*line || *line == '\n')
+		return (0);
+	while (*line && ft_isalpha(*line))
+		++line;
+	if (ft_isprint(*line) && *line != ' ')
+		return (printf("[!] - 1\n"), CHAR_ERR);
+	while (*line && *line != '\n')
+	{
+		if (ft_isprint(*line) && *line != ' '
+			&& *line != '.' && *line != ',' && *line != '-' && *line != '+'
+			&& !ft_isdigit(*line))
+			return (printf("[!] - 2\n"), CHAR_ERR);
+		++line;
+	}
 	return (0);
 }
 
 /**
  * @brief Parses a given .rt file and creates the scene from it.
  */
-// TODO: make the above errors into macros evaluating to strings, so they can be printed when they occur (instead of just "error during parsing")
+// TODO: print accurate error messages depending on the error macro
 int	parse_scene(char *scene_path)
 {
 	int		scene_fd;
@@ -82,6 +101,9 @@ int	parse_scene(char *scene_path)
 	while (line)
 	{
 		write(1, line, ft_strlen(line));
+		status = check_line(line);
+		if (status != 0)
+			return (status);
 		if (ft_isalpha(line[0]))
 		{
 			if (line[0] >= 'A' && line[0] <= 'Z')

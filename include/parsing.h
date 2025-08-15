@@ -10,7 +10,7 @@ typedef enum e_parsing_status {
 	OPEN_ERR,		// Failed to open the file
 	TYPE_ERR,		// Abbreviation at start of line is wrong
 	TRIAD_ERR,		// An error occurred while parsing a triad of numbers.
-	CHAR_ERR,		// Line contained an invalid character.
+	CHAR_ERR,		// Line contained an invalid / erroneously placed character.
 	MISSING_ERR,	// A value was missing from the line given the element type
 	VALUE_ERR,		// A value was incorrect (negative colors for example)
 }	t_parsing_status;
