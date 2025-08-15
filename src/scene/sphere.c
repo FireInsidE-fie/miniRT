@@ -14,7 +14,7 @@
 // TODO: when parsing is done, take structs by reference rather than by value
 // (for context, we can't yet because the test scene gives `create_sphere`
 // rvalues)
-int	create_sphere(t_point3 position, float radius, t_material mat)
+t_shape	*create_sphere(t_point3 position, float radius, t_material mat)
 {
 	t_shape		*sphere;
 
@@ -24,14 +24,14 @@ int	create_sphere(t_point3 position, float radius, t_material mat)
 		&& mat.color.b >= 0.0f && mat.color.b <= 1.0f);
 	sphere = malloc(sizeof(t_shape));
 	if (!sphere)
-		return (perror("miniRT (create_sphere) - malloc"), 1);
+		return (perror("miniRT (create_sphere) - malloc"), NULL);
 	sphere->type = SPHERE;
 	sphere->position = position;
 	sphere->radius = radius;
 	sphere->mat= mat;
 	sphere->next = NULL;
 	add_shape(sphere);
-	return (0);
+	return (sphere);
 }
 
 void	print_sphere(t_shape *sphere)
