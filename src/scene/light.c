@@ -14,7 +14,8 @@ void	clear_lights(void *first)
 	t_light	*current;
 	t_light	*next;
 
-	assert("First" && first);
+	if (!first)
+		return ;
 	current = first;
 	while (current)
 	{

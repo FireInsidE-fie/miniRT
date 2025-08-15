@@ -51,7 +51,8 @@ void	clear_shapes(void *first)
 	t_shape	*current;
 	t_shape	*next;
 
-	assert("First" && first);
+	if (!first)
+		return ;
 	current = first;
 	while (current)
 	{
