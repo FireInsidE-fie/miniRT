@@ -3,7 +3,6 @@
 #include "utils.h"
 #include "parsing.h"
 #include "point3.h"
-#include "libft.h"
 
 #include <stdio.h>
 #include <assert.h>
@@ -18,8 +17,6 @@ int	parse_sphere(char *line)
 
 	assert(line && "Line");
 	printf("[!] - Parsing a sphere...\n");
-	while (*line && ft_isalpha(*line))
-		++line;
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	if (parse_triad(line, triad) != 0)
@@ -27,17 +24,11 @@ int	parse_sphere(char *line)
 	position.x = triad[0];
 	position.y = triad[1];
 	position.z = triad[2];
-	while (*line
-		&& (ft_isdigit(*line) || *line == ',' || *line == '.' || *line == '-' || *line == '+'))
-		++line;
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	radius = ft_atof(line);
 	if (radius < 0)
 		return (VALUE_ERR);
-	while (*line
-		&& (ft_isdigit(*line) || *line == ',' || *line == '.' || *line == '-' || *line == '+'))
-		++line;
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	printf("[!] - %s\n", line);

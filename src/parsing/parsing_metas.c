@@ -2,7 +2,6 @@
 #include "ambient.h"
 #include "minirt.h"
 #include "scene.h"
-#include "libft.h"
 #include "utils.h"
 
 #include <assert.h>
@@ -17,15 +16,11 @@ int	parse_ambient(char *line)
 	assert(line && "Line");
 	printf("[!] - Parsing an ambient...\n");
 	scene_ambient = &get_core()->scene.ambient;
-	while (*line && ft_isalpha(*line))
-		++line;
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	scene_ambient->intensity = ft_atof(line);
 	if (scene_ambient->intensity < 0)
 		return (VALUE_ERR);
-	while (*line && (ft_isdigit(*line) || *line == '.'))
-		++line;
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	if (parse_triad(line, triad) != 0)
