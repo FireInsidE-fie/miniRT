@@ -1,5 +1,7 @@
 #include "libft.h"
+#include "material.h"
 #include "parsing.h"
+#include "utils.h"
 
 #include <assert.h>
 #include <stdbool.h>
@@ -44,6 +46,28 @@ int	parse_triad(char *str, float *result)
 	if (*(str++) != ',')
 		return (1);
 	result[2] = ft_atof(str);
+	return (0);
+}
+
+/**
+ * @brief Parses a material at the end of a .rt line into the pointer given
+ * to it.
+ */
+int	parse_material(char *line, t_material *mat)
+{
+	float		triad[3];
+
+	if (parse_triad(line, triad) != 0)
+		return (TRIAD_ERR);
+	if (!is_in_range(triad[0], (t_range){0, 255})
+		|| !is_in_range(triad[1], (t_range){0, 255})
+		|| !is_in_range(triad[2], (t_range){0, 255}))
+		return (VALUE_ERR);
+	mat->color.r = triad[0] / 255;
+	mat->color.g = triad[1] / 255;
+	mat->color.b = triad[2] / 255;
+	mat->specular = 0.2; // TODO
+	mat->reflection = 1000; // TODO
 	return (0);
 }
 
