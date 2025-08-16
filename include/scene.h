@@ -16,7 +16,6 @@ typedef enum e_type
 	N
 }	t_type;
 
-// TODO: rotation or direction
 typedef struct s_shape
 {
 	t_type			type;

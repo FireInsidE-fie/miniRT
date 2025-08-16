@@ -25,6 +25,8 @@
 
 int	close_edit_window(t_ewin *editwin)
 {
+	if (editwin->color_picker_img)
+		mlx_destroy_image(editwin->core->mlx, editwin->color_picker_img);
 	if (editwin->img.img)
 		mlx_destroy_image(editwin->core->mlx, editwin->img.img);
 	if (editwin->win)

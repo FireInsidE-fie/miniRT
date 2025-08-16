@@ -59,5 +59,9 @@ void    	edit_win_cylinder(t_ewin *editwin);
 void		draw_edit_win_rec_c(t_ewin *editwin);
 int			on_mouse_edit_c(int button, int x, int y, void *param);
 
+// color_picker.c
+void		draw_color_picker(t_ewin *editwin, int x, int y);
+void		fetch_color_from_picker(int mouse_x, int mouse_y, t_ewin *editwin);
+
 
 #endif

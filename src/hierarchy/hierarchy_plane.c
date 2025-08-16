@@ -24,6 +24,7 @@ int	on_mouse_edit_p(int button, int x, int y, void *param)
 	t_ewin	*editwin;
 
 	editwin = (t_ewin *)param;
+	fetch_color_from_picker(x, y, editwin);
 	if (button != 1)
 		return (0);
 	if (x >= 50 && x <= 80 && y >= 40 && y <= 70)
@@ -54,6 +55,7 @@ void    edit_win_plane(t_ewin *editwin)
     core = get_core();
     draw_edit_win_rec_p(editwin);
 	mlx_put_image_to_window(core->mlx, editwin->win, editwin->img.img, 0, 0);
+	draw_color_picker(editwin, 250, 160);
 	mlx_string_put(core->mlx, editwin->win, 320, 270, 0xFFFFFF, "Close");
 	mlx_string_put(core->mlx, editwin->win, 130, 55, 0xFFFFFF, "Y Axis");
 	mlx_mouse_hook(editwin->win, on_mouse_edit_p, editwin);

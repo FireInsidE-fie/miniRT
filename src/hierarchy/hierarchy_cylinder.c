@@ -18,6 +18,7 @@ int	on_mouse_edit_c(int button, int x, int y, void *param)
 	t_ewin	*editwin;
 
 	editwin = (t_ewin *)param;
+	fetch_color_from_picker(x, y, editwin);
 	if (button != 1)
 		return (0);
 	if (x >= 300 && x <= 380 && y >= 250 && y <= 280)
@@ -95,6 +96,7 @@ void    edit_win_cylinder(t_ewin *editwin)
 
     draw_edit_win_rec_c(editwin);
 	mlx_put_image_to_window(core->mlx, editwin->win, editwin->img.img, 0, 0);
+	draw_color_picker(editwin, 250, 180);
 	mlx_string_put(core->mlx, editwin->win, 320, 270, 0xFFFFFF, "Close");
 	mlx_string_put(core->mlx, editwin->win, 130, 55, 0xFFFFFF, "Dir Z");
 	mlx_string_put(core->mlx, editwin->win, 130, 105, 0xFFFFFF, "Dir Y");

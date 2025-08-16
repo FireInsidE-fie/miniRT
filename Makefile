@@ -26,6 +26,7 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/hierarchy/hierarchy_sphere.c \
 				$(SRCDIR)/hierarchy/hierarchy_plane.c \
 				$(SRCDIR)/hierarchy/hierarchy_cylinder.c \
+				$(SRCDIR)/hierarchy/color_picker.c \
 
 OBJS		=	$(CFILES:.c=.o)
 
