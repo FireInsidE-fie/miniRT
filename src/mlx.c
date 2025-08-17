@@ -58,8 +58,11 @@ t_vec3 rotate_vector(t_vec3 v, t_vec3 axis, float angle)
 	u = axis;
     vec_normalize(&u);
     return (
-		vec_add(vec_add(vec_scalar(v, cos(angle)),
-		vec_scalar(cross_product(&u, &v), sin(angle))),
+		vec_add(
+			vec_add(
+				vec_scalar(v, cos(angle)),
+				vec_scalar(cross_product(&u, &v), sin(angle))
+			),
 		vec_scalar(u, dot_product(&u, &v) * (1 - cos(angle))))
 	);
 }
