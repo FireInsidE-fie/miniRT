@@ -117,7 +117,7 @@ void	test_scene(void)
 
 	create_camera(
 		make_point3(0.0, 0.0, 0.0),
-		make_point3(1.0, 0.0, 0.0),
+		make_point3(0.0, 0.0, 1.0),
 		90.0
 	);
 }

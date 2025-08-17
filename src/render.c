@@ -121,7 +121,9 @@ static void	process_bloc_render(void)
 
 	color = ray_color(
 			get_scene()->camera.position,
+			camera_apply_rotation(
 			camera_to_viewport(get_core()->render.x, get_core()->render.y),
+			&get_scene()->camera),
 			new_range(1, INFINITY), MAXDEPTH
 		);
 	img_put_pixel(&get_core()->img,
