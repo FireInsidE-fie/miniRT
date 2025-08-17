@@ -24,8 +24,8 @@
 #define KEY_UP 65362
 #define KEY_RIGHT 65363
 #define KEY_DOWN 65364
-#define MOVE_INTERVAL 0.2
-#define	ROTATE_ANGLE 0.033
+#define MOVE_INTERVAL 0.08
+#define	ROTATE_ANGLE 0.016
 
 #define MAX_PITCH_RAD (M_PI / 2.0 - 0.01) // 89.4 max
 #define MIN_PITCH_RAD (-M_PI / 2.0 + 0.01)
@@ -67,12 +67,9 @@ t_vec3 rotate_vector(t_vec3 v, t_vec3 axis, float angle)
 
 void	camera_build_basis(t_camera *cam)
 {
-	t_vec3 world_up;
-	
-	world_up = make_point3(0, 1, 0);
 	cam->forward = cam->direction;
 	vec_normalize(&cam->forward);
-	cam->right = cross_product(&world_up, &cam->forward);
+	cam->right = cross_product(&(t_point3){0, 1, 0}, &cam->forward);
 	vec_normalize(&cam->right);
 	cam->up = cross_product(&cam->forward, &cam->right);
 	vec_normalize(&cam->up);
@@ -88,10 +85,8 @@ void rotate_camera_pitch(t_camera *cam, float angle)
         angle = MAX_PITCH_RAD - cam->pitch;
     else if (new_pitch < MIN_PITCH_RAD)
         angle = MIN_PITCH_RAD - cam->pitch;
-
     cam->direction = rotate_vector(cam->direction, cam->right, angle);
     cam->pitch += angle;
-
     camera_build_basis(cam);
 }
 

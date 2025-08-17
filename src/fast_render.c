@@ -3,7 +3,7 @@
 
 #include <math.h>
 
-#define FAST_STEP 20
+#define FAST_STEP 10
 #define	MAXDEPTH 3
 
 /**
