@@ -24,8 +24,8 @@
 #define KEY_UP 65362
 #define KEY_RIGHT 65363
 #define KEY_DOWN 65364
-#define MOVE_INTERVAL 0.3
-#define	ROTATE_ANGLE 0.1
+#define MOVE_INTERVAL 0.2
+#define	ROTATE_ANGLE 0.033
 
 #define MAX_PITCH_RAD (M_PI / 2.0 - 0.01) // 89.4 max
 #define MIN_PITCH_RAD (-M_PI / 2.0 + 0.01)
@@ -105,37 +105,71 @@ void rotate_camera_yaw(t_camera *cam, float angle)
  * @brief MLX trigger for key presses, closing the window when `ESC`
  * or movement keys are pressed.
  */
-static int	key_press(int key, void *param)
-{
-	t_core	*core;
 
-	// printf("Key pressed: %d\n", key);
+ /*
+	NEW MOVEMENT, Will refactor comments later but here's the brief.
+
+	Core has a key_state int array that contains the status of each key pressed,
+	up to 256 because most key codes are in that range (damn you ESC and Arrow keys).
+
+	key_press sets the state to 1 when pressed/held, and key_release() sets it back
+	to 0.
+
+	update_camera() is called in the fast render loop, applying the movements depending
+	on the key_state value of each key.
+ */
+
+static int key_press(int key, void *param)
+{
+    t_core *core;
+	
 	core = param;
 	if (key == KEY_ESC)
-		return (rt_kill(0));
+		rt_kill(0);
 	if (key == KEY_R && core->render.is_rendering == 0)
 		swap_render_mode(core);
-	if ((key == KEY_LEFT || key == KEY_A) && core->render_mode == 0)
-		core->scene.camera.position = vec_add(core->scene.camera.position, vec_scalar(core->scene.camera.right, -MOVE_INTERVAL));
-	if ((key == KEY_RIGHT || key == KEY_D) && core->render_mode == 0)
-		core->scene.camera.position = vec_add(core->scene.camera.position, vec_scalar(core->scene.camera.right, MOVE_INTERVAL));
-	if ((key == KEY_UP || key == KEY_E) && core->render_mode == 0)
+    if (key >= 0 && key < 256)
+        core->key_state[key] = 1;
+    return (0);
+}
+
+static int key_release(int key, void *param)
+{
+    t_core *core;
+	
+	core = param;
+    if (key >= 0 && key < 256)
+        core->key_state[key] = 0;
+    return (0);
+}
+
+
+void	update_camera(t_core *core)
+{
+	if (core->key_state[KEY_A] && core->render_mode == 0)
+		core->scene.camera.position = vec_add(core->scene.camera.position,
+		vec_scalar(core->scene.camera.right, -MOVE_INTERVAL));
+	if (core->key_state[KEY_D] && core->render_mode == 0)
+		core->scene.camera.position = vec_add(core->scene.camera.position,
+		vec_scalar(core->scene.camera.right, MOVE_INTERVAL));
+	if (core->key_state[KEY_E] && core->render_mode == 0)
 		core->scene.camera.position.y += MOVE_INTERVAL;
-	if ((key == KEY_DOWN || key == KEY_Q) && core->render_mode == 0)
+	if (core->key_state[KEY_Q] && core->render_mode == 0)
 		core->scene.camera.position.y -= MOVE_INTERVAL;
-	if (key == KEY_W && core->render_mode == 0)
-		core->scene.camera.position = vec_add(vec_scalar(core->scene.camera.forward, MOVE_INTERVAL), core->scene.camera.position);
-	if (key == KEY_S && core->render_mode == 0)
-		core->scene.camera.position = vec_add(core->scene.camera.position, vec_scalar(core->scene.camera.forward, -MOVE_INTERVAL));
-	if (key == KEY_H && core->render_mode == 0)
+	if (core->key_state[KEY_W] && core->render_mode == 0)
+		core->scene.camera.position = vec_add(vec_scalar(core->scene.camera.forward, MOVE_INTERVAL),
+		core->scene.camera.position);
+	if (core->key_state[KEY_S] && core->render_mode == 0)
+		core->scene.camera.position = vec_add(core->scene.camera.position,
+		vec_scalar(core->scene.camera.forward, -MOVE_INTERVAL));
+	if (core->key_state[KEY_H] && core->render_mode == 0)
 		rotate_camera_yaw(&core->scene.camera, -ROTATE_ANGLE);
-	if (key == KEY_L && core->render_mode == 0)
+	if (core->key_state[KEY_L] && core->render_mode == 0)
 		rotate_camera_yaw(&core->scene.camera, ROTATE_ANGLE);
-	if (key == KEY_I && core->render_mode == 0)
+	if (core->key_state[KEY_I] && core->render_mode == 0)
 		rotate_camera_pitch(&core->scene.camera, -ROTATE_ANGLE);
-	if (key == KEY_K && core->render_mode == 0)
+	if (core->key_state[KEY_K] && core->render_mode == 0)
 		rotate_camera_pitch(&core->scene.camera, ROTATE_ANGLE);
-	return (0);
 }
 
 /**
@@ -146,6 +180,7 @@ static void	init_hooks(t_core *core)
 {
 	core = get_core();
 	mlx_hook(core->win, KeyPress, KeyPressMask, key_press, core);
+	mlx_hook(core->win, KeyRelease, KeyReleaseMask, key_release, core);
 	mlx_hook(core->win, DestroyNotify, 0, rt_kill, 0);
 }
 

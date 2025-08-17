@@ -2,8 +2,8 @@
 # define MINIRT_H
 
 // Macros //
-# define WIN_WIDTH 1080
-# define WIN_HEIGHT 1080
+# define WIN_WIDTH 2160
+# define WIN_HEIGHT 2160
 # define BLOCK_SIZE 480
 
 // Includes //
@@ -44,6 +44,7 @@ typedef struct s_core
 	int			ui_img_init;
 	int			prevent_close;
 	int			page_idx;
+	int			key_state[256];
 }	t_core;
 
 // Result if a ray intersects with a (for now) sphere and its closest t on that
@@ -63,6 +64,8 @@ int			rt_kill(int exit_code);
 // MiniLibX helper functions - mlx.c
 int			init_window(void);
 void		img_put_pixel(t_img *img, int x, int y, t_color *color);
+void		update_camera(t_core *core);
+
 
 // Rendering functions - render.c
 t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range);

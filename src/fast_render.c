@@ -46,6 +46,7 @@ static void	process_fast_steps(void)
 int	fast_render(void *param)
 {
 	(void)param;
+	update_camera(get_core());
 	get_core()->render.y = -WIN_HEIGHT / 2;
 	while (get_core()->render.y <= WIN_HEIGHT / 2)
 	{
