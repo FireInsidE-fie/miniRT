@@ -66,8 +66,12 @@ int	parse_material(char *line, t_material *mat)
 	mat->color.r = triad[0] / 255;
 	mat->color.g = triad[1] / 255;
 	mat->color.b = triad[2] / 255;
-	mat->specular = 1000; // TODO
-	mat->reflection = 0.2; // TODO
+	if (goto_next_word(&line) != 0)
+		return (MISSING_ERR);
+	mat->specular = ft_atof(line);
+	if (goto_next_word(&line) != 0)
+		return (MISSING_ERR);
+	mat->reflection = ft_atof(line);
 	return (0);
 }
 
