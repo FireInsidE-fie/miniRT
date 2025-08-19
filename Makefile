@@ -18,6 +18,11 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/light.c \
 				$(SRCDIR)/scene/scene.c \
 				$(SRCDIR)/scene/sphere.c \
+				$(SRCDIR)/scene/plane.c \
+				$(SRCDIR)/scene/cylinder.c \
+				$(SRCDIR)/hierarchy/hierarchy.c \
+				$(SRCDIR)/hierarchy/hierarchy_utils.c \
+				$(SRCDIR)/reflections/reflections.c \
 				$(SRCDIR)/parsing/parsing.c \
 				$(SRCDIR)/parsing/parsing_metas.c \
 				$(SRCDIR)/parsing/parsing_shapes.c \
@@ -32,8 +37,11 @@ IFILES		=	$(INCLDIR)/minirt.h \
 				$(INCLDIR)/light.h \
 				$(INCLDIR)/material.h \
 				$(INCLDIR)/sphere.h \
+				$(INCLDIR)/cylinder.h \
+				$(INCLDIR)/plane.h \
 				$(INCLDIR)/scene.h \
 				$(INCLDIR)/utils.h \
+				$(INCLDIR)/hierarchy.h \
 				$(INCLDIR)/vector.h
 
 LIBFT_DIR	=	./libft

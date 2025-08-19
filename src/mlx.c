@@ -53,7 +53,7 @@ static int	key_press(int key, void *param)
 	// printf("Key pressed: %d\n", key);
 	core = param;
 	if (key == KEY_ESC)
-		return (rt_kill(core, 0));
+		return (rt_kill(0));
 	if (key == KEY_R && core->render.is_rendering == 0)
 		swap_render_mode(core);
 	if ((key == KEY_LEFT || key == KEY_A) && core->render_mode == 0)
@@ -79,7 +79,7 @@ static void	init_hooks(t_core *core)
 {
 	core = get_core();
 	mlx_hook(core->win, KeyPress, KeyPressMask, key_press, core);
-	mlx_hook(core->win, DestroyNotify, 0, rt_kill, core);
+	mlx_hook(core->win, DestroyNotify, 0, rt_kill, 0);
 }
 
 /**
@@ -96,6 +96,9 @@ int	init_window(void)
 		= mlx_new_window(core->mlx, WIN_WIDTH, WIN_HEIGHT, "Obsolete Meat");
 	if (!core->win)
 		return (1);
+	core->altwin
+		= mlx_new_window(core->mlx, 400, 615, "Obsolete Meat - Hierarchy");
+	render_shape_list(core);
 	init_hooks(core);
 	return (0);
 }

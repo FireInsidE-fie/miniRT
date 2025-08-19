@@ -39,6 +39,11 @@ typedef struct s_core
 	t_scene		scene;
 	int			render_mode;
 	t_render	render;
+	void		*altwin;
+	t_img		ui_img;
+	int			ui_img_init;
+	int			prevent_close;
+	int			page_idx;
 }	t_core;
 
 // Result if a ray intersects with a (for now) sphere and its closest t on that
@@ -53,7 +58,7 @@ typedef struct s_result
 
 // General functions - minirt.c
 t_core		*get_core(void);
-int			rt_kill(t_core *core, int exit_code);
+int			rt_kill(int exit_code);
 
 // MiniLibX helper functions - mlx.c
 int			init_window(void);
@@ -61,11 +66,19 @@ void		img_put_pixel(t_img *img, int x, int y, t_color *color);
 
 // Rendering functions - render.c
 t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range);
-t_color		ray_color(t_point3 origin, t_vec3 dir, t_range t_range);
+t_color		ray_color(t_point3 origin, t_vec3 dir, t_range t_range, int depth);
 int			render(void *param);
-int			fast_render(void *param);
 
 // Fast rendering functions - fast_render.c
 int			fast_render(void *param);
+
+// Reflections - reflections.c
+t_color 	compute_reflection(t_point3 *origin, t_vec3 *dir, t_result *result, int depth);
+t_color 	scale_color(t_color c, float factor);
+t_color		add_color(t_color a, t_color b);
+
+// UI related functions - hierarchy.c / hierarchy_utils.c
+int			on_mouse_debug(int button, int x, int y, void *param);
+void		render_shape_list(t_core *core);
 
 #endif //MINIRT_H
