@@ -2,7 +2,6 @@
 #include "material.h"
 #include "parsing.h"
 #include "ambient.h"
-#include "minirt.h"
 #include "point3.h"
 #include "scene.h"
 #include "utils.h"

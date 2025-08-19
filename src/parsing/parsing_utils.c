@@ -5,7 +5,6 @@
 
 #include <assert.h>
 #include <stdbool.h>
-// #include <stdio.h>
 
 float	ft_atof(char *str)
 {
@@ -17,7 +16,6 @@ float	ft_atof(char *str)
 		++str;
 	if (*str == '.')
 		result += ft_atoi(++str) / 10.0f;
-	// printf("[!] - ft_atof gave %.2f back!\n", result);
 	return (result);
 }
 
@@ -66,8 +64,8 @@ int	parse_material(char *line, t_material *mat)
 	mat->color.r = triad[0] / 255;
 	mat->color.g = triad[1] / 255;
 	mat->color.b = triad[2] / 255;
-	mat->specular = 0.2; // TODO
-	mat->reflection = 1000; // TODO
+	mat->specular = 1000; // TODO
+	mat->reflection = 0.2; // TODO
 	return (0);
 }
 
