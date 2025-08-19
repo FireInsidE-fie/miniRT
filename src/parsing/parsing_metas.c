@@ -1,6 +1,9 @@
+#include "light.h"
+#include "material.h"
 #include "parsing.h"
 #include "ambient.h"
 #include "minirt.h"
+#include "point3.h"
 #include "scene.h"
 #include "utils.h"
 
@@ -67,7 +70,30 @@ int	parse_camera(char *line)
 
 int	parse_light(char *line)
 {
+	t_point3	position;
+	float		intensity;
+	t_color		color;
+	float		triad[3];
+
 	assert(line && "Line");
 	printf("[!] - Parsing a light...\n");
+	if (goto_next_word(&line) == MISSING_ERR)
+		return (MISSING_ERR);
+	if (parse_triad(line, triad))
+		return (TRIAD_ERR);
+	position.x = triad[0];
+	position.y = triad[1];
+	position.z = triad[2];
+	if (goto_next_word(&line) == MISSING_ERR)
+		return (MISSING_ERR);
+	intensity = ft_atof(line);
+	if (goto_next_word(&line) == MISSING_ERR)
+		return (MISSING_ERR);
+	if (parse_triad(line, triad))
+		return (TRIAD_ERR);
+	color.r = triad[0] / 255;
+	color.g = triad[1] / 255;
+	color.b = triad[2] / 255;
+	create_light(position, intensity, color);
 	return (0);
 }
