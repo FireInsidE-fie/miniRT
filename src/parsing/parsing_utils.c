@@ -34,12 +34,14 @@ int	parse_triad(char *str, float *result)
 	while (*str && (*str != '-' && !ft_isdigit(*str)))
 		++str;
 	result[0] = ft_atof(str);
-	while (*str && (*str == '-' || *str == '+' || *str == '.' || ft_isdigit(*str)))
+	while (*str
+		&& (*str == '-' || *str == '+' || *str == '.' || ft_isdigit(*str)))
 		++str;
 	if (*(str++) != ',')
 		return (1);
 	result[1] = ft_atof(str);
-	while (*str && (*str == '-' || *str == '+' || *str == '.' || ft_isdigit(*str)))
+	while (*str
+		&& (*str == '-' || *str == '+' || *str == '.' || ft_isdigit(*str)))
 		++str;
 	if (*(str++) != ',')
 		return (1);
@@ -53,7 +55,7 @@ int	parse_triad(char *str, float *result)
  */
 int	parse_material(char *line, t_material *mat)
 {
-	float		triad[3];
+	float	triad[3];
 
 	if (parse_triad(line, triad) != 0)
 		return (TRIAD_ERR);

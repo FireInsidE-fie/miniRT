@@ -6,7 +6,8 @@
 # define SHAPE_ABBR_LENGTH 2	// Length of shape abbreviations in .rt files
 # define META_ABBR_LENGTH 1		// Length of meta abbreviations in .rt files
 
-typedef enum e_parsing_status {
+typedef enum e_parsing_status
+{
 	DONE,			// All went well
 	PATH_ERR,		// Path is not a .rt file
 	OPEN_ERR,		// Failed to open the file

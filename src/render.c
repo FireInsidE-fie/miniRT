@@ -98,7 +98,7 @@ t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range)
 	result = closest_intersect(&origin, &dir, t_range);
 	if (result.closest)
 		return (compute_light(&origin, &dir, &result));
-	return ((t_color)SKY_COLOR);
+	return ((t_color){SKY_COLOR, SKY_COLOR, SKY_COLOR});
 }
 
 /**

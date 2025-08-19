@@ -66,6 +66,6 @@ int			render(void *param);
 int			fast_render(void *param);
 
 // Fast rendering functions - fast_render.c
-int	fast_render(void *param);
+int			fast_render(void *param);
 
 #endif //MINIRT_H

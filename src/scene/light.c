@@ -85,9 +85,9 @@ static float	get_specular_reflection(t_vec3 *point,
 								t_vec3 *point_to_light,
 								int specular)
 {
-	t_vec3 reflected;
-	double r_dot_v;
-	t_vec3 view;
+	t_vec3	reflected;
+	double	r_dot_v;
+	t_vec3	view;
 
 	view = point3_sub(&get_scene()->camera.position, point);
 	reflected = reflect_ray(point_to_light, normal);
@@ -109,22 +109,22 @@ static float	get_specular_reflection(t_vec3 *point,
 float	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular)
 {
 	t_scene	*scene;
-	float	intensity = 0.0;
+	float	intensity;
 	t_light	*tmp;
 	t_vec3	point_to_light;
 	double	light_dot_normal;
 
 	scene = get_scene();
-	intensity += scene->ambient.intensity;
+	intensity = 0.0f + scene->ambient.intensity;
 	tmp = scene->lights;
 	while (tmp)
 	{
 		point_to_light = point3_sub(&tmp->position, point);
 		if (closest_intersect(point, &point_to_light, new_range(0.001, 1))
-				.closest)
+			.closest)
 		{
 			tmp = tmp->next;
-			continue;
+			continue ;
 		}
 		light_dot_normal = dot_product(&point_to_light, normal);
 		if (light_dot_normal > 0)

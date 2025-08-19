@@ -21,11 +21,11 @@ static int	parse_meta(char *line)
 	if (length != META_ABBR_LENGTH)
 		return (TYPE_ERR);
 	if (ft_strncmp(line, "A", META_ABBR_LENGTH) == 0)
-		return parse_ambient(line);
+		return (parse_ambient(line));
 	else if (ft_strncmp(line, "C", META_ABBR_LENGTH) == 0)
-		return parse_camera(line);
+		return (parse_camera(line));
 	else if (ft_strncmp(line, "L", META_ABBR_LENGTH) == 0)
-		return parse_light(line);
+		return (parse_light(line));
 	return (TYPE_ERR);
 }
 
@@ -44,11 +44,11 @@ static int	parse_shape(char *line)
 	if (length != SHAPE_ABBR_LENGTH)
 		return (TYPE_ERR);
 	if (ft_strncmp(line, "sp", SHAPE_ABBR_LENGTH) == 0)
-		return parse_sphere(line);
+		return (parse_sphere(line));
 	else if (ft_strncmp(line, "cy", SHAPE_ABBR_LENGTH) == 0)
-		return parse_cylinder(line);
+		return (parse_cylinder(line));
 	else if (ft_strncmp(line, "pl", SHAPE_ABBR_LENGTH) == 0)
-		return parse_plane(line);
+		return (parse_plane(line));
 	return (TYPE_ERR);
 }
 
