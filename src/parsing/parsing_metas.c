@@ -15,7 +15,7 @@ int	parse_ambient(char *line)
 
 	assert(line && "Line");
 	printf("[!] - Parsing an ambient...\n");
-	scene_ambient = &get_core()->scene.ambient;
+	scene_ambient = &get_scene()->ambient;
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	scene_ambient->intensity = ft_atof(line);
@@ -37,8 +37,31 @@ int	parse_ambient(char *line)
 
 int	parse_camera(char *line)
 {
+	t_camera	*scene_camera;
+	float		triad[3];
+
 	assert(line && "Line");
 	printf("[!] - Parsing a camera...\n");
+	scene_camera = &get_scene()->camera;
+	if (goto_next_word(&line) == MISSING_ERR)
+		return (MISSING_ERR);
+	if (parse_triad(line, triad))
+		return (TRIAD_ERR);
+	scene_camera->position.x = triad[0];
+	scene_camera->position.y = triad[1];
+	scene_camera->position.z = triad[2];
+	if (goto_next_word(&line) == MISSING_ERR)
+		return (MISSING_ERR);
+	if (parse_triad(line, triad))
+		return (TRIAD_ERR);
+	scene_camera->direction.x = triad[0];
+	scene_camera->direction.y = triad[1];
+	scene_camera->direction.z = triad[2];
+	if (goto_next_word(&line) == MISSING_ERR)
+		return (MISSING_ERR);
+	scene_camera->fov = ft_atof(line);
+	if (scene_camera->fov < 0)
+		return (VALUE_ERR);
 	return (0);
 }
 
