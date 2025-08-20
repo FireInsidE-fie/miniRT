@@ -16,7 +16,7 @@
 #define KEY_S 115
 #define KEY_W 119
 #define KEY_L 108
-#define KEY_H 104
+#define KEY_J 106
 #define KEY_I 105
 #define KEY_K 107
 #define KEY_ESC 65307
@@ -24,8 +24,8 @@
 #define KEY_UP 65362
 #define KEY_RIGHT 65363
 #define KEY_DOWN 65364
-#define MOVE_INTERVAL 0.08
-#define	ROTATE_ANGLE 0.016
+#define MOVE_INTERVAL 0.35
+#define	ROTATE_ANGLE 0.03
 
 #define MAX_PITCH_RAD (M_PI / 2.0 - 0.01) // 89.4 max
 #define MIN_PITCH_RAD (-M_PI / 2.0 + 0.01)
@@ -160,7 +160,7 @@ void	update_camera(t_core *core)
 	if (core->key_state[KEY_S] && core->render_mode == 0)
 		core->scene.camera.position = vec_add(core->scene.camera.position,
 		vec_scalar(core->scene.camera.forward, -MOVE_INTERVAL));
-	if (core->key_state[KEY_H] && core->render_mode == 0)
+	if (core->key_state[KEY_J] && core->render_mode == 0)
 		rotate_camera_yaw(&core->scene.camera, -ROTATE_ANGLE);
 	if (core->key_state[KEY_L] && core->render_mode == 0)
 		rotate_camera_yaw(&core->scene.camera, ROTATE_ANGLE);
