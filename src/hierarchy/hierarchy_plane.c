@@ -13,7 +13,7 @@
 #define EWIN_WIDTH	400
 #define EWIN_HEIGHT	300
 
-/* Mouse hook called in open_edit_window when an edit window is opened.
+/* Mouse hook called in edit_win_plane when an edit window is opened.
 
 	Checks for the area clicked, matches the colored
 	red and green squares buttons.

@@ -14,7 +14,31 @@
 #define EWIN_WIDTH	400
 #define EWIN_HEIGHT	300
 
-/* Mouse hook called in open_edit_window when an edit window is opened.
+void	apply_sphere_rad(t_ewin *editwin, int x, int y)
+{
+	if (x >= 50 && x <= 80 && y >= 190 && y <= 220)
+		editwin->shape->radius += 0.1f;
+	else if (x >= 90 && x <= 120 && y >= 190 && y <= 220)
+		editwin->shape->radius -= 0.1f;
+}
+
+void	apply_sphere_pos(t_ewin *editwin, int x, int y)
+{
+	if (x >= 50 && x <= 80 && y >= 40 && y <= 70)
+		editwin->shape->position.z += 0.1f;
+	else if (x >= 90 && x <= 120 && y >= 40 && y <= 70)
+		editwin->shape->position.z -= 0.1f;
+	else if (x >= 50 && x <= 80 && y >= 90 && y <= 120)
+		editwin->shape->position.y += 0.1f;
+	else if (x >= 90 && x <= 120 && y >= 90 && y <= 120)
+		editwin->shape->position.y -= 0.1f;
+	else if (x >= 50 && x <= 80 && y >= 140 && y <= 170)
+		editwin->shape->position.x += 0.1f;
+	else if (x >= 90 && x <= 120 && y >= 140 && y <= 170)
+		editwin->shape->position.x -= 0.1f;
+}
+
+/* Mouse hook called in edit_win_sphere when an edit window is opened.
 
 	Checks for the area clicked, matches the colored
 	red and green squares buttons.
@@ -28,23 +52,9 @@ int	on_mouse_edit_s(int button, int x, int y, void *param)
 	fetch_color_from_picker(x, y, editwin);
 	if (button != 1)
 		return (0);
-	if (x >= 50 && x <= 80 && y >= 40 && y <= 70)
-		editwin->shape->position.z += 0.1f;
-	else if (x >= 90 && x <= 120 && y >= 40 && y <= 70)
-		editwin->shape->position.z -= 0.1f;
-	else if (x >= 50 && x <= 80 && y >= 90 && y <= 120)
-		editwin->shape->position.y += 0.1f;
-	else if (x >= 90 && x <= 120 && y >= 90 && y <= 120)
-		editwin->shape->position.y -= 0.1f;
-	else if (x >= 50 && x <= 80 && y >= 140 && y <= 170)
-		editwin->shape->position.x += 0.1f;
-	else if (x >= 90 && x <= 120 && y >= 140 && y <= 170)
-		editwin->shape->position.x -= 0.1f;
-	else if (x >= 50 && x <= 80 && y >= 190 && y <= 220)
-		editwin->shape->radius += 0.1f;
-	else if (x >= 90 && x <= 120 && y >= 190 && y <= 220)
-		editwin->shape->radius -= 0.1f;
-	else if (x >= 300 && x <= 380 && y >= 250 && y <= 280)
+	apply_sphere_pos(editwin, x, y);
+	apply_sphere_rad(editwin, x, y);
+	if (x >= 300 && x <= 380 && y >= 250 && y <= 280)
 		return (close_edit_window(editwin));
 	return (0);
 }

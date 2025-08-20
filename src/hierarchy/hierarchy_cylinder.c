@@ -13,16 +13,16 @@
 #define EWIN_WIDTH	400
 #define EWIN_HEIGHT	300
 
-int	on_mouse_edit_c(int button, int x, int y, void *param)
+void	apply_cyl_rad(t_ewin *editwin, int x, int y)
 {
-	t_ewin	*editwin;
+	if (x >= 50 && x <= 80 && y >= 190 && y <= 220)
+		editwin->shape->radius += 0.1f;
+	else if (x >= 90 && x <= 120 && y >= 190 && y <= 220)
+		editwin->shape->radius -= 0.1f;
+}
 
-	editwin = (t_ewin *)param;
-	fetch_color_from_picker(x, y, editwin);
-	if (button != 1)
-		return (0);
-	if (x >= 300 && x <= 380 && y >= 250 && y <= 280)
-		return (close_edit_window(editwin));
+void	apply_cyl_dir(t_ewin *editwin, int x, int y)
+{
 	if (x >= 50 && x <= 80 && y >= 40 && y <= 70)
 		editwin->shape->direction.z += 0.1f;
 	else if (x >= 90 && x <= 120 && y >= 40 && y <= 70)
@@ -33,7 +33,19 @@ int	on_mouse_edit_c(int button, int x, int y, void *param)
 		editwin->shape->direction.y -= 0.1f;
 	else if (x >= 50 && x <= 80 && y >= 140 && y <= 170)
 		editwin->shape->direction.x += 0.1f;
-    else if (x >= 250 && x <= 280 && y >= 40 && y <= 70)
+}
+
+void	apply_cyl_height(t_ewin *editwin, int x, int y)
+{
+	if (x >= 50 && x <= 80 && y >= 240 && y <= 270)
+		editwin->shape->height += 0.1f;
+	else if (x >= 90 && x <= 120 && y >= 240 && y <= 270)
+		editwin->shape->height -= 0.1f;
+}
+
+void	apply_cyl_pos(t_ewin *editwin, int x, int y)
+{
+    if (x >= 250 && x <= 280 && y >= 40 && y <= 70)
 		editwin->shape->position.z += 0.1f;
 	else if (x >= 290 && x <= 320 && y >= 40 && y <= 70)
 		editwin->shape->position.z -= 0.1f;
@@ -45,16 +57,22 @@ int	on_mouse_edit_c(int button, int x, int y, void *param)
 		editwin->shape->position.x += 0.1f;
 	else if (x >= 290 && x <= 320 && y >= 140 && y <= 170)
 		editwin->shape->position.x -= 0.1f;
-	else if (x >= 90 && x <= 120 && y >= 140 && y <= 170)
-		editwin->shape->direction.x -= 0.1f;
-	else if (x >= 50 && x <= 80 && y >= 190 && y <= 220)
-		editwin->shape->radius += 0.1f;
-	else if (x >= 90 && x <= 120 && y >= 190 && y <= 220)
-		editwin->shape->radius -= 0.1f;
-	else if (x >= 50 && x <= 80 && y >= 240 && y <= 270)
-		editwin->shape->height += 0.1f;
-	else if (x >= 90 && x <= 120 && y >= 240 && y <= 270)
-		editwin->shape->height -= 0.1f;
+}
+
+int	on_mouse_edit_c(int button, int x, int y, void *param)
+{
+	t_ewin	*editwin;
+
+	editwin = (t_ewin *)param;
+	fetch_color_from_picker(x, y, editwin);
+	if (button != 1)
+		return (0);
+	apply_cyl_pos(editwin, x, y);
+	apply_cyl_rad(editwin, x, y);
+	apply_cyl_dir(editwin, x, y);
+	apply_cyl_height(editwin, x, y);
+	if (x >= 300 && x <= 380 && y >= 250 && y <= 280)
+		return (close_edit_window(editwin));
 	return (0);
 }
 
