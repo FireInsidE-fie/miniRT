@@ -26,6 +26,11 @@ typedef struct s_ewin
 	t_shape		*shape;
 	void		*win;
 	t_img		img;
+	void		*color_picker_img;
+	int			cp_x;
+	int			cp_y;
+	int			cp_w;
+	int			cp_h;
 }	t_ewin;
 
 // UI related functions - hierarchy.c / hierarchy_utils.c
@@ -37,5 +42,26 @@ int			shape_lst_size(t_shape *lst);
 void		draw_rect(t_img *img, int x, int y, t_rectangle rec);
 int			on_mouse_debug(int button, int x, int y, void *param);
 t_rectangle new_rectangle(int width, int height, int color);
+int			close_edit_window(t_ewin *editwin);
+
+// Sphere editing
+int			on_mouse_edit_s(int button, int x, int y, void *param);
+void		draw_edit_win_rec_s(t_ewin *editwin);
+void   		edit_win_sphere(t_ewin *editwin);
+
+// Plane editing
+void	   	edit_win_plane(t_ewin *editwin);
+void		draw_edit_win_rec_p(t_ewin *editwin);
+int			on_mouse_edit_p(int button, int x, int y, void *param);
+
+// Cylinder editing
+void    	edit_win_cylinder(t_ewin *editwin);
+void		draw_edit_win_rec_c(t_ewin *editwin);
+int			on_mouse_edit_c(int button, int x, int y, void *param);
+
+// color_picker.c
+void		draw_color_picker(t_ewin *editwin, int x, int y);
+void		fetch_color_from_picker(int mouse_x, int mouse_y, t_ewin *editwin);
+
 
 #endif
