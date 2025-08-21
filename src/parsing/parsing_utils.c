@@ -1,6 +1,7 @@
 #include "libft.h"
 #include "material.h"
 #include "parsing.h"
+#include "point3.h"
 #include "utils.h"
 
 #include <assert.h>
@@ -46,6 +47,25 @@ int	parse_triad(char *str, float *result)
 	if (*(str++) != ',')
 		return (1);
 	result[2] = ft_atof(str);
+	return (0);
+}
+
+/**
+ * @brief Parsses a string as a triad of x, y and z values. Can be used for
+ * both t_point3 and t_vec3 targets, since they are the same struct,
+ * just renamed.
+ */
+int	parse_position(char *line, t_point3 *result)
+{
+	float	triad[3];
+
+	assert(line && "String");
+	assert(result && "Result");
+	if (parse_triad(line, triad) != 0)
+		return (TRIAD_ERR);
+	result->x = triad[0];
+	result->y = triad[1];
+	result->z = triad[2];
 	return (0);
 }
 
