@@ -92,6 +92,7 @@ int	init_window(void)
 	t_core	*core;
 
 	core = get_core();
+	core->mlx = mlx_init();
 	core->win
 		= mlx_new_window(core->mlx, WIN_WIDTH, WIN_HEIGHT, "Obsolete Meat");
 	if (!core->win)

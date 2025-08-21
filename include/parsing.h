@@ -9,7 +9,7 @@
 typedef enum e_parsing_status
 {
 	DONE,			// All went well
-	PATH_ERR,		// Path is not a .rt file
+	FILE_ERR,		// Path is not a .rt file
 	OPEN_ERR,		// Failed to open the file
 	TYPE_ERR,		// Abbreviation at start of line is wrong
 	TRIAD_ERR,		// An error occurred while parsing a triad of numbers.

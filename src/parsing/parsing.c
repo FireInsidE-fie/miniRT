@@ -14,7 +14,6 @@ static int	parse_meta(char *line)
 	int	length;
 
 	assert(line && "Line");
-	// printf("[!] - Parsing a meta element...\n");
 	length = 0;
 	while (ft_isalpha(line[length]))
 		++length;
@@ -37,7 +36,6 @@ static int	parse_shape(char *line)
 	int	length;
 
 	assert(line && "Line");
-	// printf("[!] - Parsing a shape...\n");
 	length = 0;
 	while (ft_isalpha(line[length]))
 		++length;
@@ -54,12 +52,10 @@ static int	parse_shape(char *line)
 
 /**
  * @brief Checks for forbidden characters inside of a given .rt line.
- * @details Checks for preceding whitespace
+ * @details letters only on the first word after that, only numbers and .,-+
  */
 int	check_line(char *line)
 {
-	// letters only on the first word
-	// after that, only numbers and .,-+
 	if (ft_isprint(*line) && *line != ' ' && !ft_isalpha(*line))
 		return (CHAR_ERR);
 	while (*line && !ft_isalpha(*line) && *line != '\n')
@@ -100,10 +96,10 @@ int	parse_scene(char *scene_path)
 	line = get_next_line(scene_fd);
 	while (line)
 	{
-		write(1, line, ft_strlen(line));
+		write(1, line, ft_strlen(line));		// debug
 		status = check_line(line);
 		if (status != 0)
-			return (status);
+			break ;
 		if (ft_isalpha(line[0]))
 		{
 			if (line[0] >= 'A' && line[0] <= 'Z')
@@ -111,10 +107,10 @@ int	parse_scene(char *scene_path)
 			else
 				status = parse_shape(line);
 			if (status != DONE)
-				return (status);
+				break ;
 		}
 		free(line);
 		line = get_next_line(scene_fd);
 	}
-	return (status);
+	return (close(scene_fd), free(line), status);
 }

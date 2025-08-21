@@ -19,10 +19,7 @@ t_core	*get_core(void)
 	static t_core	core;
 
 	if (!core.mlx)
-	{
-		core.mlx = mlx_init();
 		ft_bzero(&core.scene, sizeof(t_scene));
-	}
 	return (&core);
 }
 
@@ -40,12 +37,15 @@ int	rt_kill(int exit_code)
 	printf("[!] - Closing miniRT...\n");
 	clear_lights(core->scene.lights);
 	clear_shapes(core->scene.shapes);
-	mlx_destroy_image(core->mlx, core->img.img);
-	mlx_destroy_image(core->mlx, core->ui_img.img);
-	mlx_destroy_window(core->mlx, core->altwin);
-	mlx_destroy_window(core->mlx, core->win);
-	mlx_destroy_display(core->mlx);
-	free(core->mlx);
+	if (core->mlx)
+	{
+		mlx_destroy_image(core->mlx, core->img.img);
+		mlx_destroy_image(core->mlx, core->ui_img.img);
+		mlx_destroy_window(core->mlx, core->altwin);
+		mlx_destroy_window(core->mlx, core->win);
+		mlx_destroy_display(core->mlx);
+		free(core->mlx);
+	}
 	return (exit(exit_code), exit_code);
 }
 
@@ -56,11 +56,10 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (-1);
+	core = get_core();
 	parse_status = parse_scene(argv[1]);
 	if (parse_status != 0)
-		return (printf("[!] - Error during parsing!\n"), parse_status);
-	core = get_core();
-	// test_scene();
+		return (printf("[!] - Error during parsing!\n"), rt_kill(parse_status));
 	print_scene(&core->scene);
 	printf("================\n");
 	init_window();
