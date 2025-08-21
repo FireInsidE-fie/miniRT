@@ -16,7 +16,6 @@ void	gnl_cleanup(char **stashes)
 {
 	int	i;
 
-	printf("[!] - Cleaning up!\n");
 	i = 0;
 	while (i < 256)
 	{
