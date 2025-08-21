@@ -2,6 +2,8 @@
 #include "scene.h"
 #include "ambient.h"
 #include "sphere.h"
+#include "plane.h"
+#include "cylinder.h"
 #include "light.h"
 
 #include <stdlib.h>
@@ -90,10 +92,10 @@ void	print_scene(t_scene *scene)
 	{
 		if (((t_shape *)tmp)->type == SPHERE)
 			print_sphere(tmp);
-		// else if (((t_shape *)tmp)->type == PLANE)
-		// 	print_plane(tmp);
-		// else if (((t_shape *)tmp)->type == CYLINDER)
-		// 	print_cylinder(tmp);
+		else if (((t_shape *)tmp)->type == PLANE)
+			print_plane(tmp);
+		else if (((t_shape *)tmp)->type == CYLINDER)
+			print_cylinder(tmp);
 		tmp = ((t_shape *)tmp)->next;
 	}
 }

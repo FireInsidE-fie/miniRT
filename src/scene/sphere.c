@@ -60,7 +60,7 @@ t_shape	*create_sphere(t_point3 position, float radius, t_material mat)
 void	print_sphere(t_shape *sphere)
 {
 	assert("Sphere" && sphere);
-	assert("Sphere type" && sphere->type == SPHERE);
+	assert("Shape type" && sphere->type == SPHERE);
 	printf(
 		"[!] - Sphere\n"
 		"Position: (%f, %f, %f)\n"

@@ -26,7 +26,7 @@ void	clear_lights(void *first)
 	}
 }
 
-int	create_light(t_point3 position, float intensity, t_color color)
+t_light	*create_light(t_point3 position, float intensity, t_color color)
 {
 	t_scene	*scene;
 	t_light	*light;
@@ -39,7 +39,7 @@ int	create_light(t_point3 position, float intensity, t_color color)
 		&& color.b >= 0.0f && color.b <= 1.0f);
 	light = malloc(sizeof(t_light));
 	if (!light)
-		return (perror("miniRT (create_light) - malloc"), 1);
+		return (perror("miniRT (create_light) - malloc"), NULL);
 	light->position = position;
 	light->intensity = intensity;
 	light->color = color;
@@ -48,13 +48,13 @@ int	create_light(t_point3 position, float intensity, t_color color)
 	if (!scene->lights)
 	{
 		scene->lights = light;
-		return (0);
+		return (light);
 	}
 	tmp = scene->lights;
 	while (tmp && tmp->next)
 		tmp = tmp->next;
 	tmp->next = light;
-	return (0);
+	return (light);
 }
 
 void	print_light(t_light *light)

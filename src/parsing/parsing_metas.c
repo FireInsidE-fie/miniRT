@@ -88,7 +88,7 @@ int	parse_light(char *line)
 	intensity = ft_atof(line);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	if (parse_triad(line, triad))
+	if (parse_triad(line, triad))	// TODO: parse_color()?
 		return (TRIAD_ERR);
 	color.r = triad[0] / 255;
 	color.g = triad[1] / 255;
@@ -97,6 +97,7 @@ int	parse_light(char *line)
 		|| !is_in_range(color.g, (t_range){0.0f, 1.0f})
 		|| !is_in_range(color.b, (t_range){0.0f, 1.0f}))
 		return (VALUE_ERR);
-	create_light(position, intensity, color);
+	if (!create_light(position, intensity, color))
+		return (MALLOC_ERR);
 	return (0);
 }

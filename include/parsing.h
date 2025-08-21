@@ -16,6 +16,7 @@ typedef enum e_parsing_status
 	CHAR_ERR,		// Line contained an invalid / erroneously placed character.
 	MISSING_ERR,	// A value was missing from the line given the element type
 	VALUE_ERR,		// A value was incorrect (negative colors for example)
+	MALLOC_ERR,		// Allocation failed when creating an object
 }	t_parsing_status;
 
 // Main parsing functions - parsing.c

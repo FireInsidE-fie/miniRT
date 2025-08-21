@@ -1,4 +1,3 @@
-#include "sphere.h"
 #include "scene.h"
 #include "vector.h"
 #include "minirt.h"
@@ -41,6 +40,20 @@ bool hit_plane(t_point3 *origin, t_vec3 *dir, t_shape *plane, double *t)
 		return (*t >= 0);
 	}
 	return false;
+}
+
+void	print_plane(t_shape *plane)
+{
+	assert("Plane" && plane);
+	assert("Shape type" && plane->type == PLANE);
+	printf(
+		"[!] - Plane\n"
+		"Position: (%f, %f, %f)\n"
+		"Normal: (%f, %f, %f)\n",
+		plane->position.x, plane->position.y, plane->position.z,
+		plane->normal.x, plane->normal.y, plane->normal.z
+		);
+	print_mat(&plane->mat);
 }
 
 int	create_plane(t_point3 position, t_vec3 normal, t_material mat)
