@@ -1,6 +1,8 @@
 #include "parsing.h"
 #include "get_next_line.h"
 #include "libft.h"
+#include "light.h"
+#include "scene.h"
 #include <assert.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -98,7 +100,7 @@ int	parse_scene(char *scene_path)
 	{
 		write(1, line, ft_strlen(line));		// debug
 		status = check_line(line);
-		if (status != 0)
+		if (status != DONE)
 			break ;
 		if (ft_isalpha(line[0]))
 		{
@@ -111,6 +113,11 @@ int	parse_scene(char *scene_path)
 		}
 		free(line);
 		line = get_next_line(scene_fd);
+	}
+	if (status != DONE)
+	{
+		clear_shapes(get_scene()->shapes);
+		clear_lights(get_scene()->lights);
 	}
 	return (close(scene_fd), free(line), status);
 }

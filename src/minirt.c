@@ -18,8 +18,6 @@ t_core	*get_core(void)
 {
 	static t_core	core;
 
-	if (!core.mlx)
-		ft_bzero(&core.scene, sizeof(t_scene));
 	return (&core);
 }
 
@@ -57,6 +55,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (-1);
 	core = get_core();
+	ft_bzero(&core->scene, sizeof(t_scene));
 	parse_status = parse_scene(argv[1]);
 	if (parse_status != 0)
 		return (printf("[!] - Error during parsing!\n"), rt_kill(parse_status));

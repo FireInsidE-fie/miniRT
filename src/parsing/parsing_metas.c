@@ -93,6 +93,10 @@ int	parse_light(char *line)
 	color.r = triad[0] / 255;
 	color.g = triad[1] / 255;
 	color.b = triad[2] / 255;
+	if (!is_in_range(color.r, (t_range){0.0f, 1.0f})
+		|| !is_in_range(color.g, (t_range){0.0f, 1.0f})
+		|| !is_in_range(color.b, (t_range){0.0f, 1.0f}))
+		return (VALUE_ERR);
 	create_light(position, intensity, color);
 	return (0);
 }
