@@ -101,7 +101,7 @@ test:			$(NAME)
 				@$(RM) $(RMFLAGS) $(LOG)
 				@printf "[!] - Launching test suite..."
 				@printf "\n==========================================================\n"
-				$(VALGRIND) $(VALFLAGS) ./$(NAME) maps/invalid2.rt 2>> $(LOG)
+				$(VALGRIND) $(VALFLAGS) ./$(NAME) maps/valid2.rt 2>> $(LOG)
 
 # 42 Norm checks
 check:

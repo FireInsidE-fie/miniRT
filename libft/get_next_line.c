@@ -12,6 +12,20 @@
 
 #include "get_next_line.h"
 
+void	gnl_cleanup(char **stashes)
+{
+	int	i;
+
+	printf("[!] - Cleaning up!\n");
+	i = 0;
+	while (i < 256)
+	{
+		free(stashes[i]);
+		stashes[i] = NULL;
+		++i;
+	}
+}
+
 /* read_buffer()
  * invokes read() on the file descriptor given in the fd argument and stores the
  * result in the stash variable.
@@ -118,7 +132,7 @@ char	*get_next_line(int fd)
 	stash = &stashes[fd];
 	if (fd < 0 || fd > 256 || read(fd, 0, 0) < 0 || BUFFER_SIZE == 0)
 	{
-		free(*stash);
+		gnl_cleanup(stashes);
 		*stash = NULL;
 		return (NULL);
 	}
