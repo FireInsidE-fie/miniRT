@@ -105,16 +105,18 @@ static float	get_specular_reflection(t_vec3 *point,
  * Down the line, when this value is applied to the colors of an object, it will
  * be clamped down to 1.0 to ensure no color value goes over the maximum of 255.
  */
-float	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular)
+t_color	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular)
 {
 	t_scene	*scene;
-	float	intensity = 0.0;
+	t_color	intensity;
 	t_light	*tmp;
 	t_vec3	point_to_light;
 	double	light_dot_normal;
 
 	scene = get_scene();
-	intensity += scene->ambient.intensity;
+	intensity = (t_color){
+		scene->ambient.intensity, scene->ambient.intensity, scene->ambient.intensity
+	};
 	tmp = scene->lights;
 	while (tmp)
 	{
@@ -127,11 +129,23 @@ float	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular)
 		}
 		light_dot_normal = dot_product(&point_to_light, normal);
 		if (light_dot_normal > 0)
-			intensity += tmp->intensity * light_dot_normal
+		{
+			intensity.r += tmp->intensity * tmp->color.r * light_dot_normal
 				/ (vec_len(normal) * vec_len(&point_to_light));
+			intensity.g += tmp->intensity * tmp->color.g * light_dot_normal
+				/ (vec_len(normal) * vec_len(&point_to_light));
+			intensity.b += tmp->intensity * tmp->color.b * light_dot_normal
+				/ (vec_len(normal) * vec_len(&point_to_light));
+		}
 		if (specular != -1)
-			intensity += tmp->intensity
-				* get_specular_reflection(point, normal, &point_to_light, specular);
+		{
+			intensity.r += tmp->intensity * tmp->color.r
+					* get_specular_reflection(point, normal, &point_to_light, specular);
+			intensity.g += tmp->intensity * tmp->color.g
+					* get_specular_reflection(point, normal, &point_to_light, specular);
+			intensity.b += tmp->intensity * tmp->color.b
+					* get_specular_reflection(point, normal, &point_to_light, specular);
+		}	
 		tmp = tmp->next;
 	}
 	return (intensity);

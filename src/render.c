@@ -63,7 +63,7 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	t_point3	intersect;
 	t_vec3		normal;
 	t_color		color;
-	float		intensity;
+	t_color		intensity;
 
 	assert("Origin" && origin);
 	assert("Direction" && dir);
@@ -79,12 +79,10 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 		compute_plane_light(&normal, &color, result);
 	else if (result->closest->type == CYLINDER)
 		compute_cylinder_light(&normal, &intersect, &color, result);
-	intensity = clamp(
-			get_light_intensity(&intersect, &normal, result->closest->mat.specular),
-			new_range(0.0, 1.0));
-	color.r *= intensity;
-	color.g *= intensity;
-	color.b *= intensity;
+	intensity = get_light_intensity(&intersect, &normal, result->closest->mat.specular);
+	color.r *= clamp(intensity.r, (t_range){0.0f, 1.0f});
+	color.g *= clamp(intensity.g, (t_range){0.0f, 1.0f});
+	color.b *= clamp(intensity.b, (t_range){0.0f, 1.0f});
 	return (color);
 }
 
