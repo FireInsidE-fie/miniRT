@@ -1,4 +1,5 @@
 #include "light.h"
+#include "material.h"
 #include "point3.h"
 #include "scene.h"
 #include "vector.h"
@@ -96,6 +97,35 @@ static float	get_specular_reflection(t_vec3 *point,
 	return (0.0);
 }
 
+t_color	get_light_exposure(t_point3 *point, t_vec3 *normal, int specular, t_light *light)
+{
+	t_color	intensity;
+	t_vec3	point_to_light;
+	double	light_dot_normal;
+
+	intensity = (t_color){0.0f, 0.0f, 0.0f};
+	point_to_light = point3_sub(&light->position, point);
+	if (closest_intersect(point, &point_to_light, new_range(0.001, 1))
+			.closest)
+	{
+		light = light->next;
+		return (intensity);
+	}
+	light_dot_normal = dot_product(&point_to_light, normal);
+	if (light_dot_normal > 0)
+		intensity = add_color(intensity, scale_color(
+				light->color,
+				light->intensity * light_dot_normal
+					/ (vec_len(normal) * vec_len(&point_to_light))));
+	if (specular != -1)
+		intensity = add_color(
+			intensity,
+			scale_color(light->color,
+				light->intensity * get_specular_reflection(
+						point, normal, &point_to_light, specular)));
+	return (intensity);
+}
+
 /**
  * @brief Goes through all lights in the scene and computes a point's total
  * exposition to them, which is the addition of all lightning that hits it,
@@ -110,42 +140,17 @@ t_color	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular)
 	t_scene	*scene;
 	t_color	intensity;
 	t_light	*tmp;
-	t_vec3	point_to_light;
-	double	light_dot_normal;
 
 	scene = get_scene();
 	intensity = (t_color){
-		scene->ambient.intensity, scene->ambient.intensity, scene->ambient.intensity
+		scene->ambient.intensity * scene->ambient.color.r,
+		scene->ambient.intensity * scene->ambient.color.g,
+		scene->ambient.intensity * scene->ambient.color.b,
 	};
 	tmp = scene->lights;
 	while (tmp)
 	{
-		point_to_light = point3_sub(&tmp->position, point);
-		if (closest_intersect(point, &point_to_light, new_range(0.001, 1))
-				.closest)
-		{
-			tmp = tmp->next;
-			continue;
-		}
-		light_dot_normal = dot_product(&point_to_light, normal);
-		if (light_dot_normal > 0)
-		{
-			intensity.r += tmp->intensity * tmp->color.r * light_dot_normal
-				/ (vec_len(normal) * vec_len(&point_to_light));
-			intensity.g += tmp->intensity * tmp->color.g * light_dot_normal
-				/ (vec_len(normal) * vec_len(&point_to_light));
-			intensity.b += tmp->intensity * tmp->color.b * light_dot_normal
-				/ (vec_len(normal) * vec_len(&point_to_light));
-		}
-		if (specular != -1)
-		{
-			intensity.r += tmp->intensity * tmp->color.r
-					* get_specular_reflection(point, normal, &point_to_light, specular);
-			intensity.g += tmp->intensity * tmp->color.g
-					* get_specular_reflection(point, normal, &point_to_light, specular);
-			intensity.b += tmp->intensity * tmp->color.b
-					* get_specular_reflection(point, normal, &point_to_light, specular);
-		}	
+		intensity = add_color(intensity, get_light_exposure(point, normal, specular, tmp));
 		tmp = tmp->next;
 	}
 	return (intensity);

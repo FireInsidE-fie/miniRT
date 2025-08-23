@@ -7,7 +7,6 @@
 #include "sphere.h"
 #include "math.h"
 #include "mlx.h"
-#include "vector.h"
 #include "utils.h"
 #include "plane.h"
 #include "cylinder.h"
