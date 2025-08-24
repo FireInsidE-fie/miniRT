@@ -1,4 +1,5 @@
 #include "light.h"
+#include "material.h"
 #include "point3.h"
 #include "scene.h"
 #include "vector.h"
@@ -84,16 +85,47 @@ static float	get_specular_reflection(t_vec3 *point,
 								t_vec3 *point_to_light,
 								int specular)
 {
-	t_vec3 reflected;
-	double r_dot_v;
-	t_vec3 view;
+	t_vec3	reflected;
+	double	r_dot_v;
+	t_vec3	view;
 
 	view = point3_sub(&get_scene()->camera.position, point);
 	reflected = reflect_ray(point_to_light, normal);
 	r_dot_v = dot_product(&reflected, &view);
 	if (r_dot_v > 0)
-		return (pow(r_dot_v / (vec_len(&reflected) * vec_len(&view)), specular));
+		return (
+			pow(r_dot_v / (vec_len(&reflected) * vec_len(&view)), specular));
 	return (0.0);
+}
+
+t_color	get_light_exposure(
+	t_point3 *point, t_vec3 *normal, int specular, t_light *light)
+{
+	t_color	intensity;
+	t_vec3	point_to_light;
+	double	light_dot_normal;
+
+	intensity = (t_color){0.0f, 0.0f, 0.0f};
+	point_to_light = point3_sub(&light->position, point);
+	if (closest_intersect(point, &point_to_light, new_range(0.001, 1))
+		.closest)
+	{
+		light = light->next;
+		return (intensity);
+	}
+	light_dot_normal = dot_product(&point_to_light, normal);
+	if (light_dot_normal > 0)
+		intensity = add_color(intensity, scale_color(
+					light->color,
+					light->intensity * light_dot_normal
+					/ (vec_len(normal) * vec_len(&point_to_light))));
+	if (specular != -1)
+		intensity = add_color(
+				intensity,
+				scale_color(light->color,
+					light->intensity * get_specular_reflection(
+						point, normal, &point_to_light, specular)));
+	return (intensity);
 }
 
 /**
@@ -105,33 +137,23 @@ static float	get_specular_reflection(t_vec3 *point,
  * Down the line, when this value is applied to the colors of an object, it will
  * be clamped down to 1.0 to ensure no color value goes over the maximum of 255.
  */
-float	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular)
+t_color	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular)
 {
 	t_scene	*scene;
-	float	intensity = 0.0;
+	t_color	intensity;
 	t_light	*tmp;
-	t_vec3	point_to_light;
-	double	light_dot_normal;
 
 	scene = get_scene();
-	intensity += scene->ambient.intensity;
+	intensity = (t_color){
+		scene->ambient.intensity * scene->ambient.color.r,
+		scene->ambient.intensity * scene->ambient.color.g,
+		scene->ambient.intensity * scene->ambient.color.b,
+	};
 	tmp = scene->lights;
 	while (tmp)
 	{
-		point_to_light = point3_sub(&tmp->position, point);
-		if (closest_intersect(point, &point_to_light, new_range(0.001, 1))
-				.closest)
-		{
-			tmp = tmp->next;
-			continue;
-		}
-		light_dot_normal = dot_product(&point_to_light, normal);
-		if (light_dot_normal > 0)
-			intensity += tmp->intensity * light_dot_normal
-				/ (vec_len(normal) * vec_len(&point_to_light));
-		if (specular != -1)
-			intensity += tmp->intensity
-				* get_specular_reflection(point, normal, &point_to_light, specular);
+		intensity = add_color(
+				intensity, get_light_exposure(point, normal, specular, tmp));
 		tmp = tmp->next;
 	}
 	return (intensity);
