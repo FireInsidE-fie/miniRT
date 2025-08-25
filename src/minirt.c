@@ -108,9 +108,14 @@ void	test_scene(void)
 		);
 
 	create_light(
-		make_point3(0.0, 1000.0, 10.0),
+		make_point3(10.0, 10.0, -7.0),
 		0.6,
-		make_color(1.0, 1.0, 1.0)
+		make_color(0.156, 0.56, 1.0)
+	);
+	create_light(
+		make_point3(-10.0, 10.0, -7.0),
+		0.6,
+		make_color(1.0, 0.76, 0.8)
 	);
 
 	create_ambient(0.1, make_color(1.0, 1.0, 1.0));
