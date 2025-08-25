@@ -1,5 +1,6 @@
 #include "minirt.h"
 #include "mlx.h"
+#include "movement.h"
 
 #include <math.h>
 

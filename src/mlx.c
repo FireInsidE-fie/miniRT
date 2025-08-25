@@ -2,33 +2,13 @@
 #include "minirt.h"
 #include "mlx.h"
 #include "vector.h"
+#include "movement.h"
 
 #include <X11/X.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <math.h>
 
-#define KEY_A 97
-#define KEY_D 100
-#define KEY_E 101
-#define KEY_Q 113
-#define KEY_R 114
-#define KEY_S 115
-#define KEY_W 119
-#define KEY_L 108
-#define KEY_J 106
-#define KEY_I 105
-#define KEY_K 107
-#define KEY_ESC 65307
-#define KEY_LEFT 65361
-#define KEY_UP 65362
-#define KEY_RIGHT 65363
-#define KEY_DOWN 65364
-#define MOVE_INTERVAL 0.35
-#define	ROTATE_ANGLE 0.03
-
-#define MAX_PITCH_RAD (M_PI / 2.0 - 0.01) // 89.4 max
-#define MIN_PITCH_RAD (-M_PI / 2.0 + 0.01)
 /**
  * @brief Swaps miniRT between full render and fast render modes.
  */
@@ -51,70 +31,20 @@ void	swap_render_mode(t_core *core)
 		mlx_loop_hook(core->mlx, render, core);
 }
 
-t_vec3 rotate_vector(t_vec3 v, t_vec3 axis, float angle)
-{
-    t_vec3 u;
-	
-	u = axis;
-    vec_normalize(&u);
-    return (
-		vec_add(
-			vec_add(
-				vec_scalar(v, cos(angle)),
-				vec_scalar(cross_product(&u, &v), sin(angle))
-			),
-		vec_scalar(u, dot_product(&u, &v) * (1 - cos(angle))))
-	);
-}
-
-
-void	camera_build_basis(t_camera *cam)
-{
-	cam->forward = cam->direction;
-	vec_normalize(&cam->forward);
-	cam->right = cross_product(&(t_point3){0, 1, 0}, &cam->forward);
-	vec_normalize(&cam->right);
-	cam->up = cross_product(&cam->forward, &cam->right);
-	vec_normalize(&cam->up);
-}
-
-void rotate_camera_pitch(t_camera *cam, float angle)
-{
-    float new_pitch;
-	
-	new_pitch = cam->pitch + angle;
-    // Clamp avoiding clipping
-    if (new_pitch > MAX_PITCH_RAD)
-        angle = MAX_PITCH_RAD - cam->pitch;
-    else if (new_pitch < MIN_PITCH_RAD)
-        angle = MIN_PITCH_RAD - cam->pitch;
-    cam->direction = rotate_vector(cam->direction, cam->right, angle);
-    cam->pitch += angle;
-    camera_build_basis(cam);
-}
-
-void rotate_camera_yaw(t_camera *cam, float angle)
-{
-    cam->direction = rotate_vector(cam->direction, cam->up, angle);
-    camera_build_basis(cam);
-}
-
 /**
  * @brief MLX trigger for key presses, closing the window when `ESC`
  * or movement keys are pressed.
  */
 
  /*
-	NEW MOVEMENT, Will refactor comments later but here's the brief.
-
-	Core has a key_state int array that contains the status of each key pressed,
+	Core has a key_state int[256] array that contains the status of each key pressed,
 	up to 256 because most key codes are in that range (damn you ESC and Arrow keys).
 
 	key_press sets the state to 1 when pressed/held, and key_release() sets it back
 	to 0.
 
-	update_camera() is called in the fast render loop, applying the movements depending
-	on the key_state value of each key.
+	update_camera() from camera_movement.c is called in the fast render loop,
+	applying the movements depending on the key_state value of each key.
  */
 
 static int key_press(int key, void *param)
@@ -141,38 +71,9 @@ static int key_release(int key, void *param)
     return (0);
 }
 
-
-void	update_camera(t_core *core)
-{
-	if (core->key_state[KEY_A] && core->render_mode == 0)
-		core->scene.camera.position = vec_add(core->scene.camera.position,
-		vec_scalar(core->scene.camera.right, -MOVE_INTERVAL));
-	if (core->key_state[KEY_D] && core->render_mode == 0)
-		core->scene.camera.position = vec_add(core->scene.camera.position,
-		vec_scalar(core->scene.camera.right, MOVE_INTERVAL));
-	if (core->key_state[KEY_E] && core->render_mode == 0)
-		core->scene.camera.position.y += MOVE_INTERVAL;
-	if (core->key_state[KEY_Q] && core->render_mode == 0)
-		core->scene.camera.position.y -= MOVE_INTERVAL;
-	if (core->key_state[KEY_W] && core->render_mode == 0)
-		core->scene.camera.position = vec_add(vec_scalar(core->scene.camera.forward, MOVE_INTERVAL),
-		core->scene.camera.position);
-	if (core->key_state[KEY_S] && core->render_mode == 0)
-		core->scene.camera.position = vec_add(core->scene.camera.position,
-		vec_scalar(core->scene.camera.forward, -MOVE_INTERVAL));
-	if (core->key_state[KEY_J] && core->render_mode == 0)
-		rotate_camera_yaw(&core->scene.camera, -ROTATE_ANGLE);
-	if (core->key_state[KEY_L] && core->render_mode == 0)
-		rotate_camera_yaw(&core->scene.camera, ROTATE_ANGLE);
-	if (core->key_state[KEY_I] && core->render_mode == 0)
-		rotate_camera_pitch(&core->scene.camera, -ROTATE_ANGLE);
-	if (core->key_state[KEY_K] && core->render_mode == 0)
-		rotate_camera_pitch(&core->scene.camera, ROTATE_ANGLE);
-}
-
 /**
- * @brief Creates hooks for the minilibX, quitting the program when the main
- * window is destroyed or the `ESC` key is pressed.
+ * @brief Creates hooks for the minilibX, listens for keypresses,
+	key releases and the closing button 
  */
 static void	init_hooks(t_core *core)
 {
