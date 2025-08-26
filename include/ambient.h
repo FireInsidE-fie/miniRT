@@ -9,7 +9,7 @@ typedef struct s_ambient
 	t_color	color;	// RGB color
 }	t_ambient;
 
-void	create_ambient(float intensity, t_color color);
+void	create_ambient(float intensity, t_color *color);
 void	print_ambient(t_ambient *ambient);
 
 #endif // AMBIENT_H

@@ -18,14 +18,15 @@ t_vec3 camera_apply_rotation(t_vec3 v, t_camera *cam)
 	);
 }
 
-void	create_camera(t_point3 position, t_vec3 direction, float fov)
+void	create_camera(t_point3 *position, t_vec3 *direction, float fov)
 {
 	t_camera	*camera;
 	t_vec3		world_up;
 
 	world_up = make_point3(0, 1, 0);
 	camera = &get_scene()->camera;
-	camera->position = position;
+	camera->position = *position;
+	camera->direction = *direction;
 	camera->fov = fov;
 	camera->forward = direction;
 	vec_normalize(&camera->forward);

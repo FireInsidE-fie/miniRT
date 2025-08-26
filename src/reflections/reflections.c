@@ -1,15 +1,11 @@
-#include "camera.h"
 #include "light.h"
 #include "minirt.h"
 #include "point3.h"
 #include "material.h"
 #include "scene.h"
-#include "sphere.h"
 #include "math.h"
-#include "mlx.h"
 #include "vector.h"
 #include "utils.h"
-#include "plane.h"
 #include "cylinder.h"
 
 #include <math.h>

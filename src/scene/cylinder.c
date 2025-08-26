@@ -1,8 +1,11 @@
 #include "scene.h"
 #include "cylinder.h"
+#include "vector.h"
+
 #include <math.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  *	The initial intersect calculation for a cylinder will end up with an
@@ -136,20 +139,38 @@ bool	hit_cylinder(t_point3 *origin, t_vec3 *dir, t_shape *cyl, double *t)
     return (true);
 }
 
-void	create_cylinder(t_point3 pos, t_vec3 dir, float radius, float height, t_material mat)
+void	create_cylinder(t_point3 *pos, t_vec3 *dir, float radius, float height, t_material *mat)
 {
 	t_shape *cyl = malloc(sizeof(t_shape));
 
 	cyl->type = CYLINDER;
-	cyl->position = pos;
-	vec_normalize(&dir);
-	cyl->direction = dir;
+	cyl->position = *pos;
+	vec_normalize(dir);
+	cyl->direction = *dir;
 	cyl->radius = radius;
 	cyl->height = height;
-	cyl->mat = mat;
+	cyl->mat = *mat;
 	cyl->next = NULL;
 	add_shape(cyl);
 }
+
+void	print_cylinder(t_shape *cylinder)
+{
+	assert("Cylinder" && cylinder);
+	assert("Shape type" && cylinder->type == CYLINDER);
+	printf(
+		"[!] - Cylinder\n"
+		"Position: (%f, %f, %f)\n"
+		"Direction: (%f, %f, %f)\n"
+		"Radius: %f\n"
+		"Height: %f\n",
+		cylinder->position.x, cylinder->position.y, cylinder->position.z,
+		cylinder->direction.x, cylinder->direction.y, cylinder->direction.z,
+		cylinder->radius, cylinder->height
+		);
+	print_mat(&cylinder->mat);
+}
+
 
 t_vec3	get_cylinder_normal(t_shape *cyl, t_point3 *intersect)
 {
