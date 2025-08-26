@@ -4,7 +4,6 @@
 #include "point3.h"
 #include "utils.h"
 
-#include <stdio.h>
 #include <assert.h>
 #include <stdbool.h>
 
