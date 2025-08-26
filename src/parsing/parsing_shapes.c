@@ -4,7 +4,6 @@
 #include "scene.h"
 #include "sphere.h"
 #include "parsing.h"
-#include "utils.h"
 
 #include <stdio.h>
 #include <assert.h>
@@ -46,18 +45,12 @@ int	parse_cylinder(char *line)
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	parse_position(line, &tmp.direction);
-	if (!is_in_range(tmp.direction.x, (t_range){-1.0f, 1.0f})
-		|| !is_in_range(tmp.direction.y, (t_range){-1.0f, 1.0f})
-		|| !is_in_range(tmp.direction.x, (t_range){-1.0f, 1.0f}))
-		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	tmp.radius = ft_atof(line) / 2;
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	tmp.height = ft_atof(line);
-	if (tmp.radius < 0 || tmp.height < 0)
-		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	if (tmp.radius < 0.0f || tmp.height < 0.0f)
@@ -82,10 +75,6 @@ int	parse_plane(char *line)
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	parse_position(line, &tmp.direction);
-	if (!is_in_range(tmp.direction.x, (t_range){-1.0f, 1.0f})
-		|| !is_in_range(tmp.direction.y, (t_range){-1.0f, 1.0f})
-		|| !is_in_range(tmp.direction.x, (t_range){-1.0f, 1.0f}))
-		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	parse_material(line, &mat);

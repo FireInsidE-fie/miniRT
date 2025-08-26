@@ -20,7 +20,7 @@ int	parse_ambient(char *line)
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	scene_ambient->intensity = ft_atof(line);
-	if (scene_ambient->intensity < 0.0f || scene_ambient->intensity > 1.0f)
+	if (scene_ambient->intensity < 0)
 		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
@@ -49,12 +49,10 @@ int	parse_camera(char *line)
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	parse_position(line, &scene_camera->direction);
-	if (!is_in_range(scene_camera->direction.x, (t_range){-1.0f, 1.0f}))
-		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	scene_camera->fov = ft_atof(line);
-	if (scene_camera->fov < 0.0f || scene_camera->fov > 180.0f)
+	if (scene_camera->fov < 0)
 		return (VALUE_ERR);
 	return (0);
 }
@@ -72,8 +70,6 @@ int	parse_light(char *line)
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	tmp.intensity = ft_atof(line);
-	if (!is_in_range(tmp.intensity, (t_range){0.0f, 1.0f}))
-		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	if (parse_triad(line, triad))
