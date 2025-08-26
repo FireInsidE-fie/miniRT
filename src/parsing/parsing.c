@@ -1,8 +1,6 @@
 #include "parsing.h"
 #include "get_next_line.h"
 #include "libft.h"
-#include "light.h"
-#include "scene.h"
 #include <assert.h>
 #include <fcntl.h>
 #include <unistd.h>
