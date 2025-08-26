@@ -26,7 +26,6 @@ void	create_camera(t_point3 position, t_vec3 direction, float fov)
 	world_up = make_point3(0, 1, 0);
 	camera = &get_scene()->camera;
 	camera->position = position;
-	camera->direction = direction;
 	camera->fov = fov;
 	camera->forward = direction;
 	vec_normalize(&camera->forward);
@@ -45,7 +44,7 @@ void	print_camera(t_camera *camera)
 		"Direction: (%f, %f, %f)\n"
 		"Field of View: %f\n",
 		camera->position.x, camera->position.y, camera->position.z,
-		camera->direction.x, camera->direction.y, camera->direction.z,
+		camera->forward.x, camera->forward.y, camera->forward.z,
 		camera->fov);
 }
 

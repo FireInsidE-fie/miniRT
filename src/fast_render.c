@@ -5,7 +5,7 @@
 #include <math.h>
 
 #define FAST_STEP 10
-#define	MAXDEPTH 3
+#define	MAXDEPTH 1
 
 /**
  * @brief For every fast step block of pixels, output the same color as a block.

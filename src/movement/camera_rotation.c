@@ -1,26 +1,19 @@
-#include "material.h"
-#include "minirt.h"
-#include "mlx.h"
 #include "vector.h"
 #include "movement.h"
 
 #include <X11/X.h>
 #include <stdint.h>
-#include <stdio.h>
 
 /**
  * @brief Rodrigues' rotation formula
 
 	Give it the direction, the axis you want to rotate (Right/Up)
 	and the angle you want to apply on the axis, and boom, works.
-	
+
 	rotate_vector(cam->direction, cam->up, -0.3) < Cam goes down.
  */
-t_vec3	rotate_vector(t_vec3 v, t_vec3 axis, float angle)
+t_vec3	rotate_vector(t_vec3 v, t_vec3 u, float angle)
 {
-	t_vec3	u;
-
-	u = axis;
 	vec_normalize(&u);
 	return (
 		vec_add(
@@ -43,7 +36,6 @@ t_vec3	rotate_vector(t_vec3 v, t_vec3 axis, float angle)
  */
 void	camera_build_basis(t_camera *cam)
 {
-	cam->forward = cam->direction;
 	vec_normalize(&cam->forward);
 	cam->right = cross_product(&(t_point3){0, 1, 0}, &cam->forward);
 	vec_normalize(&cam->right);
@@ -67,7 +59,7 @@ void	rotate_camera_pitch(t_camera *cam, float angle)
 		angle = MAX_PITCH_RAD - cam->pitch;
 	else if (new_pitch < MIN_PITCH_RAD)
 		angle = MIN_PITCH_RAD - cam->pitch;
-	cam->direction = rotate_vector(cam->direction, cam->right, angle);
+	cam->forward = rotate_vector(cam->forward, cam->right, angle);
 	cam->pitch += angle;
 	camera_build_basis(cam);
 }
@@ -76,6 +68,6 @@ void	rotate_camera_pitch(t_camera *cam, float angle)
  */
 void	rotate_camera_yaw(t_camera *cam, float angle)
 {
-	cam->direction = rotate_vector(cam->direction, cam->up, angle);
+	cam->forward = rotate_vector(cam->forward, cam->up, angle);
 	camera_build_basis(cam);
 }

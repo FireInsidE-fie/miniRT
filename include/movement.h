@@ -1,3 +1,5 @@
+#include "minirt.h"
+
 #include <math.h>
 
 #define KEY_A 97

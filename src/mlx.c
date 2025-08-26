@@ -1,13 +1,11 @@
 #include "material.h"
 #include "minirt.h"
 #include "mlx.h"
-#include "vector.h"
 #include "movement.h"
 
 #include <X11/X.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <math.h>
 
 /**
  * @brief Swaps miniRT between full render and fast render modes.
@@ -50,7 +48,7 @@ void	swap_render_mode(t_core *core)
 static int key_press(int key, void *param)
 {
     t_core *core;
-	
+
 	core = param;
 	if (key == KEY_ESC)
 		rt_kill(0);
@@ -64,7 +62,7 @@ static int key_press(int key, void *param)
 static int key_release(int key, void *param)
 {
     t_core *core;
-	
+
 	core = param;
     if (key >= 0 && key < 256)
         core->key_state[key] = 0;
@@ -73,7 +71,7 @@ static int key_release(int key, void *param)
 
 /**
  * @brief Creates hooks for the minilibX, listens for keypresses,
-	key releases and the closing button 
+	key releases and the closing button
  */
 static void	init_hooks(t_core *core)
 {

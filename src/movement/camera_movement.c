@@ -1,12 +1,9 @@
-#include "material.h"
 #include "minirt.h"
-#include "mlx.h"
 #include "vector.h"
 #include "movement.h"
 
 #include <X11/X.h>
 #include <stdint.h>
-#include <stdio.h>
 
 /**
  * @brief Applies position changes when the proper key is held.
