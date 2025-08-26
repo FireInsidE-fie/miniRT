@@ -1,10 +1,11 @@
 #include "minirt.h"
 #include "mlx.h"
+#include "movement.h"
 
 #include <math.h>
 
-#define FAST_STEP 20
-#define	MAXDEPTH 3
+#define FAST_STEP 10
+#define	MAXDEPTH 1
 
 /**
  * @brief For every fast step block of pixels, output the same color as a block.
@@ -18,7 +19,9 @@ static void	process_fast_steps(void)
 
 	color = ray_color(
 			get_scene()->camera.position,
+			camera_apply_rotation(
 			camera_to_viewport(get_core()->render.x, get_core()->render.y),
+			&get_scene()->camera),
 			new_range(1, INFINITY), MAXDEPTH
 			);
 	j = 0;
@@ -44,6 +47,7 @@ static void	process_fast_steps(void)
 int	fast_render(void *param)
 {
 	(void)param;
+	update_camera(get_core());
 	get_core()->render.y = -WIN_HEIGHT / 2;
 	while (get_core()->render.y <= WIN_HEIGHT / 2)
 	{
