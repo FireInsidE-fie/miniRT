@@ -27,6 +27,8 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/parsing/parsing_metas.c \
 				$(SRCDIR)/parsing/parsing_shapes.c \
 				$(SRCDIR)/parsing/parsing_utils.c \
+				$(SRCDIR)/movement/camera_movement.c \
+				$(SRCDIR)/movement/camera_rotation.c \
 				$(SRCDIR)/hierarchy/hierarchy_sphere.c \
 				$(SRCDIR)/hierarchy/hierarchy_plane.c \
 				$(SRCDIR)/hierarchy/hierarchy_cylinder.c \
@@ -46,6 +48,7 @@ IFILES		=	$(INCLDIR)/minirt.h \
 				$(INCLDIR)/scene.h \
 				$(INCLDIR)/utils.h \
 				$(INCLDIR)/hierarchy.h \
+				$(INCLDIR)/movement.h \
 				$(INCLDIR)/vector.h
 
 LIBFT_DIR	=	./libft

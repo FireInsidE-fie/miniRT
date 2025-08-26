@@ -117,10 +117,12 @@ static void	process_bloc_render(void)
 	t_color	color;
 
 	color = ray_color(
-			get_scene()->camera.position,
-			camera_to_viewport(get_core()->render.x, get_core()->render.y),
-			new_range(1, INFINITY), MAXDEPTH
-		);
+		get_scene()->camera.position,
+		camera_apply_rotation(
+		camera_to_viewport(get_core()->render.x, get_core()->render.y),
+		&get_scene()->camera),
+		new_range(1, INFINITY), MAXDEPTH
+	);
 	img_put_pixel(&get_core()->img,
 		get_core()->render.x + WIN_WIDTH / 2,
 		get_core()->render.y + WIN_HEIGHT / 2,

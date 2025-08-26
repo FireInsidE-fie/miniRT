@@ -44,6 +44,7 @@ typedef struct s_core
 	int			ui_img_init;
 	int			prevent_close;
 	int			page_idx;
+	int			key_state[256];
 }	t_core;
 
 // Result if a ray intersects with a (for now) sphere and its closest t on that
@@ -71,6 +72,7 @@ int			render(void *param);
 
 // Fast rendering functions - fast_render.c
 int			fast_render(void *param);
+void		update_camera(t_core *core);
 
 // Reflections - reflections.c
 t_color 	compute_reflection(t_point3 *origin, t_vec3 *dir, t_result *result, int depth);

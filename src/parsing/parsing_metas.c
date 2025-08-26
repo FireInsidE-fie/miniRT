@@ -38,24 +38,26 @@ int	parse_ambient(char *line)
 
 int	parse_camera(char *line)
 {
-	t_camera	*scene_camera;
+	t_point3	pos;
+	t_vec3		dir;
+	float		fov;
 
 	assert(line && "Line");
 	printf("[!] - Parsing a camera...\n");
-	scene_camera = &get_scene()->camera;
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	parse_position(line, &scene_camera->position);
+	parse_position(line, &pos);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	parse_position(line, &scene_camera->direction);
-	if (!is_in_range(scene_camera->direction.x, (t_range){-1.0f, 1.0f}))
+	parse_position(line, &dir);
+	if (!is_in_range(dir.x, (t_range){-1.0f, 1.0f}))
 		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	scene_camera->fov = ft_atof(line);
-	if (scene_camera->fov < 0.0f || scene_camera->fov > 180.0f)
+	fov = ft_atof(line);
+	if (fov < 0.0f || fov > 180.0f)
 		return (VALUE_ERR);
+	create_camera(&pos, &dir, fov);
 	return (0);
 }
 
