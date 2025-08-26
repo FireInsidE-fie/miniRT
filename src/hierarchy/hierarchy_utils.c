@@ -25,6 +25,8 @@
 
 int	close_edit_window(t_ewin *editwin)
 {
+	if (editwin->color_picker_img)
+		mlx_destroy_image(editwin->core->mlx, editwin->color_picker_img);
 	if (editwin->img.img)
 		mlx_destroy_image(editwin->core->mlx, editwin->img.img);
 	if (editwin->win)
@@ -32,58 +34,6 @@ int	close_edit_window(t_ewin *editwin)
 	editwin->core->prevent_close -= 1;
 	free(editwin);
 	return (0);
-}
-
-/* Mouse hook called in open_edit_window when an edit window is opened.
-
-	Checks for the area clicked, matches the colored
-	red and green squares buttons.
-*/
-
-int	on_mouse_edit(int button, int x, int y, void *param)
-{
-	t_ewin	*editwin;
-
-	editwin = (t_ewin *)param;
-	if (button != 1)
-		return (0);
-	if (x >= 50 && x <= 80 && y >= 40 && y <= 70)
-		editwin->shape->position.z += 0.1f;
-	else if (x >= 90 && x <= 120 && y >= 40 && y <= 70)
-		editwin->shape->position.z -= 0.1f;
-	else if (x >= 50 && x <= 80 && y >= 90 && y <= 120)
-		editwin->shape->position.y += 0.1f;
-	else if (x >= 90 && x <= 120 && y >= 90 && y <= 120)
-		editwin->shape->position.y -= 0.1f;
-	else if (x >= 50 && x <= 80 && y >= 140 && y <= 170)
-		editwin->shape->position.x += 0.1f;
-	else if (x >= 90 && x <= 120 && y >= 140 && y <= 170)
-		editwin->shape->position.x -= 0.1f;
-	else if (x >= 50 && x <= 80 && y >= 190 && y <= 220)
-		editwin->shape->radius += 0.1f;
-	else if (x >= 90 && x <= 120 && y >= 190 && y <= 220)
-		editwin->shape->radius -= 0.1f;
-	else if (x >= 300 && x <= 380 && y >= 250 && y <= 280)
-		return (close_edit_window(editwin));
-	return (0);
-}
-
-/*
-	Draws colored rectangles for the Edit window
-*/
-
-void	draw_edit_win_rec(t_ewin *editwin)
-{
-	draw_rect(&editwin->img, 0, 0, new_rectangle(EWIN_WIDTH, EWIN_HEIGHT, UI_BG_COLOR));
-	draw_rect(&editwin->img, 50, 40, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
-	draw_rect(&editwin->img, 90, 40, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_RED));
-	draw_rect(&editwin->img, 50, 90, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
-	draw_rect(&editwin->img, 90, 90, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_RED));
-	draw_rect(&editwin->img, 50, 140, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
-	draw_rect(&editwin->img, 90, 140, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_RED));
-	draw_rect(&editwin->img, 50, 190, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
-	draw_rect(&editwin->img, 90, 190, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_RED));
-	draw_rect(&editwin->img, 300, 250, new_rectangle(80, 30, 0xCC3333)); // No macro for close as we could replace it with using the cross
 }
 
 /* Creates/Mallocs a new edit window
@@ -112,16 +62,13 @@ void	open_edit_window(t_core *core, t_shape *shape)
 	editwin->img.img = mlx_new_image(core->mlx, EWIN_WIDTH, EWIN_HEIGHT);
 	editwin->img.addr = mlx_get_data_addr(editwin->img.img,
 			&editwin->img.bpp, &editwin->img.line_len, &editwin->img.endian);
-	draw_edit_win_rec(editwin);
-	mlx_put_image_to_window(core->mlx, editwin->win, editwin->img.img, 0, 0);
-	mlx_string_put(core->mlx, editwin->win, 320, 270, 0xFFFFFF, "Close");
-	mlx_string_put(core->mlx, editwin->win, 130, 155, 0xFFFFFF, "X Axis");
-	mlx_string_put(core->mlx, editwin->win, 130, 105, 0xFFFFFF, "Y Axis");
-	mlx_string_put(core->mlx, editwin->win, 130, 55, 0xFFFFFF, "Z Axis");
-	mlx_string_put(core->mlx, editwin->win, 130, 205, 0xFFFFFF, "Size/Radius");
-	// mlx_hook(editwin->win, DestroyNotify, 0, close_edit_window, editwin);
-	// TODO: mlx shits itself when closing the edit window with the red cross
-	mlx_mouse_hook(editwin->win, on_mouse_edit, editwin);
+	if (shape->type == SPHERE)
+		edit_win_sphere(editwin);
+	else if (shape->type == PLANE)
+		edit_win_plane(editwin);
+	else
+		edit_win_cylinder(editwin);
+
 }
 
 /* Hard prints "Edit" and t_shape type on the Hierarchy window
@@ -152,6 +99,12 @@ void	draw_edit_text(t_core *core, t_shape *shape, int y_offset)
 		if (shape->type == SPHERE)
 			mlx_string_put(core->mlx, core->altwin,
 				50, y_offset + 28, 0xFFFFFF, "Sphere");
+		else if (shape->type == PLANE)
+			mlx_string_put(core->mlx, core->altwin,
+				50, y_offset + 28, 0xFFFFFF, "Plane");
+		else if (shape->type == CYLINDER)
+			mlx_string_put(core->mlx, core->altwin,
+				50, y_offset + 28, 0xFFFFFF, "Cylinder");
 		y_offset += 50;
 		shape = shape->next;
 	}
