@@ -115,10 +115,6 @@ int	parse_scene(char *scene_path)
 		line = get_next_line(scene_fd);
 	}
 	if (status != DONE)
-	{
 		get_next_line(-1);	// To clean gnl stash
-		clear_shapes(get_scene()->shapes);
-		clear_lights(get_scene()->lights);
-	}
 	return (close(scene_fd), free(line), status);
 }
