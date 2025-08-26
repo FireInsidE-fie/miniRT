@@ -27,9 +27,8 @@ void	create_camera(t_point3 *position, t_vec3 *direction, float fov)
 	world_up = (t_vec3){0.0f, 1.0f, 0.0f};
 	camera = &get_scene()->camera;
 	camera->position = *position;
-	camera->direction = *direction;
 	camera->fov = fov;
-	camera->forward = camera->direction;
+	camera->forward = *direction;
 	vec_normalize(&camera->forward);
 	camera->right = cross_product(&world_up, &camera->forward);
 	vec_normalize(&camera->right);
