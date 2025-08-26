@@ -28,7 +28,7 @@ void	clear_lights(void *first)
 	}
 }
 
-int	create_light(t_point3 position, float intensity, t_color color)
+int	create_light(t_point3 *position, float intensity, t_color *color)
 {
 	t_scene	*scene;
 	t_light	*light;
@@ -36,15 +36,15 @@ int	create_light(t_point3 position, float intensity, t_color color)
 
 	assert("Light Intensity" && intensity >= 0.0f && intensity <= 1.0f);
 	assert("Light Color"
-		&& color.r >= 0.0f && color.r <= 1.0f
-		&& color.g >= 0.0f && color.g <= 1.0f
-		&& color.b >= 0.0f && color.b <= 1.0f);
+		&& color->r >= 0.0f && color->r <= 1.0f
+		&& color->g >= 0.0f && color->g <= 1.0f
+		&& color->b >= 0.0f && color->b <= 1.0f);
 	light = malloc(sizeof(t_light));
 	if (!light)
 		return (perror("miniRT (create_light) - malloc"), MALLOC_ERR);
-	light->position = position;
+	light->position = *position;
 	light->intensity = intensity;
-	light->color = color;
+	light->color = *color;
 	light->next = NULL;
 	scene = get_scene();
 	if (!scene->lights)

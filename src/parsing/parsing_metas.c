@@ -81,5 +81,5 @@ int	parse_light(char *line)
 		|| !is_in_range(tmp.color.g, (t_range){0.0f, 1.0f})
 		|| !is_in_range(tmp.color.b, (t_range){0.0f, 1.0f}))
 		return (VALUE_ERR);
-	return (create_light(tmp.position, tmp.intensity, tmp.color));
+	return (create_light(&tmp.position, tmp.intensity, &tmp.color));
 }

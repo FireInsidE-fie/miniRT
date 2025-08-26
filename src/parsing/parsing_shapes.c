@@ -29,7 +29,7 @@ int	parse_sphere(char *line)
 	status = parse_material(line, &tmp.mat);
 	if (status != 0)
 		return (status);
-	return (create_sphere(tmp.position, tmp.radius, tmp.mat));
+	return (create_sphere(&tmp.position, tmp.radius, &tmp.mat));
 }
 
 int	parse_cylinder(char *line)
@@ -58,7 +58,7 @@ int	parse_cylinder(char *line)
 	status = parse_material(line, &tmp.mat);
 	if (status != DONE)
 		return (status);
-	create_cylinder(tmp.position, tmp.direction, tmp.radius, tmp.height, tmp.mat);
+	create_cylinder(&tmp.position, &tmp.direction, tmp.radius, tmp.height, &tmp.mat);
 	return (0);
 }
 
@@ -78,5 +78,5 @@ int	parse_plane(char *line)
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	parse_material(line, &mat);
-	return (create_plane(tmp.position, tmp.direction, mat));
+	return (create_plane(&tmp.position, &tmp.direction, &mat));
 }

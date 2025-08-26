@@ -5,14 +5,14 @@
 #include <assert.h>
 #include <stdio.h>
 
-void	create_ambient(float intensity, t_color color)
+void	create_ambient(float intensity, t_color *color)
 {
 	t_ambient	*ambient;
 
 	assert("Ambient light intensity" && intensity >= 0.0 && intensity <= 1.0);
 	ambient = &get_scene()->ambient;
 	ambient->intensity = intensity;
-	ambient->color = color;
+	ambient->color = *color;
 }
 
 void	print_ambient(t_ambient *ambient)

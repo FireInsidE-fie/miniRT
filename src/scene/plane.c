@@ -57,21 +57,21 @@ void	print_plane(t_shape *plane)
 	print_mat(&plane->mat);
 }
 
-int	create_plane(t_point3 position, t_vec3 normal, t_material mat)
+int	create_plane(t_point3 *position, t_vec3 *normal, t_material *mat)
 {
 	t_shape		*plane;
 
-	assert("Material" && mat.color.r >= 0.0f && mat.color.r <= 1.0f
-		&& mat.color.g >= 0.0f && mat.color.g <= 1.0f
-		&& mat.color.b >= 0.0f && mat.color.b <= 1.0f);
+	assert("Material" && mat->color.r >= 0.0f && mat->color.r <= 1.0f
+		&& mat->color.g >= 0.0f && mat->color.g <= 1.0f
+		&& mat->color.b >= 0.0f && mat->color.b <= 1.0f);
 	plane = malloc(sizeof(t_shape));
 	if (!plane)
 		return (perror("miniRT (create_plane) - malloc"), MALLOC_ERR);
-	vec_normalize(&normal);
+	vec_normalize(normal);
 	plane->type = PLANE;
-	plane->position = position;
-    plane->normal = normal;
-	plane->mat= mat;
+	plane->position = *position;
+    plane->normal = *normal;
+	plane->mat= *mat;
 	plane->next = NULL;
 	add_shape(plane);
 	return (DONE);

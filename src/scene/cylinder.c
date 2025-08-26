@@ -139,17 +139,17 @@ bool	hit_cylinder(t_point3 *origin, t_vec3 *dir, t_shape *cyl, double *t)
     return (true);
 }
 
-void	create_cylinder(t_point3 pos, t_vec3 dir, float radius, float height, t_material mat)
+void	create_cylinder(t_point3 *pos, t_vec3 *dir, float radius, float height, t_material *mat)
 {
 	t_shape *cyl = malloc(sizeof(t_shape));
 
 	cyl->type = CYLINDER;
-	cyl->position = pos;
-	vec_normalize(&dir);
-	cyl->direction = dir;
+	cyl->position = *pos;
+	vec_normalize(dir);
+	cyl->direction = *dir;
 	cyl->radius = radius;
 	cyl->height = height;
-	cyl->mat = mat;
+	cyl->mat = *mat;
 	cyl->next = NULL;
 	add_shape(cyl);
 }
