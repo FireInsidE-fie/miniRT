@@ -1,3 +1,4 @@
+#include "parsing.h"
 #include "scene.h"
 #include "vector.h"
 #include "minirt.h"
@@ -65,7 +66,7 @@ int	create_plane(t_point3 position, t_vec3 normal, t_material mat)
 		&& mat.color.b >= 0.0f && mat.color.b <= 1.0f);
 	plane = malloc(sizeof(t_shape));
 	if (!plane)
-		return (perror("miniRT (create_plane) - malloc"), 1);
+		return (perror("miniRT (create_plane) - malloc"), MALLOC_ERR);
 	vec_normalize(&normal);
 	plane->type = PLANE;
 	plane->position = position;
@@ -73,5 +74,5 @@ int	create_plane(t_point3 position, t_vec3 normal, t_material mat)
 	plane->mat= mat;
 	plane->next = NULL;
 	add_shape(plane);
-	return (0);
+	return (DONE);
 }

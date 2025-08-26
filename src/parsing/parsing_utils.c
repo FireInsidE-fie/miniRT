@@ -24,7 +24,7 @@ float	ft_atof(char *str)
 			decimal /= 10;
 		result += decimal;
 	}
-	printf("[!] - atof got %f!\n", result);
+	// printf("[!] - atof got %f!\n", result);
 	return (result);
 }
 

@@ -29,9 +29,7 @@ int	parse_sphere(char *line)
 	status = parse_material(line, &tmp.mat);
 	if (status != 0)
 		return (status);
-	if (!create_sphere(tmp.position, tmp.radius, tmp.mat))
-		return (MALLOC_ERR);
-	return (0);
+	return (create_sphere(tmp.position, tmp.radius, tmp.mat));
 }
 
 int	parse_cylinder(char *line)
@@ -61,7 +59,6 @@ int	parse_cylinder(char *line)
 	if (status != DONE)
 		return (status);
 	create_cylinder(tmp.position, tmp.direction, tmp.radius, tmp.height, tmp.mat);
-	// TODO: can't we just return the create function's return value if it is an int?
 	return (0);
 }
 
@@ -81,6 +78,5 @@ int	parse_plane(char *line)
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	parse_material(line, &mat);
-	create_plane(tmp.position, tmp.direction, mat);
-	return (0);
+	return (create_plane(tmp.position, tmp.direction, mat));
 }

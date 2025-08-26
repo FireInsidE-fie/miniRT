@@ -1,5 +1,6 @@
 #include "light.h"
 #include "material.h"
+#include "parsing.h"
 #include "point3.h"
 #include "scene.h"
 #include "vector.h"
@@ -27,7 +28,7 @@ void	clear_lights(void *first)
 	}
 }
 
-t_light	*create_light(t_point3 position, float intensity, t_color color)
+int	create_light(t_point3 position, float intensity, t_color color)
 {
 	t_scene	*scene;
 	t_light	*light;
@@ -40,7 +41,7 @@ t_light	*create_light(t_point3 position, float intensity, t_color color)
 		&& color.b >= 0.0f && color.b <= 1.0f);
 	light = malloc(sizeof(t_light));
 	if (!light)
-		return (perror("miniRT (create_light) - malloc"), NULL);
+		return (perror("miniRT (create_light) - malloc"), MALLOC_ERR);
 	light->position = position;
 	light->intensity = intensity;
 	light->color = color;
@@ -49,13 +50,13 @@ t_light	*create_light(t_point3 position, float intensity, t_color color)
 	if (!scene->lights)
 	{
 		scene->lights = light;
-		return (light);
+		return (DONE);
 	}
 	tmp = scene->lights;
 	while (tmp && tmp->next)
 		tmp = tmp->next;
 	tmp->next = light;
-	return (light);
+	return (DONE);
 }
 
 void	print_light(t_light *light)
