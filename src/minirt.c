@@ -1,15 +1,9 @@
 #include "minirt.h"
-#include "ambient.h"
-#include "camera.h"
-#include "material.h"
 #include "mlx.h"
-#include "point3.h"
 #include "scene.h"
-#include "sphere.h"
-#include "plane.h"
-#include "cylinder.h"
 #include "light.h"
 #include "libft.h"
+#include "parsing.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -24,11 +18,6 @@ t_core	*get_core(void)
 {
 	static t_core	core;
 
-	if (!core.mlx)
-	{
-		core.mlx = mlx_init();
-		ft_bzero(&core.scene, sizeof(t_scene));
-	}
 	return (&core);
 }
 
@@ -46,93 +35,30 @@ int	rt_kill(int exit_code)
 	printf("[!] - Closing miniRT...\n");
 	clear_lights(core->scene.lights);
 	clear_shapes(core->scene.shapes);
-	mlx_destroy_image(core->mlx, core->img.img);
-	mlx_destroy_image(core->mlx, core->ui_img.img);
-	mlx_destroy_window(core->mlx, core->altwin);
-	mlx_destroy_window(core->mlx, core->win);
-	mlx_destroy_display(core->mlx);
-	free(core->mlx);
+	if (core->mlx)
+	{
+		mlx_destroy_image(core->mlx, core->img.img);
+		mlx_destroy_image(core->mlx, core->ui_img.img);
+		mlx_destroy_window(core->mlx, core->altwin);
+		mlx_destroy_window(core->mlx, core->win);
+		mlx_destroy_display(core->mlx);
+		free(core->mlx);
+	}
 	return (exit(exit_code), exit_code);
 }
 
-/**
- * @brief Temporary function to test scene creation and rendering. Will be
- * removed once parsing is here.
- */
-void	test_scene(void)
-{
-	create_plane(
-		make_point3(0.0, -1.0, 0.0),
-		(t_vec3){0.0, 1.0, 0.0},
-		make_mat(make_color(0.7, 0.7, 0.7), -1, 0.1)
-	);
-
-	create_cylinder(
-		make_point3(10.0, 1.5, 1.0),
-		(t_vec3){0.0, 1.0, 0.0},
-		3.005,
-		0.5,
-		make_mat(make_color(0.0, 0.0, 0.0), 1000, 0.1)
-	);
-	create_sphere(
-		make_point3(10.0, 1.9, 1.0),
-		3.0,
-		make_mat(make_color(1.0, 0.0, 0.0), 1000, 0.1)
-	);
-	create_sphere(
-		make_point3(10.0, 1.8, 1.0),
-		3.0,
-		make_mat(make_color(1.0, 1.0, 1.0), 1000, 0.1)
-	);
-	create_sphere(
-		make_point3(1.0, -1.0, 3.0),
-		1,
-		make_mat(make_color(0.86, 1.0, 0.21), 1000, 0.1)
-	);
-	create_sphere(
-		make_point3(0.0, 0.0, 5.0),
-		1,
-		make_mat(make_color(0.0, 1.0, 0.0), 1000, 0.1)
-	);
-	create_sphere(
-		make_point3(-1.0, 1.0, 7.0),
-		1,
-		make_mat(make_color(0.0, 0.0, 1.0), 1000, 0.1)
-	);
-
-	for (float i = 0.0; i <= 1.0; i += 0.1)
-		create_sphere(
-			make_point3(-5.0 + (i * 10), 8.0, 20.0),
-			1,
-			make_mat(make_color(i, i, i), 1000, 0.1)
-		);
-
-	create_light(
-		make_point3(10.0, 10.0, -7.0),
-		0.6,
-		make_color(0.156, 0.56, 1.0)
-	);
-	create_light(
-		make_point3(-10.0, 10.0, -7.0),
-		0.6,
-		make_color(1.0, 0.76, 0.8)
-	);
-
-	create_ambient(0.1, make_color(1.0, 1.0, 1.0));
-
-	create_camera(
-		make_point3(0.0, 0.0, 0.0),
-		make_point3(1.0, 0.0, 0.0),
-		90.0
-	);
-}
-
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_core	*core;
+	int		parse_status;
 
+	if (argc != 2)
+		return (-1);
 	core = get_core();
-	test_scene();
+	ft_bzero(&core->scene, sizeof(t_scene));
+	parse_status = parse_scene(argv[1]);
+	if (parse_status != 0)
+		return (printf("[!] - Error during parsing!\n"), rt_kill(parse_status));
 	print_scene(&core->scene);
 	printf("================\n");
 	init_window();

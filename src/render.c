@@ -98,7 +98,7 @@ t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range, int depth)
 
 	result = closest_intersect(&origin, &dir, t_range);
 	if (!result.closest)
-		return ((t_color)SKY_COLOR);
+		return ((t_color){SKY_COLOR, SKY_COLOR, SKY_COLOR});
 	local_color = compute_light(&origin, &dir, &result);
 	if (depth <= 0 || result.closest->mat.reflection <= 0.0f)
 		return local_color;

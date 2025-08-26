@@ -3,9 +3,9 @@
 
 # include <stdint.h>
 
-# define SKY_COLOR {0.05, 0.05, 0.07}
+# define SKY_COLOR 0.2
 
-// Struct for an RGB color representation //
+// Struct for an RGB color representation
 typedef struct s_color
 {
 	float	r;		// Value from 0 to 1

@@ -1,4 +1,4 @@
-#include "sphere.h"
+#include "parsing.h"
 #include "scene.h"
 #include "vector.h"
 #include "minirt.h"
@@ -43,22 +43,36 @@ bool hit_plane(t_point3 *origin, t_vec3 *dir, t_shape *plane, double *t)
 	return false;
 }
 
-int	create_plane(t_point3 position, t_vec3 normal, t_material mat)
+void	print_plane(t_shape *plane)
+{
+	assert("Plane" && plane);
+	assert("Shape type" && plane->type == PLANE);
+	printf(
+		"[!] - Plane\n"
+		"Position: (%f, %f, %f)\n"
+		"Normal: (%f, %f, %f)\n",
+		plane->position.x, plane->position.y, plane->position.z,
+		plane->normal.x, plane->normal.y, plane->normal.z
+		);
+	print_mat(&plane->mat);
+}
+
+int	create_plane(t_point3 *position, t_vec3 *normal, t_material *mat)
 {
 	t_shape		*plane;
 
-	assert("Material" && mat.color.r >= 0.0f && mat.color.r <= 1.0f
-		&& mat.color.g >= 0.0f && mat.color.g <= 1.0f
-		&& mat.color.b >= 0.0f && mat.color.b <= 1.0f);
+	assert("Material" && mat->color.r >= 0.0f && mat->color.r <= 1.0f
+		&& mat->color.g >= 0.0f && mat->color.g <= 1.0f
+		&& mat->color.b >= 0.0f && mat->color.b <= 1.0f);
 	plane = malloc(sizeof(t_shape));
 	if (!plane)
-		return (perror("miniRT (create_plane) - malloc"), 1);
-	vec_normalize(&normal);
+		return (perror("miniRT (create_plane) - malloc"), MALLOC_ERR);
+	vec_normalize(normal);
 	plane->type = PLANE;
-	plane->position = position;
-    plane->normal = normal;
-	plane->mat= mat;
+	plane->position = *position;
+    plane->normal = *normal;
+	plane->mat= *mat;
 	plane->next = NULL;
 	add_shape(plane);
-	return (0);
+	return (DONE);
 }

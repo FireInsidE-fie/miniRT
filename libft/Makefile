@@ -3,7 +3,8 @@ NAME=libft.a
 AR=ar
 ARFLAGS=-rc
 CFLAGS= -Wall -Wextra -Werror
-INCLUDE=libft.h
+INCLUDE=libft.h \
+		get_next_line.h
 RM=rm
 RMFLAGS=-f
 CFILES=ft_atoi.c \
@@ -39,7 +40,8 @@ CFILES=ft_atoi.c \
 	   ft_strtrim.c \
 	   ft_substr.c \
 	   ft_tolower.c \
-	   ft_toupper.c
+	   ft_toupper.c \
+		get_next_line.c
 BONUS_C=ft_lstnew_bonus.c \
 		ft_lstadd_front_bonus.c \
 		ft_lstsize_bonus.c \
@@ -48,7 +50,7 @@ BONUS_C=ft_lstnew_bonus.c \
 		ft_lstdelone_bonus.c \
 		ft_lstclear_bonus.c \
 		ft_lstiter_bonus.c \
-		ft_lstmap_bonus.c 
+		ft_lstmap_bonus.c
 OFILES=$(CFILES:.c=.o)
 BONUS_O=$(BONUS_C:.c=.o)
 
@@ -57,9 +59,9 @@ all: $(NAME)
 $(NAME): $(OFILES)
 	@printf "\rCreating library $(NAME)"
 	@$(AR) $(ARFLAGS) $@ $^
-%.o: %.c
+%.o: %.c $(INCLUDE)
 	@printf "\rCompiling $<                      "
-	@$(CC) $(CFLAGS) -include $(INCLUDE) -o $@ -c $<
+	@$(CC) $(CFLAGS) -o $@ -c $<
 bonus: $(OFILES) $(BONUS_O)
 	@printf "\rAdding bonus objects to $(NAME)"
 	@$(AR) $(ARFLAGS) $(NAME) $^

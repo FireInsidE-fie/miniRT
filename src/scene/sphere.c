@@ -1,4 +1,5 @@
 #include "sphere.h"
+#include "parsing.h"
 #include "scene.h"
 #include "vector.h"
 #include "minirt.h"
@@ -16,7 +17,7 @@ void	compute_sphere_light(t_vec3 *normal, t_point3 *intersect, t_color *color, t
 	*color = result->closest->mat.color;
 }
 
-void		handle_sphere_intersect(double t[2], t_shape *tmp, t_range range, t_result *result)
+void	handle_sphere_intersect(double t[2], t_shape *tmp, t_range range, t_result *result)
 {
 	if (is_in_range(t[0], range) && t[0] < result->closest_t)
 	{
@@ -30,37 +31,36 @@ void		handle_sphere_intersect(double t[2], t_shape *tmp, t_range range, t_result
 	}
 }
 
-
 /**
  * @brief Adds a new sphere element to the miniRT scene.
  */
 // TODO: when parsing is done, take structs by reference rather than by value
 // (for context, we can't yet because the test scene gives `create_sphere`
 // rvalues)
-int	create_sphere(t_point3 position, float radius, t_material mat)
+int	create_sphere(t_point3 *position, float radius, t_material *mat)
 {
 	t_shape		*sphere;
 
 	assert("Radius" && radius > 0);
-	assert("Material" && mat.color.r >= 0.0f && mat.color.r <= 1.0f
-		&& mat.color.g >= 0.0f && mat.color.g <= 1.0f
-		&& mat.color.b >= 0.0f && mat.color.b <= 1.0f);
+	assert("Material" && mat->color.r >= 0.0f && mat->color.r <= 1.0f
+		&& mat->color.g >= 0.0f && mat->color.g <= 1.0f
+		&& mat->color.b >= 0.0f && mat->color.b <= 1.0f);
 	sphere = malloc(sizeof(t_shape));
 	if (!sphere)
-		return (perror("miniRT (create_sphere) - malloc"), 1);
+		return (perror("miniRT (create_sphere) - malloc"), MALLOC_ERR);
 	sphere->type = SPHERE;
-	sphere->position = position;
+	sphere->position = *position;
 	sphere->radius = radius;
-	sphere->mat= mat;
+	sphere->mat = *mat;
 	sphere->next = NULL;
 	add_shape(sphere);
-	return (0);
+	return (DONE);
 }
 
 void	print_sphere(t_shape *sphere)
 {
 	assert("Sphere" && sphere);
-	assert("Sphere type" && sphere->type == SPHERE);
+	assert("Shape type" && sphere->type == SPHERE);
 	printf(
 		"[!] - Sphere\n"
 		"Position: (%f, %f, %f)\n"

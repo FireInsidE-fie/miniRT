@@ -17,12 +17,16 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/material.c \
 				$(SRCDIR)/scene/light.c \
 				$(SRCDIR)/scene/scene.c \
-				$(SRCDIR)/reflections/reflections.c \
 				$(SRCDIR)/scene/sphere.c \
 				$(SRCDIR)/scene/plane.c \
 				$(SRCDIR)/scene/cylinder.c \
 				$(SRCDIR)/hierarchy/hierarchy.c \
 				$(SRCDIR)/hierarchy/hierarchy_utils.c \
+				$(SRCDIR)/reflections/reflections.c \
+				$(SRCDIR)/parsing/parsing.c \
+				$(SRCDIR)/parsing/parsing_metas.c \
+				$(SRCDIR)/parsing/parsing_shapes.c \
+				$(SRCDIR)/parsing/parsing_utils.c \
 				$(SRCDIR)/hierarchy/hierarchy_sphere.c \
 				$(SRCDIR)/hierarchy/hierarchy_plane.c \
 				$(SRCDIR)/hierarchy/hierarchy_cylinder.c \
@@ -101,7 +105,7 @@ test:			$(NAME)
 				@$(RM) $(RMFLAGS) $(LOG)
 				@printf "[!] - Launching test suite..."
 				@printf "\n==========================================================\n"
-				$(VALGRIND) $(VALFLAGS) ./$(NAME)
+				$(VALGRIND) $(VALFLAGS) ./$(NAME) maps/valid1.rt 2>> $(LOG)
 
 # 42 Norm checks
 check:

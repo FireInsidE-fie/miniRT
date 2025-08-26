@@ -12,7 +12,7 @@ typedef struct s_light
 	struct s_light	*next;
 }	t_light;
 
-int		create_light(t_point3 position, float intensity, t_color color);
+int		create_light(t_point3 *position, float intensity, t_color *color);
 void	clear_lights(void *first);
 void	print_light(t_light *light);
 t_vec3	reflect_ray(t_vec3 *ray, t_vec3 *normal);
