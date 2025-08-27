@@ -80,7 +80,7 @@ static int	check_line(char *line)
 /**
  * @brief Prints the parsing status after it is done or an error occurred.
  */
-static int	print_ps(t_parsing_status status, int line_n)
+int	print_ps(t_parsing_status status, int line_n)
 {
 	if (status == DONE)
 		printf("[!] - Done parsing scene!\n");
@@ -113,19 +113,13 @@ static int	print_ps(t_parsing_status status, int line_n)
  * @brief Parses a given .rt file and creates the scene from it.
  */
 // TODO: print accurate error messages depending on the error macro
-int	parse_scene(char *scene_path)
+int	parse_scene(int scene_fd)
 {
-	int		scene_fd;
 	int		status;
 	char	*line;
 	int		line_n;
 
-	assert(scene_path && "Scene Path");
 	printf("[!] - Beginning parsing...\n");
-	// TODO: check if path ends with .rt
-	scene_fd = open(scene_path, O_RDONLY);
-	if (scene_fd == -1)
-		return (perror("miniRT - parse_scene (open)"), print_ps(FILE_ERR, 0));
 	line = get_next_line(scene_fd);
 	line_n = 1;
 	while (line)

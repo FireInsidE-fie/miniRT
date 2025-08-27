@@ -96,6 +96,18 @@ int	init_window(void)
 		= mlx_new_window(core->mlx, 400, 615, "Obsolete Meat - Hierarchy");
 	render_shape_list(core);
 	init_hooks(core);
+	core->img.img = mlx_new_image(core->mlx, WIN_WIDTH, WIN_HEIGHT);
+	if (!core->img.img)
+		rt_kill(1);
+	core->img.addr = mlx_get_data_addr(
+			core->img.img,
+			&core->img.bpp,
+			&core->img.line_len,
+			&core->img.endian
+			);
+	mlx_loop_hook(core->mlx, fast_render, core);
+	mlx_mouse_hook(core->altwin, on_mouse_debug, core);
+	mlx_loop(get_core()->mlx);
 	return (0);
 }
 

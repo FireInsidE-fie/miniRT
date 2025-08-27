@@ -21,7 +21,8 @@ typedef enum e_parsing_status
 }	t_parsing_status;
 
 // Main parsing functions - parsing.c
-int		parse_scene(char *scene_path);
+int		print_ps(t_parsing_status status, int line_n);
+int		parse_scene(int scene_fd);
 
 // Parsing meta elements - parsing_metas.c
 int		parse_ambient(char *line);
