@@ -54,7 +54,7 @@ static int	parse_shape(char *line)
  * @brief Checks for forbidden characters inside of a given .rt line.
  * @details letters only on the first word after that, only numbers and .,-+
  */
-int	check_line(char *line)
+static int	check_line(char *line)
 {
 	if (ft_isprint(*line) && *line != ' ' && !ft_isalpha(*line))
 		return (CHAR_ERR);
@@ -78,6 +78,38 @@ int	check_line(char *line)
 }
 
 /**
+ * @brief Prints the parsing status after it is done or an error occurred.
+ */
+static void	print_ps(t_parsing_status status, int line_n)
+{
+	if (status == DONE)
+		printf("[!] - Done parsing scene!\n");
+	else
+	{
+		if (status == FILE_ERR)
+			printf("[!] - Path doesn't end in .rt!\n");
+		else if (status == OPEN_ERR)
+			printf("[!] - Failed to open scene file!\n");
+		else if (status == TYPE_ERR)
+			printf("[!] - Line %d - Wrong abbreviation found at start of line!\n", line_n);
+		else if (status == TRIAD_ERR)
+			printf("[!] - Line %d - Error while parsing a triad of numbers!"
+				"Remember to use format x[.x],x[.x],x[.x]."
+				"Parts in [] are optional.\n", line_n);
+		else if (status == CHAR_ERR)
+			printf("[!] - Line %d - A character that shouldn't be there was found!\n", line_n);
+		else if (status == MISSING_ERR)
+			printf("[!] - Line %d - A value for this object is missing!\n", line_n);
+		else if (status == VALUE_ERR)
+			printf("[!] - Line %d - A value was incorrect!"
+				"This can range from negative color values to too"
+				"big / too small numbers.\n", line_n);
+		else if (status == MALLOC_ERR)
+			printf("[!] - Line %d - malloc error!\n", line_n);
+	}
+}
+
+/**
  * @brief Parses a given .rt file and creates the scene from it.
  */
 // TODO: print accurate error messages depending on the error macro
@@ -86,6 +118,7 @@ int	parse_scene(char *scene_path)
 	int		scene_fd;
 	int		status;
 	char	*line;
+	int		line_n;
 
 	assert(scene_path && "Scene Path");
 	printf("[!] - Beginning parsing...\n");
@@ -94,6 +127,7 @@ int	parse_scene(char *scene_path)
 	if (scene_fd == -1)
 		return (perror("miniRT - parse_scene (open)"), OPEN_ERR);
 	line = get_next_line(scene_fd);
+	line_n = 1;
 	while (line)
 	{
 		write(1, line, ft_strlen(line));		// debug
@@ -111,8 +145,9 @@ int	parse_scene(char *scene_path)
 		}
 		free(line);
 		line = get_next_line(scene_fd);
+		++line_n;
 	}
 	if (status != DONE)
 		get_next_line(-1);	// To clean gnl stash
-	return (close(scene_fd), free(line), status);
+	return (print_ps(status, line_n), close(scene_fd), free(line), status);
 }
