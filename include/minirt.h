@@ -75,8 +75,9 @@ int			fast_render(void *param);
 void		update_camera(t_core *core);
 
 // Reflections - reflections.c
-t_color 	compute_reflection(t_point3 *origin, t_vec3 *dir, t_result *result, int depth);
-t_color 	scale_color(t_color c, float factor);
+t_color		compute_reflection(
+				t_point3 *origin, t_vec3 *dir, t_result *result, int depth);
+t_color		scale_color(t_color c, float factor);
 t_color		add_color(t_color a, t_color b);
 
 // UI related functions - hierarchy.c / hierarchy_utils.c
