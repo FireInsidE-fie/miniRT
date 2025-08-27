@@ -1,3 +1,4 @@
+#include "parsing.h"
 #include "scene.h"
 #include "cylinder.h"
 #include "vector.h"
@@ -139,10 +140,20 @@ bool	hit_cylinder(t_point3 *origin, t_vec3 *dir, t_shape *cyl, double *t)
     return (true);
 }
 
-void	create_cylinder(t_point3 *pos, t_vec3 *dir, float radius, float height, t_material *mat)
+int	create_cylinder(t_point3 *pos, t_vec3 *dir, float radius, float height, t_material *mat)
 {
-	t_shape *cyl = malloc(sizeof(t_shape));
+	t_shape *cyl;
 
+	assert("Position" && pos);
+	assert("Direction" && dir);
+	assert("Radius" && radius > 0);
+	assert("Height" && height > 0);
+	assert("Material" && mat->color.r >= 0.0f && mat->color.r <= 1.0f
+		&& mat->color.g >= 0.0f && mat->color.g <= 1.0f
+		&& mat->color.b >= 0.0f && mat->color.b <= 1.0f);
+	cyl = malloc(sizeof(t_shape));
+	if (!cyl)
+		return (MALLOC_ERR);
 	cyl->type = CYLINDER;
 	cyl->position = *pos;
 	vec_normalize(dir);
@@ -152,6 +163,7 @@ void	create_cylinder(t_point3 *pos, t_vec3 *dir, float radius, float height, t_m
 	cyl->mat = *mat;
 	cyl->next = NULL;
 	add_shape(cyl);
+	return (DONE);
 }
 
 void	print_cylinder(t_shape *cylinder)

@@ -15,7 +15,7 @@ void	handle_cylinder_intersect(
 			double t[2], t_shape *cyl, t_range range, t_result *result);
 bool	hit_cylinder(t_point3 *origin, t_vec3 *dir, t_shape *cyl, double *t);
 void	print_cylinder(t_shape *cylinder);
-void	create_cylinder(
+int		create_cylinder(
 			t_point3 *pos, t_vec3 *dir, float radius,
 			float height, t_material *mat);
 
