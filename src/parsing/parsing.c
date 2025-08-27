@@ -80,33 +80,33 @@ static int	check_line(char *line)
 /**
  * @brief Prints the parsing status after it is done or an error occurred.
  */
-static void	print_ps(t_parsing_status status, int line_n)
+static int	print_ps(t_parsing_status status, int line_n)
 {
 	if (status == DONE)
 		printf("[!] - Done parsing scene!\n");
-	else
-	{
-		if (status == FILE_ERR)
-			printf("[!] - Path doesn't end in .rt!\n");
-		else if (status == OPEN_ERR)
-			printf("[!] - Failed to open scene file!\n");
-		else if (status == TYPE_ERR)
-			printf("[!] - Line %d - Wrong abbreviation found at start of line!\n", line_n);
-		else if (status == TRIAD_ERR)
-			printf("[!] - Line %d - Error while parsing a triad of numbers!"
-				"Remember to use format x[.x],x[.x],x[.x]."
-				"Parts in [] are optional.\n", line_n);
-		else if (status == CHAR_ERR)
-			printf("[!] - Line %d - A character that shouldn't be there was found!\n", line_n);
-		else if (status == MISSING_ERR)
-			printf("[!] - Line %d - A value for this object is missing!\n", line_n);
-		else if (status == VALUE_ERR)
-			printf("[!] - Line %d - A value was incorrect!"
-				"This can range from negative color values to too"
-				"big / too small numbers.\n", line_n);
-		else if (status == MALLOC_ERR)
-			printf("[!] - Line %d - malloc error!\n", line_n);
-	}
+	else if (status == FILE_ERR)
+		printf("[!] - Path doesn't end in .rt!\n");
+	else if (status == OPEN_ERR)
+		printf("[!] - Failed to open scene file!\n");
+	else if (status == TYPE_ERR)
+		printf("[!] - Line %d - Wrong abbreviation found "
+			"at start of line!\n", line_n);
+	else if (status == TRIAD_ERR)
+		printf("[!] - Line %d - Error while parsing a triad of numbers!\n"
+			"Remember to use format 'x[.x],x[.x],x[.x]'.\n"
+			"Parts in [] are optional.\n", line_n);
+	else if (status == CHAR_ERR)
+		printf("[!] - Line %d - A character that shouldn't be "
+			"there was found!\n", line_n);
+	else if (status == MISSING_ERR)
+		printf("[!] - Line %d - A value for this object is missing!\n", line_n);
+	else if (status == VALUE_ERR)
+		printf("[!] - Line %d - A value was incorrect!\n"
+			"This can range from negative color values to too "
+			"big / too small numbers.\n", line_n);
+	else if (status == MALLOC_ERR)
+		printf("[!] - Line %d - malloc error!\n", line_n);
+	return (status);
 }
 
 /**
@@ -125,7 +125,7 @@ int	parse_scene(char *scene_path)
 	// TODO: check if path ends with .rt
 	scene_fd = open(scene_path, O_RDONLY);
 	if (scene_fd == -1)
-		return (perror("miniRT - parse_scene (open)"), OPEN_ERR);
+		return (perror("miniRT - parse_scene (open)"), print_ps(FILE_ERR, 0));
 	line = get_next_line(scene_fd);
 	line_n = 1;
 	while (line)
@@ -149,5 +149,5 @@ int	parse_scene(char *scene_path)
 	}
 	if (status != DONE)
 		get_next_line(-1);	// To clean gnl stash
-	return (print_ps(status, line_n), close(scene_fd), free(line), status);
+	return (close(scene_fd), free(line), print_ps(status, line_n));
 }
