@@ -13,6 +13,7 @@ typedef enum e_type
 	SPHERE,
 	PLANE,
 	CYLINDER,
+	CONE,
 	N
 }	t_type;
 
