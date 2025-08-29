@@ -65,7 +65,7 @@ int	parse_cylinder(char *line)
 	status = parse_material(line, &tmp.mat);
 	if (status != DONE)
 		return (status);
-	create_cylinder(&tmp.position, &tmp.direction, tmp.radius, tmp.height, &tmp.mat);
+	create_cylinder(&tmp);
 	return (0);
 }
 

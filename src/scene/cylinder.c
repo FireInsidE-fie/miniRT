@@ -140,27 +140,25 @@ bool	hit_cylinder(t_point3 *origin, t_vec3 *dir, t_shape *cyl, double *t)
     return (true);
 }
 
-int	create_cylinder(t_point3 *pos, t_vec3 *dir, float radius, float height, t_material *mat)
+int	create_cylinder(t_shape *tmp)
 {
 	t_shape *cyl;
 
-	assert("Position" && pos);
-	assert("Direction" && dir);
-	assert("Radius" && radius > 0);
-	assert("Height" && height > 0);
-	assert("Material" && mat->color.r >= 0.0f && mat->color.r <= 1.0f
-		&& mat->color.g >= 0.0f && mat->color.g <= 1.0f
-		&& mat->color.b >= 0.0f && mat->color.b <= 1.0f);
+	assert("Radius" && tmp->radius > 0);
+	assert("Height" && tmp->height > 0);
+	assert("Material" && tmp->mat.color.r >= 0.0f && tmp->mat.color.r <= 1.0f
+		&& tmp->mat.color.g >= 0.0f && tmp->mat.color.g <= 1.0f
+		&& tmp->mat.color.b >= 0.0f && tmp->mat.color.b <= 1.0f);
 	cyl = malloc(sizeof(t_shape));
 	if (!cyl)
 		return (perror("miniRT: create_cylinder - malloc"), MALLOC_ERR);
 	cyl->type = CYLINDER;
-	cyl->position = *pos;
-	vec_normalize(dir);
-	cyl->direction = *dir;
-	cyl->radius = radius;
-	cyl->height = height;
-	cyl->mat = *mat;
+	cyl->position = tmp->position;
+	vec_normalize(&tmp->direction);
+	cyl->direction = tmp->direction;
+	cyl->radius = tmp->radius;
+	cyl->height = tmp->height;
+	cyl->mat = tmp->mat;
 	cyl->next = NULL;
 	add_shape(cyl);
 	return (DONE);
