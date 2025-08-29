@@ -5,6 +5,15 @@
 
 # define SKY_COLOR 0.2
 
+// Enum for representing which texture is being used
+typedef enum e_texture
+{
+	NONE,
+	CHECKERBOARD,
+	EARTH,			// Only for spheres
+	MOON,			// Only for spheres
+}	t_texture;
+
 // Struct for an RGB color representation
 typedef struct s_color
 {
@@ -16,9 +25,10 @@ typedef struct s_color
 // Struct to represent an shape's material
 typedef struct s_material
 {
-	t_color	color;
-	float	specular;
-	float	reflection;
+	t_color		color;
+	float		specular;
+	float		reflection;
+	t_texture	texture;
 }	t_material;
 
 // Functions //

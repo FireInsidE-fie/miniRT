@@ -21,7 +21,7 @@ void	clear_lights(void *first)
 	current = first;
 	while (current)
 	{
-		printf("[!] Freeing light %p\n", (void *)current);
+		printf("[!] - Freeing light %p\n", (void *)current);
 		next = current->next;
 		free(current);
 		current = next;

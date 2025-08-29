@@ -58,7 +58,7 @@ void	clear_shapes(void *first)
 	current = first;
 	while (current)
 	{
-		printf("[!] Freeing shape %p\n", (void *)current);
+		printf("[!] - Freeing shape %p\n", (void *)current);
 		next = current->next;
 		free(current);
 		current = next;
