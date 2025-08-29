@@ -1,11 +1,11 @@
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "material.h"
-# include "point3.h"
-
 # define SHAPE_ABBR_LENGTH 2	// Length of shape abbreviations in .rt files
 # define META_ABBR_LENGTH 1		// Length of meta abbreviations in .rt files
+
+# include "material.h"
+# include "point3.h"
 
 typedef enum e_parsing_status
 {
@@ -35,7 +35,6 @@ int		parse_cylinder(char *line);
 int		parse_plane(char *line);
 
 // Parsing utilities - parsing_utils.c
-float	ft_atof(char *str);
 int		parse_triad(char *str, float *result);
 int		parse_position(char *line, t_point3 *result);
 int		parse_material(char *line, t_material *mat);

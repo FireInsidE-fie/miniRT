@@ -1,6 +1,7 @@
 #include "parsing.h"
 #include "get_next_line.h"
 #include "libft.h"
+
 #include <assert.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -65,15 +66,21 @@ static int	check_line(char *line)
 	while (*line && ft_isalpha(*line))
 		++line;
 	if (ft_isprint(*line) && *line != ' ')
-		return (printf("[!] - 1\n"), CHAR_ERR);
+		return (CHAR_ERR);
 	while (*line && *line != '\n')
 	{
-		if (ft_isprint(*line) && *line != ' '
-			&& *line != '.' && *line != ',' && *line != '-' && *line != '+'
-			&& !ft_isdigit(*line))
-			return (printf("[!] - 2\n"), CHAR_ERR);
+		if (ft_isalpha(*line))			// if we arrived at the texture part
+			break;
+		if (ft_isprint(*line) && *line != ' ' && *line != '.' && *line != ','
+			&& *line != '-' && *line != '+' && !ft_isdigit(*line))
+			return (CHAR_ERR);
 		++line;
 	}
+	while (*line && ft_isalpha(*line))
+		++line;
+	if (*line && *line != '\n'
+		&& ft_isprint(*line) && *line != ' ' && !ft_isalpha(*line))
+		return (CHAR_ERR);
 	return (0);
 }
 

@@ -6,26 +6,7 @@
 
 #include <assert.h>
 #include <stdbool.h>
-
-float	ft_atof(char *str)
-{
-	float	result;
-	float	decimal;
-
-	assert(str && "String");
-	result = ft_atoi(str);
-	while (*str && (*str == '-' || ft_isdigit(*str)))
-		++str;
-	if (*str == '.')
-	{
-		decimal = ft_atoi(++str) / 10.0f;
-		while (decimal >= 1.0f)				// Account for trailing 0s
-			decimal /= 10;
-		result += decimal;
-	}
-	// printf("[!] - atof got %f!\n", result);
-	return (result);
-}
+#include <stdio.h>
 
 /**
  * @brief Parses a string as a number triad in the format X[.X],X[.XX],X[.XX].
@@ -58,9 +39,9 @@ int	parse_triad(char *str, float *result)
 }
 
 /**
- * @brief Parsses a string as a triad of x, y and z values. Can be used for
+ * @brief Parses a string as a triad of x, y and z values. Can be used for
  * both t_point3 and t_vec3 targets, since they are the same struct,
- * just renamed.
+ * just renamed (aliased).
  */
 int	parse_position(char *line, t_point3 *result)
 {
@@ -74,6 +55,13 @@ int	parse_position(char *line, t_point3 *result)
 	result->y = triad[1];
 	result->z = triad[2];
 	return (0);
+}
+
+static int	parse_texture(char *line, t_texture *texture)
+{
+	(void)texture;
+	printf("[!] - %lu", ft_strlen(line));
+	return (DONE);
 }
 
 /**
@@ -99,7 +87,9 @@ int	parse_material(char *line, t_material *mat)
 	if (goto_next_word(&line) != 0)
 		return (MISSING_ERR);
 	mat->reflection = ft_atof(line);
-	return (0);
+	if (goto_next_word(&line) != 0)
+		return (DONE);					// Textures are optional
+	return (parse_texture(line, &mat->texture));
 }
 
 /**

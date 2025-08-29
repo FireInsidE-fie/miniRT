@@ -1,6 +1,7 @@
 #include "utils.h"
 #include "libft.h"
 
+#include <assert.h>
 #include <stdbool.h>
 
 /**
@@ -51,4 +52,24 @@ bool	check_path(char *path)
 	if (ft_strncmp(path + i - 3, ".rt", 3) != 0)
 		return (false);
 	return (true);
+}
+
+float	ft_atof(char *str)
+{
+	float	result;
+	float	decimal;
+
+	assert(str && "String");
+	result = ft_atoi(str);
+	while (*str && (*str == '-' || ft_isdigit(*str)))
+		++str;
+	if (*str == '.')
+	{
+		decimal = ft_atoi(++str) / 10.0f;
+		while (decimal >= 1.0f)				// Account for trailing 0s
+			decimal /= 10;
+		result += decimal;
+	}
+	// printf("[!] - atof got %f!\n", result);
+	return (result);
 }
