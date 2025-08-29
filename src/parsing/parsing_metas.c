@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <threads.h>
 
-int	parse_ambient(char *line)
+t_ps	parse_ambient(char *line)
 {
 	t_ambient	*scene_ambient;
 	float		triad[3];
@@ -36,7 +36,7 @@ int	parse_ambient(char *line)
 	return (0);
 }
 
-int	parse_camera(char *line)
+t_ps	parse_camera(char *line)
 {
 	t_point3	pos;
 	t_vec3		dir;
@@ -61,7 +61,7 @@ int	parse_camera(char *line)
 	return (0);
 }
 
-int	parse_light(char *line)
+t_ps	parse_light(char *line)
 {
 	t_light		tmp;
 	float		triad[3];

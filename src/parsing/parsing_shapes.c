@@ -10,10 +10,10 @@
 #include <assert.h>
 #include <unistd.h>
 
-int	parse_sphere(char *line)
+t_ps	parse_sphere(char *line)
 {
 	t_shape		tmp;
-	int			status;
+	t_ps		status;
 
 	assert(line && "Line");
 	printf("[!] - Parsing a sphere...\n");
@@ -33,10 +33,10 @@ int	parse_sphere(char *line)
 	return (create_sphere(&tmp.position, tmp.radius, &tmp.mat));
 }
 
-int	parse_cylinder(char *line)
+t_ps	parse_cylinder(char *line)
 {
 	t_shape		tmp;
-	int			status;
+	t_ps		status;
 
 	assert(line && "Line");
 	printf("[!] - Parsing a cylinder...\n");
@@ -69,10 +69,10 @@ int	parse_cylinder(char *line)
 	return (0);
 }
 
-int	parse_cone(char *line)
+t_ps	parse_cone(char *line)
 {
 	t_shape		tmp;
-	int			status;
+	t_ps		status;
 
 	assert(line && "Line");
 	printf("[!] - Parsing a cylinder...\n");
@@ -105,7 +105,7 @@ int	parse_cone(char *line)
 	return (0);
 }
 
-int	parse_plane(char *line)
+t_ps	parse_plane(char *line)
 {
 	t_shape		tmp;
 	t_material	mat;

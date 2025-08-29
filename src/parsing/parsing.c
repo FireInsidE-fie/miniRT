@@ -10,7 +10,7 @@
 /**
  * @brief Parses a line containing a meta element (lightning, camera).
  */
-static int	parse_meta(char *line)
+static t_ps	parse_meta(char *line)
 {
 	int	length;
 
@@ -32,7 +32,7 @@ static int	parse_meta(char *line)
 /**
  * @brief Parses a line containing a shape element (sphere, cylinder, plane...).
  */
-static int	parse_shape(char *line)
+static t_ps	parse_shape(char *line)
 {
 	int	length;
 
@@ -57,7 +57,7 @@ static int	parse_shape(char *line)
  * @brief Checks for forbidden characters inside of a given .rt line.
  * @details letters only on the first word after that, only numbers and .,-+
  */
-static int	check_line(char *line)
+static t_ps	check_line(char *line)
 {
 	if (ft_isprint(*line) && *line != ' ' && !ft_isalpha(*line))
 		return (CHAR_ERR);
@@ -83,13 +83,13 @@ static int	check_line(char *line)
 	if (*line && *line != '\n'
 		&& ft_isprint(*line) && *line != ' ' && !ft_isalpha(*line))
 		return (CHAR_ERR);
-	return (0);
+	return (DONE);
 }
 
 /**
  * @brief Prints the parsing status after it is done or an error occurred.
  */
-int	print_ps(t_parsing_status status, int line_n)
+t_ps	print_ps(t_ps status, int line_n)
 {
 	if (status == DONE)
 		printf("[!] - Done parsing scene!\n");
@@ -123,7 +123,7 @@ int	print_ps(t_parsing_status status, int line_n)
  */
 int	parse_scene(int scene_fd)
 {
-	int		status;
+	t_ps	status;
 	char	*line;
 	int		line_n;
 

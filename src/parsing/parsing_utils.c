@@ -15,8 +15,7 @@
  * @return 0 if all went well, 1 if a value was missing
  * or another error occurred.
  */
-// TODO: use t_parsing_status instead of int for clarity
-int	parse_triad(char *str, float *result)
+t_ps	parse_triad(char *str, float *result)
 {
 	assert(str && "String");
 	assert(result && "Result array");
@@ -35,7 +34,7 @@ int	parse_triad(char *str, float *result)
 	if (*(str++) != ',')
 		return (TRIAD_ERR);
 	result[2] = ft_atof(str);
-	return (0);
+	return (DONE);
 }
 
 /**
@@ -43,7 +42,7 @@ int	parse_triad(char *str, float *result)
  * both t_point3 and t_vec3 targets, since they are the same struct,
  * just renamed (aliased).
  */
-int	parse_position(char *line, t_point3 *result)
+t_ps	parse_position(char *line, t_point3 *result)
 {
 	float	triad[3];
 
@@ -57,7 +56,7 @@ int	parse_position(char *line, t_point3 *result)
 	return (DONE);
 }
 
-static int	parse_texture(char *line, t_texture *texture)
+static t_ps	parse_texture(char *line, t_texture *texture)
 {
 	int	i;
 
@@ -83,7 +82,7 @@ static int	parse_texture(char *line, t_texture *texture)
  * @brief Parses a material at the end of a .rt line into the pointer given
  * to it.
  */
-int	parse_material(char *line, t_material *mat)
+t_ps	parse_material(char *line, t_material *mat)
 {
 	float	triad[3];
 
@@ -116,7 +115,7 @@ int	parse_material(char *line, t_material *mat)
  * @details Uses a double pointer to be able to do pointer arithmetic on the
  * original line back in the parsing functions.
  */
-int	goto_next_word(char **line)
+t_ps	goto_next_word(char **line)
 {
 	while (**line && **line != '\n' && (ft_isprint(**line) && **line != ' '))
 		++(*line);
