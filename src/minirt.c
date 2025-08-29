@@ -4,6 +4,7 @@
 #include "light.h"
 #include "libft.h"
 #include "parsing.h"
+#include "utils.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -55,13 +56,14 @@ int	main(int argc, char **argv)
 	int		scene_fd;
 
 	if (argc != 2)
-		return (-1);
+		return (printf("Usage: ./miniRT <path_to_map>\n"), -1);
+	if (check_path(argv[1]) == false)
+		return (print_ps(FILE_ERR, 0));
 	core = get_core();
 	ft_bzero(&core->scene, sizeof(t_scene));
-	// TODO: check if path ends with .rt
 	scene_fd = open(argv[1], O_RDONLY);
 	if (scene_fd == -1)
-		return (perror("miniRT - parse_scene (open)"), print_ps(FILE_ERR, 0));
+		return (perror("miniRT - parse_scene (open)"), print_ps(OPEN_ERR, 0));
 	parse_status = parse_scene(scene_fd);
 	if (parse_status != 0)
 		return (printf("[!] - Error during parsing!\n"), rt_kill(parse_status));

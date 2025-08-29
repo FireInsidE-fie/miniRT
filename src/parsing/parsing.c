@@ -112,7 +112,6 @@ int	print_ps(t_parsing_status status, int line_n)
 /**
  * @brief Parses a given .rt file and creates the scene from it.
  */
-// TODO: print accurate error messages depending on the error macro
 int	parse_scene(int scene_fd)
 {
 	int		status;
