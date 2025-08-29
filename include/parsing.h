@@ -3,6 +3,7 @@
 
 # define SHAPE_ABBR_LENGTH 2	// Length of shape abbreviations in .rt files
 # define META_ABBR_LENGTH 1		// Length of meta abbreviations in .rt files
+# define TEXT_ABRR_LENGTH 2		// Length of texture abbreviations in .rt files
 
 # include "material.h"
 # include "point3.h"

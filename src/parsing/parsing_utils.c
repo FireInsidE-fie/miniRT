@@ -6,7 +6,6 @@
 
 #include <assert.h>
 #include <stdbool.h>
-#include <stdio.h>
 
 /**
  * @brief Parses a string as a number triad in the format X[.X],X[.XX],X[.XX].
@@ -16,6 +15,7 @@
  * @return 0 if all went well, 1 if a value was missing
  * or another error occurred.
  */
+// TODO: use t_parsing_status instead of int for clarity
 int	parse_triad(char *str, float *result)
 {
 	assert(str && "String");
@@ -27,13 +27,13 @@ int	parse_triad(char *str, float *result)
 		&& (*str == '-' || *str == '+' || *str == '.' || ft_isdigit(*str)))
 		++str;
 	if (*(str++) != ',')
-		return (1);
+		return (TRIAD_ERR);
 	result[1] = ft_atof(str);
 	while (*str
 		&& (*str == '-' || *str == '+' || *str == '.' || ft_isdigit(*str)))
 		++str;
 	if (*(str++) != ',')
-		return (1);
+		return (TRIAD_ERR);
 	result[2] = ft_atof(str);
 	return (0);
 }
@@ -54,13 +54,28 @@ int	parse_position(char *line, t_point3 *result)
 	result->x = triad[0];
 	result->y = triad[1];
 	result->z = triad[2];
-	return (0);
+	return (DONE);
 }
 
 static int	parse_texture(char *line, t_texture *texture)
 {
-	(void)texture;
-	printf("[!] - %lu", ft_strlen(line));
+	int	i;
+
+	i = 0;
+	while (line[i] && ft_isalpha(line[i]))
+		++i;
+	if (i != TEXT_ABRR_LENGTH)
+		return (VALUE_ERR);
+	if (ft_strncmp(line, "NO", i) == 0)
+		*texture = NONE;
+	else if (ft_strncmp(line, "CH", i) == 0)
+		*texture = CHECKERBOARD;
+	else if (ft_strncmp(line, "EA", i) == 0)
+		*texture = EARTH;
+	else if (ft_strncmp(line, "MO", i) == 0)
+		*texture = MOON;
+	else
+		return (VALUE_ERR);
 	return (DONE);
 }
 
@@ -88,7 +103,10 @@ int	parse_material(char *line, t_material *mat)
 		return (MISSING_ERR);
 	mat->reflection = ft_atof(line);
 	if (goto_next_word(&line) != 0)
+	{
+		mat->texture = NONE;
 		return (DONE);					// Textures are optional
+	}
 	return (parse_texture(line, &mat->texture));
 }
 
@@ -100,11 +118,11 @@ int	parse_material(char *line, t_material *mat)
  */
 int	goto_next_word(char **line)
 {
-	while (**line && (ft_isprint(**line) && **line != ' '))
+	while (**line && **line != '\n' && (ft_isprint(**line) && **line != ' '))
 		++(*line);
-	while (**line && (**line == ' ' || !ft_isprint(**line)))
+	while (**line && **line != '\n' && (**line == ' ' || !ft_isprint(**line)))
 		++(*line);
 	if (!*line || **line == '\n')
 		return (MISSING_ERR);
-	return (0);
+	return (DONE);
 }

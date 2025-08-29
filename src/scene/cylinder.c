@@ -153,7 +153,7 @@ int	create_cylinder(t_point3 *pos, t_vec3 *dir, float radius, float height, t_ma
 		&& mat->color.b >= 0.0f && mat->color.b <= 1.0f);
 	cyl = malloc(sizeof(t_shape));
 	if (!cyl)
-		return (MALLOC_ERR);
+		return (perror("miniRT: create_cylinder - malloc"), MALLOC_ERR);
 	cyl->type = CYLINDER;
 	cyl->position = *pos;
 	vec_normalize(dir);

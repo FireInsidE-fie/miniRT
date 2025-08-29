@@ -60,4 +60,5 @@ void	print_mat(t_material *mat)
 	printf("Color: (%f, %f, %f)\n", mat->color.r, mat->color.g, mat->color.b);
 	printf("Specular: %f\n", mat->specular);
 	printf("Reflection: %f\n", mat->reflection);
+	printf("Texture: %d\n", mat->texture);
 }
