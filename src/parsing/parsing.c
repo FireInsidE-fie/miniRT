@@ -48,7 +48,7 @@ static t_ps	parse_shape(char *line)
 		return (parse_cylinder(line));
 	else if (ft_strncmp(line, "pl", SHAPE_ABBR_LENGTH) == 0)
 		return (parse_plane(line));
-	else if (ft_strncmp(line, "cy", SHAPE_ABBR_LENGTH) == 0)
+	else if (ft_strncmp(line, "co", SHAPE_ABBR_LENGTH) == 0)
 		return (parse_cone(line));
 	return (TYPE_ERR);
 }
