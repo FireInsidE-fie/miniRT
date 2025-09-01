@@ -64,7 +64,7 @@ static t_ps	check_line(char *line)
 	while (*line && !ft_isalpha(*line) && *line != '\n')
 		++line;
 	if (!*line || *line == '\n')
-		return (0);
+		return (DONE);
 	while (*line && ft_isalpha(*line))
 		++line;
 	if (ft_isprint(*line) && *line != ' ')

@@ -41,15 +41,20 @@ t_ps	parse_camera(char *line)
 	t_point3	pos;
 	t_vec3		dir;
 	float		fov;
+	t_ps		status;
 
 	assert(line && "Line");
 	printf("[!] - Parsing a camera...\n");
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	parse_position(line, &pos);
+	status = parse_position(line, &pos);
+	if (status != DONE)
+		return (status);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	parse_position(line, &dir);
+	status = parse_position(line, &dir);
+	if (status != DONE)
+		return (status);
 	if (!is_in_range(dir.x, (t_range){-1.0f, 1.0f}))
 		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
@@ -65,12 +70,15 @@ t_ps	parse_light(char *line)
 {
 	t_light		tmp;
 	float		triad[3];
+	t_ps		status;
 
 	assert(line && "Line");
 	printf("[!] - Parsing a light...\n");
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	parse_position(line, &tmp.position);
+	status = parse_position(line, &tmp.position);
+	if (status != DONE)
+		return (status);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	tmp.intensity = ft_atof(line);

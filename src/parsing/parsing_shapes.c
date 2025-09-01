@@ -19,7 +19,9 @@ t_ps	parse_sphere(char *line)
 	printf("[!] - Parsing a sphere...\n");
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	parse_position(line, &tmp.position);
+	status = parse_position(line, &tmp.position);
+	if (status != DONE)
+		return (status);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	tmp.radius = ft_atof(line);
@@ -42,10 +44,14 @@ t_ps	parse_cylinder(char *line)
 	printf("[!] - Parsing a cylinder...\n");
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	parse_position(line, &tmp.position);
+	status = parse_position(line, &tmp.position);
+	if (status != DONE)
+		return (status);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	parse_position(line, &tmp.direction);
+	status = parse_position(line, &tmp.direction);
+	if (status != DONE)
+		return (status);
 	if (!is_in_range(tmp.direction.x, (t_range){-1.0f, 1.0f})
 		|| !is_in_range(tmp.direction.y, (t_range){-1.0f, 1.0f})
 		|| !is_in_range(tmp.direction.x, (t_range){-1.0f, 1.0f}))
@@ -63,8 +69,7 @@ t_ps	parse_cylinder(char *line)
 	status = parse_material(line, &tmp.mat);
 	if (status != DONE)
 		return (status);
-	create_cylinder(&tmp);
-	return (0);
+	return (create_cylinder(&tmp));
 }
 
 t_ps	parse_cone(char *line)
@@ -76,10 +81,14 @@ t_ps	parse_cone(char *line)
 	printf("[!] - Parsing a cylinder...\n");
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	parse_position(line, &tmp.position);
+	status = parse_position(line, &tmp.position);
+	if (status != DONE)
+		return (status);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	parse_position(line, &tmp.direction);
+	status = parse_position(line, &tmp.direction);
+	if (status != DONE)
+		return (status);
 	if (!is_in_range(tmp.direction.x, (t_range){-1.0f, 1.0f})
 		|| !is_in_range(tmp.direction.y, (t_range){-1.0f, 1.0f})
 		|| !is_in_range(tmp.direction.x, (t_range){-1.0f, 1.0f}))
@@ -105,21 +114,28 @@ t_ps	parse_plane(char *line)
 {
 	t_shape		tmp;
 	t_material	mat;
+	t_ps		status;
 
 	assert(line && "Line");
 	printf("[!] - Parsing a plane...\n");
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	parse_position(line, &tmp.position);
+	status = parse_position(line, &tmp.position);
+	if (status != DONE)
+		return (status);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	parse_position(line, &tmp.direction);
+	status = parse_position(line, &tmp.direction);
+	if (status != DONE)
+		return (status);
 	if (!is_in_range(tmp.direction.x, (t_range){-1.0f, 1.0f})
 		|| !is_in_range(tmp.direction.y, (t_range){-1.0f, 1.0f})
 		|| !is_in_range(tmp.direction.x, (t_range){-1.0f, 1.0f}))
 		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	parse_material(line, &mat);
+	status = parse_material(line, &mat);
+	if (status != DONE)
+		return (status);
 	return (create_plane(&tmp.position, &tmp.direction, &mat));
 }
