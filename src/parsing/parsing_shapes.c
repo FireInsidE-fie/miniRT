@@ -56,12 +56,10 @@ t_ps	parse_cylinder(char *line)
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	tmp.height = ft_atof(line);
-	if (tmp.radius < 0 || tmp.height < 0)
+	if (tmp.radius < 0.0f || tmp.height < 0.0f)
 		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	if (tmp.radius < 0.0f || tmp.height < 0.0f)
-		return (VALUE_ERR);
 	status = parse_material(line, &tmp.mat);
 	if (status != DONE)
 		return (status);
@@ -92,12 +90,10 @@ t_ps	parse_cone(char *line)
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	tmp.height = ft_atof(line);
-	if (tmp.radius < 0 || tmp.height < 0)
+	if (tmp.radius < 0.0f || tmp.height < 0.0f)
 		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	if (tmp.radius < 0.0f || tmp.height < 0.0f)
-		return (VALUE_ERR);
 	status = parse_material(line, &tmp.mat);
 	if (status != DONE)
 		return (status);
