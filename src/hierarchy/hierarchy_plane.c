@@ -4,8 +4,6 @@
 
 #include <X11/X.h>
 #include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #define	EWIN_RED	0xfc5656
 #define EWIN_GREEN	0x56fc61
@@ -48,12 +46,12 @@ void	draw_edit_win_rec_p(t_ewin *editwin)
 	draw_rect(&editwin->img, 300, 250, new_rectangle(80, 30, 0xCC3333));
 }
 
-void    edit_win_plane(t_ewin *editwin)
+void	edit_win_plane(t_ewin *editwin)
 {
-    t_core *core;
+	t_core	*core;
 
-    core = get_core();
-    draw_edit_win_rec_p(editwin);
+	core = get_core();
+	draw_edit_win_rec_p(editwin);
 	mlx_put_image_to_window(core->mlx, editwin->win, editwin->img.img, 0, 0);
 	draw_color_picker(editwin, 250, 160);
 	mlx_string_put(core->mlx, editwin->win, 320, 270, 0xFFFFFF, "Close");

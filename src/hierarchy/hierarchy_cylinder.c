@@ -4,8 +4,6 @@
 
 #include <X11/X.h>
 #include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #define	EWIN_RED	0xfc5656
 #define EWIN_GREEN	0x56fc61
@@ -45,7 +43,7 @@ void	apply_cyl_height(t_ewin *editwin, int x, int y)
 
 void	apply_cyl_pos(t_ewin *editwin, int x, int y)
 {
-    if (x >= 250 && x <= 280 && y >= 40 && y <= 70)
+	if (x >= 250 && x <= 280 && y >= 40 && y <= 70)
 		editwin->shape->position.z += 0.1f;
 	else if (x >= 290 && x <= 320 && y >= 40 && y <= 70)
 		editwin->shape->position.z -= 0.1f;
@@ -80,7 +78,7 @@ void	draw_edit_win_rec_c(t_ewin *editwin)
 {
 	draw_rect(&editwin->img, 0, 0, new_rectangle(EWIN_WIDTH, EWIN_HEIGHT, UI_BG_COLOR));
 
-    // Dir Z
+	// Dir Z
 	draw_rect(&editwin->img, 50, 40,  new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
 	draw_rect(&editwin->img, 90, 40,  new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_RED));
 	// Dir Y
@@ -89,8 +87,8 @@ void	draw_edit_win_rec_c(t_ewin *editwin)
 	// Dir X
 	draw_rect(&editwin->img, 50, 140, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
 	draw_rect(&editwin->img, 90, 140, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_RED));
-    // Pos Z
-    draw_rect(&editwin->img, 250, 40,  new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
+	// Pos Z
+	draw_rect(&editwin->img, 250, 40,  new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
 	draw_rect(&editwin->img, 290,  40,  new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_RED));
 	// Pos Y
 	draw_rect(&editwin->img, 250, 90,  new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
@@ -104,22 +102,23 @@ void	draw_edit_win_rec_c(t_ewin *editwin)
 	// Height
 	draw_rect(&editwin->img, 50, 240, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_GREEN));
 	draw_rect(&editwin->img, 90, 240, new_rectangle(EWIN_BUTTON, EWIN_BUTTON, EWIN_RED));
-    // Close
+	// Close
 	draw_rect(&editwin->img, 300, 250, new_rectangle(80, 30, 0xCC3333));
 }
 
-void    edit_win_cylinder(t_ewin *editwin)
+void	edit_win_cylinder(t_ewin *editwin)
 {
-    t_core *core = get_core();
+	t_core	*core;
 
-    draw_edit_win_rec_c(editwin);
+	core = get_core();
+	draw_edit_win_rec_c(editwin);
 	mlx_put_image_to_window(core->mlx, editwin->win, editwin->img.img, 0, 0);
 	draw_color_picker(editwin, 250, 180);
 	mlx_string_put(core->mlx, editwin->win, 320, 270, 0xFFFFFF, "Close");
 	mlx_string_put(core->mlx, editwin->win, 130, 55, 0xFFFFFF, "Dir Z");
 	mlx_string_put(core->mlx, editwin->win, 130, 105, 0xFFFFFF, "Dir Y");
 	mlx_string_put(core->mlx, editwin->win, 130, 155, 0xFFFFFF, "Dir X");
-    mlx_string_put(core->mlx, editwin->win, 330, 55, 0xFFFFFF, "Pos Z");
+	mlx_string_put(core->mlx, editwin->win, 330, 55, 0xFFFFFF, "Pos Z");
 	mlx_string_put(core->mlx, editwin->win, 330, 105, 0xFFFFFF, "Pos Y");
 	mlx_string_put(core->mlx, editwin->win, 330, 155, 0xFFFFFF, "Pos X");
 	mlx_string_put(core->mlx, editwin->win, 130, 205, 0xFFFFFF, "Radius");

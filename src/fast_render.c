@@ -22,7 +22,7 @@ static void	process_fast_steps(void)
 			camera_apply_rotation(
 			camera_to_viewport(get_core()->render.x, get_core()->render.y),
 			&get_scene()->camera),
-			new_range(1, INFINITY), MAXDEPTH
+			(t_range){1, INFINITY}, MAXDEPTH
 			);
 	j = 0;
 	while (j < FAST_STEP && get_core()->render.y + j <= WIN_HEIGHT / 2)

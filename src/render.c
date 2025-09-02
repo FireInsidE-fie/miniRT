@@ -52,8 +52,8 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
 }
 
 /**
- * @brief Checks the (for now) diffuse lightning for a point of a (for now)
- * sphere, and computes that point's color with the lightning on top.
+ * @brief Checks the lightning for a point of a shape and computes that point's
+ * color with the lightning on top.
  * @details Uses the `t_result` struct to know the `t` value and the intersected
  * sphere's color.
  */
@@ -69,7 +69,7 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	assert("Closest" && result->closest);
 	assert("Closest_t" && result->closest_t >= 0.0);
 	intersect = *origin;
-	intersect.x += dir->x * result->closest_t; // Make a point3_add function for this.
+	intersect.x += dir->x * result->closest_t;
 	intersect.y += dir->y * result->closest_t;
 	intersect.z += dir->z * result->closest_t;
 	if (result->closest->type == SPHERE)
@@ -121,7 +121,7 @@ static void	process_bloc_render(void)
 		camera_apply_rotation(
 		camera_to_viewport(get_core()->render.x, get_core()->render.y),
 		&get_scene()->camera),
-		new_range(1, INFINITY), MAXDEPTH
+		(t_range){1, INFINITY}, MAXDEPTH
 	);
 	img_put_pixel(&get_core()->img,
 		get_core()->render.x + WIN_WIDTH / 2,
