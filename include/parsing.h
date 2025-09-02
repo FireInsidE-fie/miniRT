@@ -1,13 +1,14 @@
 #ifndef PARSING_H
 # define PARSING_H
 
+# define SHAPE_ABBR_LENGTH 2	// Length of shape abbreviations in .rt files
+# define META_ABBR_LENGTH 1		// Length of meta abbreviations in .rt files
+# define TEXT_ABRR_LENGTH 2		// Length of texture abbreviations in .rt files
+
 # include "material.h"
 # include "point3.h"
 
-# define SHAPE_ABBR_LENGTH 2	// Length of shape abbreviations in .rt files
-# define META_ABBR_LENGTH 1		// Length of meta abbreviations in .rt files
-
-typedef enum e_parsing_status
+typedef enum e_ps
 {
 	DONE,			// All went well
 	FILE_ERR,		// Path is not a .rt file
@@ -18,26 +19,27 @@ typedef enum e_parsing_status
 	MISSING_ERR,	// A value was missing from the line given the element type
 	VALUE_ERR,		// A value was incorrect (negative colors for example)
 	MALLOC_ERR,		// Allocation failed when creating an object
-}	t_parsing_status;
+}	t_ps;
 
 // Main parsing functions - parsing.c
-int		parse_scene(char *scene_path);
+t_ps	print_ps(t_ps status, int line_n);
+int		parse_scene(int scene_fd);
 
 // Parsing meta elements - parsing_metas.c
-int		parse_ambient(char *line);
-int		parse_camera(char *line);
-int		parse_light(char *line);
+t_ps	parse_ambient(char *line);
+t_ps	parse_camera(char *line);
+t_ps	parse_light(char *line);
 
 // Parsing shape elements - parsing_shapes.c
-int		parse_sphere(char *line);
-int		parse_cylinder(char *line);
-int		parse_plane(char *line);
+t_ps	parse_sphere(char *line);
+t_ps	parse_cylinder(char *line);
+t_ps	parse_cone(char *line);
+t_ps	parse_plane(char *line);
 
 // Parsing utilities - parsing_utils.c
-float	ft_atof(char *str);
-int		parse_triad(char *str, float *result);
-int		parse_position(char *line, t_point3 *result);
-int		parse_material(char *line, t_material *mat);
-int		goto_next_word(char **line);
+t_ps	parse_triad(char *str, float *result);
+t_ps	parse_position(char *line, t_point3 *result);
+t_ps	parse_material(char *line, t_material *mat);
+t_ps	goto_next_word(char **line);
 
 #endif // PARSING_H

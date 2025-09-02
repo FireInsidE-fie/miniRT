@@ -7,26 +7,6 @@
 #include <assert.h>
 #include <stdbool.h>
 
-float	ft_atof(char *str)
-{
-	float	result;
-	float	decimal;
-
-	assert(str && "String");
-	result = ft_atoi(str);
-	while (*str && (*str == '-' || ft_isdigit(*str)))
-		++str;
-	if (*str == '.')
-	{
-		decimal = ft_atoi(++str) / 10.0f;
-		while (decimal >= 1.0f)				// Account for trailing 0s
-			decimal /= 10;
-		result += decimal;
-	}
-	// printf("[!] - atof got %f!\n", result);
-	return (result);
-}
-
 /**
  * @brief Parses a string as a number triad in the format X[.X],X[.XX],X[.XX].
  * Takes an array of 3 floats as argument to store the results.
@@ -35,7 +15,7 @@ float	ft_atof(char *str)
  * @return 0 if all went well, 1 if a value was missing
  * or another error occurred.
  */
-int	parse_triad(char *str, float *result)
+t_ps	parse_triad(char *str, float *result)
 {
 	assert(str && "String");
 	assert(result && "Result array");
@@ -46,23 +26,23 @@ int	parse_triad(char *str, float *result)
 		&& (*str == '-' || *str == '+' || *str == '.' || ft_isdigit(*str)))
 		++str;
 	if (*(str++) != ',')
-		return (1);
+		return (TRIAD_ERR);
 	result[1] = ft_atof(str);
 	while (*str
 		&& (*str == '-' || *str == '+' || *str == '.' || ft_isdigit(*str)))
 		++str;
 	if (*(str++) != ',')
-		return (1);
+		return (TRIAD_ERR);
 	result[2] = ft_atof(str);
-	return (0);
+	return (DONE);
 }
 
 /**
- * @brief Parsses a string as a triad of x, y and z values. Can be used for
+ * @brief Parses a string as a triad of x, y and z values. Can be used for
  * both t_point3 and t_vec3 targets, since they are the same struct,
- * just renamed.
+ * just renamed (aliased).
  */
-int	parse_position(char *line, t_point3 *result)
+t_ps	parse_position(char *line, t_point3 *result)
 {
 	float	triad[3];
 
@@ -73,14 +53,36 @@ int	parse_position(char *line, t_point3 *result)
 	result->x = triad[0];
 	result->y = triad[1];
 	result->z = triad[2];
-	return (0);
+	return (DONE);
+}
+
+static t_ps	parse_texture(char *line, t_texture *texture)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] && ft_isalpha(line[i]))
+		++i;
+	if (i != TEXT_ABRR_LENGTH)
+		return (VALUE_ERR);
+	if (ft_strncmp(line, "NO", i) == 0)
+		*texture = NONE;
+	else if (ft_strncmp(line, "CH", i) == 0)
+		*texture = CHECKERBOARD;
+	else if (ft_strncmp(line, "EA", i) == 0)
+		*texture = EARTH;
+	else if (ft_strncmp(line, "MO", i) == 0)
+		*texture = MOON;
+	else
+		return (VALUE_ERR);
+	return (DONE);
 }
 
 /**
  * @brief Parses a material at the end of a .rt line into the pointer given
  * to it.
  */
-int	parse_material(char *line, t_material *mat)
+t_ps	parse_material(char *line, t_material *mat)
 {
 	float	triad[3];
 
@@ -99,7 +101,12 @@ int	parse_material(char *line, t_material *mat)
 	if (goto_next_word(&line) != 0)
 		return (MISSING_ERR);
 	mat->reflection = ft_atof(line);
-	return (0);
+	if (goto_next_word(&line) != 0)
+	{
+		mat->texture = NONE;
+		return (DONE);					// Textures are optional
+	}
+	return (parse_texture(line, &mat->texture));
 }
 
 /**
@@ -108,13 +115,13 @@ int	parse_material(char *line, t_material *mat)
  * @details Uses a double pointer to be able to do pointer arithmetic on the
  * original line back in the parsing functions.
  */
-int	goto_next_word(char **line)
+t_ps	goto_next_word(char **line)
 {
-	while (**line && (ft_isprint(**line) && **line != ' '))
+	while (**line && **line != '\n' && (ft_isprint(**line) && **line != ' '))
 		++(*line);
-	while (**line && (**line == ' ' || !ft_isprint(**line)))
+	while (**line && **line != '\n' && (**line == ' ' || !ft_isprint(**line)))
 		++(*line);
 	if (!*line || **line == '\n')
 		return (MISSING_ERR);
-	return (0);
+	return (DONE);
 }

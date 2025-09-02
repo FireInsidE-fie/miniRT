@@ -13,5 +13,7 @@ typedef struct s_range
 t_range	new_range(double min, double max);
 bool	is_in_range(double x, t_range range);
 double	clamp(double x, t_range range);
+bool	check_path(char *path);
+float	ft_atof(char *str);
 
 #endif // UTILS_H
