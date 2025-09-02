@@ -7,12 +7,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define	EWIN_RED	0xfc5656
-#define EWIN_GREEN	0x56fc61
-#define EWIN_BUTTON	30
-#define EWIN_WIDTH	400
-#define EWIN_HEIGHT	300
-
 /* Closes and frees the temporary edit window
 
 	Only accessed through the "Close" button, closing with the cross on
@@ -23,16 +17,16 @@
 	from core directly to avoid filling it with too much stuff.
 */
 
-int	close_edit_window(t_ewin *editwin)
+int	close_ewin(t_ewin *ewin)
 {
-	if (editwin->color_picker_img)
-		mlx_destroy_image(editwin->core->mlx, editwin->color_picker_img);
-	if (editwin->img.img)
-		mlx_destroy_image(editwin->core->mlx, editwin->img.img);
-	if (editwin->win)
-		mlx_destroy_window(editwin->core->mlx, editwin->win);
-	editwin->core->prevent_close -= 1;
-	free(editwin);
+	if (ewin->color_picker_img)
+		mlx_destroy_image(ewin->core->mlx, ewin->color_picker_img);
+	if (ewin->img.img)
+		mlx_destroy_image(ewin->core->mlx, ewin->img.img);
+	if (ewin->win)
+		mlx_destroy_window(ewin->core->mlx, ewin->win);
+	ewin->core->prevent_close -= 1;
+	free(ewin);
 	return (0);
 }
 
@@ -40,7 +34,7 @@ int	close_edit_window(t_ewin *editwin)
 
 	Assigns core, the wanted shape to edit, and prevents miniRT from closing.
 
-	Calls draw_edit_win_rec() to draw all the needed rectangles.
+	Calls draw_ewin_rec() to draw all the needed rectangles.
 
 	mlx_string_put prints string after anything else as it would be overwritten
 	otherwise.
@@ -48,27 +42,27 @@ int	close_edit_window(t_ewin *editwin)
 	Calls mlx_mouse_hook allow click checks on the edit window.
 */
 
-void	open_edit_window(t_core *core, t_shape *shape)
+void	open_ewin(t_core *core, t_shape *shape)
 {
-	t_ewin	*editwin;
+	t_ewin	*ewin;
 
-	editwin = malloc(sizeof(t_ewin));
-	if (!editwin)
+	ewin = malloc(sizeof(t_ewin));
+	if (!ewin)
 		return ;
-	editwin->core = core;
-	editwin->shape = shape;
+	ewin->core = core;
+	ewin->shape = shape;
 	core->prevent_close += 1;
-	editwin->win = mlx_new_window(core->mlx, EWIN_WIDTH, EWIN_HEIGHT, "Edit Shape");
-	editwin->img.img = mlx_new_image(core->mlx, EWIN_WIDTH, EWIN_HEIGHT);
-	editwin->img.addr = mlx_get_data_addr(editwin->img.img,
-			&editwin->img.bpp, &editwin->img.line_len, &editwin->img.endian);
+	ewin->win = mlx_new_window(
+		core->mlx, EWIN_WIDTH, EWIN_HEIGHT, "Edit Shape");
+	ewin->img.img = mlx_new_image(core->mlx, EWIN_WIDTH, EWIN_HEIGHT);
+	ewin->img.addr = mlx_get_data_addr(ewin->img.img,
+			&ewin->img.bpp, &ewin->img.line_len, &ewin->img.endian);
 	if (shape->type == SPHERE)
-		edit_win_sphere(editwin);
+		ewin_sphere(ewin);
 	else if (shape->type == PLANE)
-		edit_win_plane(editwin);
+		ewin_plane(ewin);
 	else
-		edit_win_cylinder(editwin);
-
+		ewin_cylinder(ewin);
 }
 
 /* Hard prints "Edit" and t_shape type on the Hierarchy window
@@ -122,8 +116,8 @@ void	draw_edit_text(t_core *core, t_shape *shape, int y_offset)
 
 void	handle_page_click(int x)
 {
-	int	max_page;
-	t_core *core;
+	int		max_page;
+	t_core	*core;
 
 	core = get_core();
 	max_page = (shape_lst_size(core->scene.shapes) - 1) / MAX_PER_PAGE;

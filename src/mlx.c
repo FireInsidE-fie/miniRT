@@ -29,42 +29,44 @@ void	swap_render_mode(t_core *core)
 		mlx_loop_hook(core->mlx, render, core);
 }
 
+/*
+ * Core has a key_state int[256] array that contains the status of each key
+ * pressed, up to 256 because most key codes are in that range
+ * (damn you ESC and Arrow keys).
+ * key_press sets the state to 1 when pressed/held, and key_release()
+ * sets it back to 0.
+ * update_camera() from camera_movement.c is called in the fast render loop,
+ * applying the movements depending on the key_state value of each key.
+*/
 
- /*
-	Core has a key_state int[256] array that contains the status of each key pressed,
-	up to 256 because most key codes are in that range (damn you ESC and Arrow keys).
-	key_press sets the state to 1 when pressed/held, and key_release() sets it back
-	to 0.
-	update_camera() from camera_movement.c is called in the fast render loop,
-	applying the movements depending on the key_state value of each key.
- */
-
-static int key_press(int key, void *param)
+static int	key_press(int key, void *param)
 {
-    t_core *core;
+	t_core	*core;
 
 	core = param;
 	if (key == KEY_ESC)
 		rt_kill(0);
 	if (key == KEY_R && core->render.is_rendering == 0)
 		swap_render_mode(core);
-    if (key >= 0 && key < 256)
-        core->key_state[key] = 1;
-    return (0);
+	if (key >= 0 && key < 256)
+		core->key_state[key] = 1;
+	return (0);
 }
+
 /**
- *	@brief Creates hooks for the minilibX, listens for keypresses,
- *	key releases and the closing button
+ * @brief Creates hooks for the minilibX, listens for keypresses,
+ * key releases and the closing button
  */
-static int key_release(int key, void *param)
+static int	key_release(int key, void *param)
 {
-    t_core *core;
+	t_core	*core;
 
 	core = param;
-    if (key >= 0 && key < 256)
-        core->key_state[key] = 0;
-    return (0);
+	if (key >= 0 && key < 256)
+		core->key_state[key] = 0;
+	return (0);
 }
+
 /**
  * @brief Creates hooks for the minilibX, quitting the program when the main
  * window is destroyed or the `ESC` key is pressed.

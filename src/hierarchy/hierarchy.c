@@ -5,11 +5,6 @@
 #include <X11/X.h>
 #include <stdint.h>
 
-#define UI_SHAPE_HEIGHT 50
-#define UI_BG_COLOR 0x343434
-#define UI_DARK_GRAY 0x555555
-#define MAX_PER_PAGE 12
-
 // list size but for t_shape type
 
 int	shape_lst_size(t_shape *lst)
@@ -160,7 +155,7 @@ int	on_mouse_debug(int button, int x, int y, void *param)
 	if (!shape)
 		return (0);
 	if (button == 1 && x >= 300 && x <= 380)
-		return (open_edit_window(core, shape), 0);
+		return (open_ewin(core, shape), 0);
 	render_shape_list(core);
 	return (0);
 }

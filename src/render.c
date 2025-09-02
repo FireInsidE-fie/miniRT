@@ -85,7 +85,6 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	return (color);
 }
 
-
 /**
  * @brief Finds the closest object to the `origin` on a ray with `direction`,
  * and returns its color.
@@ -101,11 +100,10 @@ t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range, int depth)
 		return ((t_color){SKY_COLOR, SKY_COLOR, SKY_COLOR});
 	local_color = compute_light(&origin, &dir, &result);
 	if (depth <= 0 || result.closest->mat.reflection <= 0.0f)
-		return local_color;
+		return (local_color);
 	reflected = compute_reflection(&origin, &dir, &result, depth);
 	return (add_color(scale_color(
-		local_color, 1 - result.closest->mat.reflection)
-		, reflected));
+				local_color, 1 - result.closest->mat.reflection), reflected));
 }
 
 /**
@@ -117,12 +115,12 @@ static void	process_bloc_render(void)
 	t_color	color;
 
 	color = ray_color(
-		get_scene()->camera.position,
-		camera_apply_rotation(
-		camera_to_viewport(get_core()->render.x, get_core()->render.y),
-		&get_scene()->camera),
-		(t_range){1, INFINITY}, MAXDEPTH
-	);
+			get_scene()->camera.position,
+			camera_apply_rotation(
+				camera_to_viewport(get_core()->render.x, get_core()->render.y),
+				&get_scene()->camera),
+			(t_range){1, INFINITY}, MAXDEPTH
+			);
 	img_put_pixel(&get_core()->img,
 		get_core()->render.x + WIN_WIDTH / 2,
 		get_core()->render.y + WIN_HEIGHT / 2,

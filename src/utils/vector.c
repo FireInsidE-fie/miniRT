@@ -61,13 +61,12 @@ double	vec_cos(t_vec3 *v1, t_vec3 *v2)
 	return (dot_product(v1, v2) / (vec_len(v1) * vec_len(v2)));
 }
 
-
-t_vec3 vec_add(t_vec3 v1, t_vec3 v2)
+t_vec3	vec_add(t_vec3 v1, t_vec3 v2)
 {
-    return (t_vec3){ v1.x + v2.x, v1.y + v2.y, v1.z + v2.z };
+	return ((t_vec3){v1.x + v2.x, v1.y + v2.y, v1.z + v2.z});
 }
 
-t_vec3 vec_scalar(t_vec3 v, float scalar)
+t_vec3	vec_scalar(t_vec3 v, float scalar)
 {
-    return (t_vec3){ v.x * scalar, v.y * scalar, v.z * scalar };
+	return ((t_vec3){v.x * scalar, v.y * scalar, v.z * scalar});
 }

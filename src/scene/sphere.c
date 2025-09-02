@@ -34,9 +34,6 @@ void	handle_sphere_intersect(double t[2], t_shape *tmp, t_range range, t_result 
 /**
  * @brief Adds a new sphere element to the miniRT scene.
  */
-// TODO: when parsing is done, take structs by reference rather than by value
-// (for context, we can't yet because the test scene gives `create_sphere`
-// rvalues)
 int	create_sphere(t_point3 *position, float radius, t_material *mat)
 {
 	t_shape		*sphere;
