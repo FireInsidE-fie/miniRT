@@ -18,8 +18,8 @@
 #define KEY_UP 65362
 #define KEY_RIGHT 65363
 #define KEY_DOWN 65364
-#define MOVE_INTERVAL 0.35
-#define	ROTATE_ANGLE 0.03
+#define MOVE_INTERVAL 0.70
+#define	ROTATE_ANGLE 0.06
 
 #define MAX_PITCH_RAD (M_PI / 2.0 - 0.01) // 89.4 max
 #define MIN_PITCH_RAD (-M_PI / 2.0 + 0.01)

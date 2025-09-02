@@ -3,7 +3,22 @@
 
 # include <stdint.h>
 
-# define SKY_COLOR 0.2
+# define SKY_COLOR 0.1
+
+typedef struct s_uv {
+	float u;
+	float v;
+}	t_uv;
+
+typedef struct s_texturedata
+{
+	char	*data;
+	int		width;
+	int		height;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}	t_texturedata;
 
 // Enum for representing which texture is being used
 typedef enum e_texture
@@ -25,10 +40,11 @@ typedef struct s_color
 // Struct to represent an shape's material
 typedef struct s_material
 {
-	t_color		color;
-	float		specular;
-	float		reflection;
-	t_texture	texture;
+	t_color			color;
+	float			specular;
+	float			reflection;
+	t_texture		texture;
+	t_texturedata	texturedata;
 }	t_material;
 
 // Functions //
