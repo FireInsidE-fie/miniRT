@@ -4,7 +4,7 @@
 // Macros //
 # define WIN_WIDTH 1080
 # define WIN_HEIGHT 1080
-# define BLOCK_SIZE 480
+# define BLOCK_SIZE 1080
 
 // Includes //
 # include "scene.h"

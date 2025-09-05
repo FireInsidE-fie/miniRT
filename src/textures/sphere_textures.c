@@ -24,40 +24,50 @@ static t_uv	sphere_uv_mapping(t_shape *sphere, t_point3 *point)
 	return (uv);
 }
 
-static t_texturedata	*load_moon_texture(void)
+t_texturedata	*load_moon_texture(int flag)
 {
-	static void		        *img;
+	static void				*img;
 	static t_texturedata	texture;
-	void			        *mlx;
+	void					*mlx;
 
+	mlx = get_core()->mlx;
 	if (!img)
 	{
-		mlx = get_core()->mlx;
-		img = mlx_xpm_file_to_image(mlx, "src/scene/MOON.xpm",
+		img = mlx_xpm_file_to_image(mlx, "src/textures/MOON.xpm",
 				&texture.width, &texture.height);
 		if (!img)
 			return (NULL);
 		texture.data = mlx_get_data_addr(img,
 				&texture.bpp, &texture.line_len, &texture.endian);
 	}
+	if (img && flag > 0)
+	{
+		mlx_destroy_image(mlx, img);
+		return NULL;
+	}
 	return (&texture);
 }
 
-static t_texturedata	*load_earth_texture(void)
+t_texturedata	*load_earth_texture(int flag)
 {
-	static void		        *img;
+	static void				*img;
 	static t_texturedata	texture;
-	void			        *mlx;
+	void					*mlx;
 
+	mlx = get_core()->mlx;
 	if (!img)
 	{
-		mlx = get_core()->mlx;
-		img = mlx_xpm_file_to_image(mlx, "src/scene/EARTH.xpm",
+		img = mlx_xpm_file_to_image(mlx, "src/textures/EARTH.xpm",
 				&texture.width, &texture.height);
 		if (!img)
 			return (NULL);
 		texture.data = mlx_get_data_addr(img,
 				&texture.bpp, &texture.line_len, &texture.endian);
+	}
+	if (img && flag > 0)
+	{
+		mlx_destroy_image(mlx, img);
+		return NULL;
 	}
 	return (&texture);
 }
@@ -68,8 +78,8 @@ static t_color	get_texture_color(t_texturedata *tex, t_uv uv)
 	int				y;
 	unsigned char	*pixel;
 
-    x = ((int)(uv.u * tex->width)) % tex->width;
-    y = ((int)(uv.v * tex->height)) % tex->height;
+	x = ((int)(uv.u * tex->width)) % tex->width;
+	y = ((int)(uv.v * tex->height)) % tex->height;
 	if (x < 0)
 		x += tex->width;
 	if (y < 0)
@@ -85,16 +95,16 @@ static t_color	get_texture_color(t_texturedata *tex, t_uv uv)
 
 t_color	get_checker_color(t_shape *sphere, t_point3 *point)
 {
-	t_uv		    uv;
+	t_uv			uv;
 	t_texturedata	*tex;
 
 	if (sphere->mat.texture != EARTH && sphere->mat.texture != MOON)
 		return (sphere->mat.color);
 	uv = sphere_uv_mapping(sphere, point);
-    if (sphere->mat.texture == EARTH)
-	    tex = load_earth_texture();
-    else
-	    tex = load_moon_texture();
+	if (sphere->mat.texture == EARTH)
+		tex = load_earth_texture(0);
+	else
+		tex = load_moon_texture(0);
 	if (!tex || !tex->data)
 		return ((t_color){1, 0, 1});
 	return (get_texture_color(tex, uv));

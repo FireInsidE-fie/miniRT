@@ -3,7 +3,7 @@
 
 # include <stdint.h>
 
-# define SKY_COLOR 0.1
+# define SKY_COLOR 0.01
 
 typedef struct s_uv {
 	float u;
@@ -53,5 +53,9 @@ t_color		make_color(float r, float g, float b);
 uint32_t	color_to_int(t_color *color);
 t_material	make_mat(t_color color, float specular, float reflection);
 void		print_mat(t_material *mat);
+
+t_texturedata	*load_earth_texture(int flag);
+t_texturedata	*load_moon_texture(int flag);
+
 
 #endif // MATERIAL_H
