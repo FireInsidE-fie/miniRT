@@ -17,7 +17,7 @@ t_color	scale_color(t_color c, float factor)
 	t_range	range;
 	t_color	result;
 
-	range = new_range(0.0, 1.0);
+	range = (t_range){0.0, 1.0};
 	result.r = clamp(c.r * factor, range);
 	result.g = clamp(c.g * factor, range);
 	result.b = clamp(c.b * factor, range);
@@ -29,7 +29,7 @@ t_color	add_color(t_color a, t_color b)
 	t_range	range;
 	t_color	result;
 
-	range = new_range(0.0, 1.0);
+	range = (t_range){0.0, 1.0};
 	result.r = clamp(a.r + b.r, range);
 	result.g = clamp(a.g + b.g, range);
 	result.b = clamp(a.b + b.b, range);
@@ -78,6 +78,6 @@ t_color	compute_reflection(t_point3 *origin, t_vec3 *dir, t_result *result,
 		return ((t_color){0, 0, 0});
 	// Recall ray_color recursively with lower depth until 0
 	reflected = ray_color(intersect, reflected_dir,
-			new_range(0.001f, INFINITY), depth - 1);
+			(t_range){0.001f, INFINITY}, depth - 1);
 	return (scale_color(reflected, result->closest->mat.reflection));
 }

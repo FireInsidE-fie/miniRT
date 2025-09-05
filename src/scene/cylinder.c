@@ -129,15 +129,15 @@ bool	hit_cylinder(t_point3 *origin, t_vec3 *dir, t_shape *cyl, double *t)
 	if (discriminant < 0)
 		return (false);
 	sqrt_disc = sqrt(discriminant);
-    t[0] = (-b - sqrt_disc) / (2 * a);
-    t[1] = (-b + sqrt_disc) / (2 * a);
-    if (!is_inside_cylinder_height(origin, dir, cyl, t[0]))
-        t[0] = INFINITY;
-    if (!is_inside_cylinder_height(origin, dir, cyl, t[1]))
-        t[1] = INFINITY;
-    if (t[0] == INFINITY && t[1] == INFINITY)
-        return (false);
-    return (true);
+	t[0] = (-b - sqrt_disc) / (2 * a);
+	t[1] = (-b + sqrt_disc) / (2 * a);
+	if (!is_inside_cylinder_height(origin, dir, cyl, t[0]))
+		t[0] = INFINITY;
+	if (!is_inside_cylinder_height(origin, dir, cyl, t[1]))
+		t[1] = INFINITY;
+	if (t[0] == INFINITY && t[1] == INFINITY)
+		return (false);
+	return (true);
 }
 
 int	create_cylinder(t_shape *tmp)
