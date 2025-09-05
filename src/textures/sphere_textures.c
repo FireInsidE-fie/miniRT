@@ -24,7 +24,7 @@ static t_uv	sphere_uv_mapping(t_shape *sphere, t_point3 *point)
 	return (uv);
 }
 
-static t_texturedata	*load_moon_texture(void)
+t_texturedata	*load_moon_texture(int flag)
 {
 	static void		        *img;
 	static t_texturedata	texture;
@@ -33,31 +33,41 @@ static t_texturedata	*load_moon_texture(void)
 	if (!img)
 	{
 		mlx = get_core()->mlx;
-		img = mlx_xpm_file_to_image(mlx, "src/scene/MOON.xpm",
+		img = mlx_xpm_file_to_image(mlx, "src/textures/MOON.xpm",
 				&texture.width, &texture.height);
 		if (!img)
 			return (NULL);
 		texture.data = mlx_get_data_addr(img,
 				&texture.bpp, &texture.line_len, &texture.endian);
 	}
+	if (img && flag > 0)
+	{
+		mlx_destroy_image(mlx, img);
+		return (NULL);
+	}
 	return (&texture);
 }
 
-static t_texturedata	*load_earth_texture(void)
+t_texturedata	*load_earth_texture(int flag)
 {
 	static void		        *img;
 	static t_texturedata	texture;
 	void			        *mlx;
-
+	
+	mlx = get_core()->mlx;
 	if (!img)
 	{
-		mlx = get_core()->mlx;
-		img = mlx_xpm_file_to_image(mlx, "src/scene/EARTH.xpm",
+		img = mlx_xpm_file_to_image(mlx, "src/textures/EARTH.xpm",
 				&texture.width, &texture.height);
 		if (!img)
 			return (NULL);
 		texture.data = mlx_get_data_addr(img,
 				&texture.bpp, &texture.line_len, &texture.endian);
+	}
+	if (img && flag > 0)
+	{
+		mlx_destroy_image(mlx, img);
+		return (NULL);
 	}
 	return (&texture);
 }
@@ -92,9 +102,9 @@ t_color	get_checker_color(t_shape *sphere, t_point3 *point)
 		return (sphere->mat.color);
 	uv = sphere_uv_mapping(sphere, point);
     if (sphere->mat.texture == EARTH)
-	    tex = load_earth_texture();
+	    tex = load_earth_texture(0);
     else
-	    tex = load_moon_texture();
+	    tex = load_moon_texture(0);
 	if (!tex || !tex->data)
 		return ((t_color){1, 0, 1});
 	return (get_texture_color(tex, uv));

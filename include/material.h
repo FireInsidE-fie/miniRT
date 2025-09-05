@@ -54,4 +54,7 @@ uint32_t	color_to_int(t_color *color);
 t_material	make_mat(t_color color, float specular, float reflection);
 void		print_mat(t_material *mat);
 
+t_texturedata	*load_earth_texture(int flag);
+t_texturedata	*load_moon_texture(int flag);
+
 #endif // MATERIAL_H
