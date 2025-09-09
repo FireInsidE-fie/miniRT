@@ -23,7 +23,7 @@ void	create_camera(t_point3 *position, t_vec3 *direction, float fov)
 	t_camera	*camera;
 	t_vec3		world_up;
 
-	assert("Field of view" && fov > 0 && fov < 180);
+	assert("Field of view" && fov >= 0 && fov <= 180);
 	world_up = (t_vec3){0.0f, 1.0f, 0.0f};
 	camera = &get_scene()->camera;
 	camera->position = *position;
@@ -61,8 +61,8 @@ t_vec3	camera_to_viewport(int x, int y)
 	return (
 		(t_vec3)
 		{
-			.x = x * (1.0 / (float)WIN_WIDTH),
-			.y = -y * (1.0 / (float)WIN_HEIGHT),
+			.x = x * (get_scene()->camera.fov / 180 / (float)WIN_WIDTH),
+			.y = -y * (get_scene()->camera.fov / 180 / (float)WIN_HEIGHT),
 			.z = 1.0
 		}
 	);
