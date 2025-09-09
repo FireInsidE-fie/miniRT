@@ -2,13 +2,35 @@
 # define MATERIAL_H
 
 # include <stdint.h>
+# include "point3.h"
+# include "vector.h"
 
-# define SKY_COLOR 0.1
+struct s_shape;
+
+# define SKY_COLOR 0.0
 
 typedef struct s_uv {
 	float u;
 	float v;
 }	t_uv;
+
+typedef struct s_bumpmap
+{
+    t_vec3  normal;
+    t_vec3  tangent;
+    t_vec3  bitangent;
+    t_vec3  perturbed;
+    t_uv    uv;
+    int     x;
+    int     y;
+    int     w;
+    int     h_tex;
+    float   h;
+    float   h_x;
+    float   h_y;
+    float   dx;
+    float   dy;
+}   t_bumpmap;
 
 typedef struct s_texturedata
 {
@@ -56,5 +78,9 @@ void		print_mat(t_material *mat);
 
 t_texturedata	*load_earth_texture(int flag);
 t_texturedata	*load_moon_texture(int flag);
+
+void	apply_bump_moon(struct s_shape *sphere, t_point3 *point, t_vec3 *normal);
+void	apply_bump_earth(struct s_shape *sphere, t_point3 *point, t_vec3 *normal);
+t_uv	sphere_uv_mapping(struct s_shape *sphere, t_point3 *point);
 
 #endif // MATERIAL_H

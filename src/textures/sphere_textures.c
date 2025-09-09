@@ -12,7 +12,7 @@
 #include <math.h>
 #include <assert.h>
 
-static t_uv	sphere_uv_mapping(t_shape *sphere, t_point3 *point)
+t_uv	sphere_uv_mapping(t_shape *sphere, t_point3 *point)
 {
 	t_vec3	local;
 	t_uv	uv;

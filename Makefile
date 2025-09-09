@@ -30,6 +30,7 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/movement/camera_movement.c \
 				$(SRCDIR)/movement/camera_rotation.c \
 				$(SRCDIR)/textures/sphere_textures.c \
+				$(SRCDIR)/textures/sphere_bump.c \
 				$(SRCDIR)/hierarchy/hierarchy_sphere.c \
 				$(SRCDIR)/hierarchy/hierarchy_plane.c \
 				$(SRCDIR)/hierarchy/hierarchy_cylinder.c \
