@@ -86,7 +86,7 @@ t_ps	parse_material(char *line, t_material *mat)
 {
 	float	triad[3];
 
-	if (parse_triad(line, triad) != 0)
+	if (parse_triad(line, triad) != DONE)
 		return (TRIAD_ERR);
 	if (!is_in_range(triad[0], (t_range){0, 255})
 		|| !is_in_range(triad[1], (t_range){0, 255})
@@ -95,13 +95,13 @@ t_ps	parse_material(char *line, t_material *mat)
 	mat->color.r = triad[0] / 255;
 	mat->color.g = triad[1] / 255;
 	mat->color.b = triad[2] / 255;
-	if (goto_next_word(&line) != 0)
+	if (goto_next_word(&line) != DONE)
 		return (MISSING_ERR);
 	mat->specular = ft_atof(line);
-	if (goto_next_word(&line) != 0)
+	if (goto_next_word(&line) != DONE)
 		return (MISSING_ERR);
 	mat->reflection = ft_atof(line);
-	if (goto_next_word(&line) != 0)
+	if (goto_next_word(&line) != DONE)
 	{
 		mat->texture = NONE;
 		return (DONE);					// Textures are optional
@@ -121,7 +121,7 @@ t_ps	goto_next_word(char **line)
 		++(*line);
 	while (**line && **line != '\n' && (**line == ' ' || !ft_isprint(**line)))
 		++(*line);
-	if (!*line || **line == '\n')
+	if (!**line || **line == '\n')
 		return (MISSING_ERR);
 	return (DONE);
 }
