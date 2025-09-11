@@ -77,31 +77,46 @@ static t_vec3 compute_bumped_normal_from_heightmap(t_shape *sphere, t_point3 *po
     t_texturedata *bump, float strength)
 {
     t_bumpmap bm;
+    // declaring Bump.xpm textures sizes
     bm.w = bump->width;
     bm.h_tex = bump->height;
+
+    // Get UV coordinates of the sphere hit point
     bm.uv = sphere_uv_mapping(sphere, point);
+
+    // Converting UV coords to a wanted pixel on the texture.
     bm.x = (int)(bm.uv.u * bm.w);
     bm.y = (int)(bm.uv.v * bm.h_tex);
+
+    // Get the current pixel's grayscale.
     bm.h     = get_grayscale(bump, bm.x, bm.y);
+    // Get the Adjacent (x+1) grayscale.
     bm.h_x   = get_grayscale(bump, (bm.x + 1) % bm.w, bm.y);
+    // Get the Adjacent (y+1) grayscale.
     bm.h_y   = get_grayscale(bump, bm.x, (bm.y + 1) % bm.h_tex);
+
+    // Compute the "Height difference"
     bm.dx = (bm.h_x - bm.h) * strength;
     bm.dy = (bm.h_y - bm.h) * strength;
 
-    // Geometric normal.
+    // Setting the geometric normal before bumping/perturbing the normal.
     bm.normal = point3_sub(point, &sphere->position);
     vec_normalize(&bm.normal);
 
-    // Building a Stable TBN marker. TBN stands for Tangent, BitTangent, Normal
+    // Building a Stable TBN landmark. TBN stands for Tangent, BiTangent, Normal
     // Tangent is the Tangential ?? direction on the surface's point.
+    // BiTangent is another Tangent, perpendicular to Tangent T.
+
+    // Bumping/Perturbing the horizontal direction of the surface with u.
     bm.tangent = (t_vec3){ -sin(bm.uv.u * 2 * M_PI), 0, cos(bm.uv.u * 2 * M_PI) };
-    // BitTangent is another Tangent, perpendicular to Tangent T.
+    // Bumping/Perturbing the vertical direction of the surface with v.
     bm.bitangent = (t_vec3){ -cos(bm.uv.u * 2 * M_PI) * sin(bm.uv.v * M_PI),
         cos(bm.uv.v * M_PI), -sin(bm.uv.u * 2 * M_PI) * sin(bm.uv.v * M_PI) };
     vec_normalize(&bm.tangent);
     vec_normalize(&bm.bitangent);
 
-    // 3. Normale bumpée dans le repère tangent
+    // Setting the final bumped/perturbed normal.
+    // Combining Tangent, Bitangent, scaled with dx and dy, and the sphere's normal.
     bm.perturbed = vec_add(
         vec_add(vec_scalar(bm.tangent, bm.dx),
         vec_scalar(bm.bitangent, bm.dy)), vec_scalar(bm.normal, 1.0f));
