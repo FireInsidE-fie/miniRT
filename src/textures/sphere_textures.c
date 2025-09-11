@@ -99,9 +99,12 @@ t_color	get_checker_color(t_shape *sphere, t_point3 *point)
 	t_uv		    uv;
 	t_texturedata	*tex;
 
-	if (sphere->mat.texture != EARTH && sphere->mat.texture != MOON)
+	if (sphere->mat.texture != EARTH && sphere->mat.texture != MOON
+		&& sphere->mat.texture != CHECKERBOARD)
 		return (sphere->mat.color);
 	uv = sphere_uv_mapping(sphere, point);
+	if (sphere->mat.texture == CHECKERBOARD)
+		return (apply_checker_sphere(sphere, uv));
     if (sphere->mat.texture == EARTH)
 	    tex = load_earth_texture(0);
     else

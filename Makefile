@@ -20,6 +20,7 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/sphere.c \
 				$(SRCDIR)/scene/plane.c \
 				$(SRCDIR)/scene/cylinder.c \
+				$(SRCDIR)/scene/cone.c \
 				$(SRCDIR)/hierarchy/hierarchy.c \
 				$(SRCDIR)/hierarchy/hierarchy_utils.c \
 				$(SRCDIR)/reflections/reflections.c \
@@ -31,6 +32,7 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/movement/camera_rotation.c \
 				$(SRCDIR)/textures/sphere_textures.c \
 				$(SRCDIR)/textures/sphere_bump.c \
+				$(SRCDIR)/textures/checkerboard.c \
 				$(SRCDIR)/hierarchy/hierarchy_sphere.c \
 				$(SRCDIR)/hierarchy/hierarchy_plane.c \
 				$(SRCDIR)/hierarchy/hierarchy_cylinder.c \
@@ -47,6 +49,7 @@ IFILES		=	$(INCLDIR)/minirt.h \
 				$(INCLDIR)/sphere.h \
 				$(INCLDIR)/cylinder.h \
 				$(INCLDIR)/plane.h \
+				$(INCLDIR)/cone.h \
 				$(INCLDIR)/scene.h \
 				$(INCLDIR)/utils.h \
 				$(INCLDIR)/hierarchy.h \

@@ -1,4 +1,5 @@
 #include "cylinder.h"
+#include "cone.h"
 #include "plane.h"
 #include "material.h"
 #include "scene.h"
@@ -107,7 +108,7 @@ t_ps	parse_cone(char *line)
 	status = parse_material(line, &tmp.mat);
 	if (status != DONE)
 		return (status);
-	// create_cone(&tmp);
+	create_cone(&tmp);
 	return (0);
 }
 

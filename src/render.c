@@ -10,6 +10,7 @@
 #include "utils.h"
 #include "plane.h"
 #include "cylinder.h"
+#include "cone.h"
 
 #include <math.h>
 #include <stdbool.h>
@@ -46,6 +47,8 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
 			handle_plane_intersect(t, tmp, range, &result);
 		else if (tmp->type == CYLINDER && hit_cylinder(origin, dir, tmp, t))
 			handle_cylinder_intersect(t, tmp, range, &result);
+		else if (tmp->type == CONE && hit_cone(origin, dir, tmp, t))
+			handle_cone_intersect(t, tmp, range, &result);
 		tmp = tmp->next;
 	}
 	return (result);
@@ -75,9 +78,11 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	if (result->closest->type == SPHERE)
 		compute_sphere_light(&normal, &intersect, &color, result);
 	else if (result->closest->type == PLANE)
-		compute_plane_light(&normal, &color, result);
+		compute_plane_light(&normal, &intersect, &color, result);
 	else if (result->closest->type == CYLINDER)
 		compute_cylinder_light(&normal, &intersect, &color, result);
+	else if (result->closest->type == CONE)
+		compute_cone_light(&normal, &intersect, &color, result);
 	intensity = get_light_intensity(&intersect, &normal, result->closest->mat.specular);
 	color.r *= clamp(intensity.r, (t_range){0.0f, 1.0f});
 	color.g *= clamp(intensity.g, (t_range){0.0f, 1.0f});
