@@ -38,14 +38,16 @@ static t_vec3	project_vec(t_vec3 *v, t_vec3 *axis)
 	return (proj);
 }
 
+// Good to note the cone's position is actually the tip point,
+// if you think about non-closed cones shown in the subject, it makes sense.
 static void	compute_cone_coeffs(t_vec3 *origin, t_vec3 *dir,
 		t_shape *cone, double coeffs[3])
 {
-	t_vec3	oc;
-	t_vec3	proj_d;
-	t_vec3	proj_oc;
-	t_vec3	d_proj;
-	t_vec3	oc_proj;
+	t_vec3	oc;			// origin to cone tip vector
+	t_vec3	proj_d;		// How much does dir follows along cone->direction, 0 if completely perpendicular
+	t_vec3	proj_oc;	// How much does origin to cone's tip segment/vector follows along cone->direction
+	t_vec3	d_proj;		// How much does dir follows along cone->direction, 0 if completely parallel (other axis)
+	t_vec3	oc_proj;	// How much does origin to cone's tip segment/vector follows along cone->direction (other axis)
 
 	oc = point3_sub(origin, &cone->position);
 	proj_d = project_vec(dir, &cone->direction);
@@ -53,11 +55,11 @@ static void	compute_cone_coeffs(t_vec3 *origin, t_vec3 *dir,
 	proj_oc = project_vec(&oc, &cone->direction);
 	oc_proj = point3_sub(&oc, &proj_oc);
 	coeffs[0] = dot_product(&d_proj, &d_proj) - pow((cone->radius / cone->height), 2)
-        * dot_product(&proj_d, &proj_d);
+		* dot_product(&proj_d, &proj_d);
 	coeffs[1] = 2 * (dot_product(&d_proj, &oc_proj) - pow((cone->radius / cone->height), 2)
-        * dot_product(&proj_d, &proj_oc));
+		* dot_product(&proj_d, &proj_oc));
 	coeffs[2] = dot_product(&oc_proj, &oc_proj) - pow((cone->radius / cone->height), 2)
-            * dot_product(&proj_oc, &proj_oc);
+			* dot_product(&proj_oc, &proj_oc);
 }
 
 bool	hit_cone(t_point3 *origin, t_vec3 *dir, t_shape *cone, double *t)
@@ -68,10 +70,6 @@ bool	hit_cone(t_point3 *origin, t_vec3 *dir, t_shape *cone, double *t)
 	double	a;
 	double	b;
 
-	assert("Origin" && origin);
-	assert("Direction" && dir);
-	assert("Cone" && cone && cone->type == CONE);
-	assert("t" && t);
 	compute_cone_coeffs(origin, dir, cone, coeffs);
 	a = coeffs[0];
 	b = coeffs[1];
