@@ -67,6 +67,7 @@ t_ps	parse_cylinder(char *line)
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	status = parse_material(line, &tmp.mat);
+	print_mat(&tmp.mat);
 	if (status != DONE)
 		return (status);
 	return (create_cylinder(&tmp));
