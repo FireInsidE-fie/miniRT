@@ -51,6 +51,8 @@ IFILES		=	$(INCLDIR)/minirt.h \
 				$(INCLDIR)/utils.h \
 				$(INCLDIR)/hierarchy.h \
 				$(INCLDIR)/movement.h \
+				$(INCLDIR)/textures.h \
+				$(INCLDIR)/texturedata.h \
 				$(INCLDIR)/vector.h
 
 LIBFT_DIR	=	./libft

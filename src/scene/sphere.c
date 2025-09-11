@@ -1,4 +1,5 @@
 #include "sphere.h"
+#include "textures.h"
 #include "parsing.h"
 #include "scene.h"
 #include "vector.h"

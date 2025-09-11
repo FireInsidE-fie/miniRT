@@ -5,6 +5,7 @@
 #include "libft.h"
 #include "parsing.h"
 #include "utils.h"
+#include "textures.h"
 
 #include <stdlib.h>
 #include <stdio.h>

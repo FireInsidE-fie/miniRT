@@ -1,4 +1,5 @@
 #include "material.h"
+#include "textures.h"
 #include "scene.h"
 #include "vector.h"
 #include "minirt.h"
