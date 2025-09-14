@@ -62,12 +62,17 @@ void	print_camera(t_camera *camera)
  */
 t_vec3	camera_to_viewport(int x, int y)
 {
+	float	viewport_half_width;
+	float	viewport_half_height;
+
+	viewport_half_width = tan(get_scene()->camera.hfov * M_PI / 180.0f / 2.0f);
+	viewport_half_height = viewport_half_width / get_scene()->camera.ar;
 	return (
 		(t_vec3)
 		{
-			.x = x * (get_scene()->camera.hfov / 180 / (float)WIN_WIDTH),
-			.y = -y * (get_scene()->camera.vfov / 180 / (float)WIN_HEIGHT),
-			.z = 1.0
+			.x = x / (float)WIN_WIDTH * viewport_half_width,
+			.y = -y / (float)WIN_HEIGHT * viewport_half_height,
+			.z = 1.0f
 		}
 	);
 }
