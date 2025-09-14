@@ -8,7 +8,7 @@
 #include <math.h>
 #include <stdio.h>
 
-t_vec3 camera_apply_rotation(t_vec3 v, t_camera *cam)
+t_vec3	camera_apply_rotation(t_vec3 v, t_camera *cam)
 {
 	return (
 		(t_vec3){
@@ -28,8 +28,10 @@ void	create_camera(t_point3 *position, t_vec3 *direction, float fov)
 	world_up = (t_vec3){0.0f, 1.0f, 0.0f};
 	camera = &get_scene()->camera;
 	camera->position = *position;
+	camera->ar = (float)WIN_WIDTH / WIN_HEIGHT;
 	camera->hfov = fov;
-	camera->vfov = 2.0f * atan(tan(camera->hfov / 180 * M_PI / 2.0f) / ((float)WIN_WIDTH / (float)WIN_HEIGHT)) * 180 / M_PI;
+	camera->vfov = 2 * atan(
+			tan(camera->hfov / 180 * M_PI / 2) / camera->ar) * 180 / M_PI;
 	camera->forward = *direction;
 	vec_normalize(&camera->forward);
 	camera->right = cross_product(&world_up, &camera->forward);
