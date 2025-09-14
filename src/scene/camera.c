@@ -29,7 +29,7 @@ void	create_camera(t_point3 *position, t_vec3 *direction, float fov)
 	camera = &get_scene()->camera;
 	camera->position = *position;
 	camera->hfov = fov;
-	camera->vfov = 2.0f * atan(tan(camera->hfov / 180 * M_PI / 2.0f) / (WIN_WIDTH / WIN_HEIGHT)) * 180 / M_PI;
+	camera->vfov = 2.0f * atan(tan(camera->hfov / 180 * M_PI / 2.0f) / ((float)WIN_WIDTH / (float)WIN_HEIGHT)) * 180 / M_PI;
 	camera->forward = *direction;
 	vec_normalize(&camera->forward);
 	camera->right = cross_product(&world_up, &camera->forward);
