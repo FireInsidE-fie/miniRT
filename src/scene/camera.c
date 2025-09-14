@@ -29,9 +29,7 @@ void	create_camera(t_point3 *position, t_vec3 *direction, float fov)
 	camera = &get_scene()->camera;
 	camera->position = *position;
 	camera->ar = (float)WIN_WIDTH / WIN_HEIGHT;
-	camera->hfov = fov;
-	camera->vfov = 2 * atan(
-			tan(camera->hfov / 180 * M_PI / 2) / camera->ar) * 180 / M_PI;
+	camera->fov = fov;
 	camera->forward = *direction;
 	vec_normalize(&camera->forward);
 	camera->right = cross_product(&world_up, &camera->forward);
@@ -47,10 +45,10 @@ void	print_camera(t_camera *camera)
 	printf("[!] - Camera\n"
 		"Position: (%f, %f, %f)\n"
 		"Direction: (%f, %f, %f)\n"
-		"Horizontal / Vertical Fields of View: %f - %f\n",
+		"Field of View: %f\n",
 		camera->position.x, camera->position.y, camera->position.z,
 		camera->forward.x, camera->forward.y, camera->forward.z,
-		camera->hfov, camera->vfov);
+		camera->fov);
 }
 
 /**
@@ -65,7 +63,7 @@ t_vec3	camera_to_viewport(int x, int y)
 	float	viewport_half_width;
 	float	viewport_half_height;
 
-	viewport_half_width = tan(get_scene()->camera.hfov * M_PI / 180.0f / 2.0f);
+	viewport_half_width = tan(get_scene()->camera.fov * M_PI / 180.0f / 2.0f);
 	viewport_half_height = viewport_half_width / get_scene()->camera.ar;
 	return (
 		(t_vec3)

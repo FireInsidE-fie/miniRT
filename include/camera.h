@@ -12,8 +12,7 @@ typedef struct s_camera
 	t_vec3		forward;
 	float		pitch;
 	float		ar;
-	float		hfov;		// Range [0, 180]
-	float		vfov;		// Range [0, 180]
+	float		fov;		// Range [0, 180]
 }	t_camera;
 
 void	create_camera(t_point3 *position, t_vec3 *direction, float fov);
