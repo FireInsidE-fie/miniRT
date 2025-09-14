@@ -2,8 +2,8 @@
 # define MINIRT_H
 
 // Macros //
-# define WIN_WIDTH 1080
-# define WIN_HEIGHT 1080
+# define WIN_WIDTH 1920.0f
+# define WIN_HEIGHT 1080.0f
 # define BLOCK_SIZE 480
 
 // Includes //

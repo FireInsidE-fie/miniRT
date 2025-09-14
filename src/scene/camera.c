@@ -5,6 +5,7 @@
 #include "vector.h"
 
 #include <assert.h>
+#include <math.h>
 #include <stdio.h>
 
 t_vec3 camera_apply_rotation(t_vec3 v, t_camera *cam)
@@ -27,7 +28,8 @@ void	create_camera(t_point3 *position, t_vec3 *direction, float fov)
 	world_up = (t_vec3){0.0f, 1.0f, 0.0f};
 	camera = &get_scene()->camera;
 	camera->position = *position;
-	camera->fov = fov;
+	camera->hfov = fov;
+	camera->vfov = 2.0f * atan(tan(camera->hfov / 180 * M_PI / 2.0f) / (WIN_WIDTH / WIN_HEIGHT)) * 180 / M_PI;
 	camera->forward = *direction;
 	vec_normalize(&camera->forward);
 	camera->right = cross_product(&world_up, &camera->forward);
@@ -43,10 +45,10 @@ void	print_camera(t_camera *camera)
 	printf("[!] - Camera\n"
 		"Position: (%f, %f, %f)\n"
 		"Direction: (%f, %f, %f)\n"
-		"Field of View: %f\n",
+		"Horizontal / Vertical Fields of View: %f - %f\n",
 		camera->position.x, camera->position.y, camera->position.z,
 		camera->forward.x, camera->forward.y, camera->forward.z,
-		camera->fov);
+		camera->hfov, camera->vfov);
 }
 
 /**
@@ -61,8 +63,8 @@ t_vec3	camera_to_viewport(int x, int y)
 	return (
 		(t_vec3)
 		{
-			.x = x * (get_scene()->camera.fov / 180 / (float)WIN_WIDTH),
-			.y = -y * (get_scene()->camera.fov / 180 / (float)WIN_HEIGHT),
+			.x = x * (get_scene()->camera.hfov / 180 / (float)WIN_WIDTH),
+			.y = -y * (get_scene()->camera.vfov / 180 / (float)WIN_HEIGHT),
 			.z = 1.0
 		}
 	);
