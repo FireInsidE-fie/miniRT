@@ -5,9 +5,10 @@
 #include "vector.h"
 
 #include <assert.h>
+#include <math.h>
 #include <stdio.h>
 
-t_vec3 camera_apply_rotation(t_vec3 v, t_camera *cam)
+t_vec3	camera_apply_rotation(t_vec3 v, t_camera *cam)
 {
 	return (
 		(t_vec3){
@@ -27,6 +28,7 @@ void	create_camera(t_point3 *position, t_vec3 *direction, float fov)
 	world_up = (t_vec3){0.0f, 1.0f, 0.0f};
 	camera = &get_scene()->camera;
 	camera->position = *position;
+	camera->ar = (float)WIN_WIDTH / WIN_HEIGHT;
 	camera->fov = fov;
 	camera->forward = *direction;
 	vec_normalize(&camera->forward);
@@ -58,12 +60,17 @@ void	print_camera(t_camera *camera)
  */
 t_vec3	camera_to_viewport(int x, int y)
 {
+	float	viewport_half_width;
+	float	viewport_half_height;
+
+	viewport_half_width = tan(get_scene()->camera.fov * M_PI / 180.0f / 2.0f);
+	viewport_half_height = viewport_half_width / get_scene()->camera.ar;
 	return (
 		(t_vec3)
 		{
-			.x = x * (get_scene()->camera.fov / 180 / (float)WIN_WIDTH),
-			.y = -y * (get_scene()->camera.fov / 180 / (float)WIN_HEIGHT),
-			.z = 1.0
+			.x = x / (float)WIN_WIDTH * viewport_half_width,
+			.y = -y / (float)WIN_HEIGHT * viewport_half_height,
+			.z = 1.0f
 		}
 	);
 }

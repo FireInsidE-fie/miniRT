@@ -11,6 +11,7 @@ typedef struct s_camera
 	t_vec3		right;
 	t_vec3		forward;
 	float		pitch;
+	float		ar;
 	float		fov;		// Range [0, 180]
 }	t_camera;
 
