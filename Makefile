@@ -112,10 +112,9 @@ re:				fclean all
 
 # Automated test suite
 test:			$(NAME)
-				@$(RM) $(RMFLAGS) $(LOG)
 				@printf "[!] - Launching test suite..."
 				@printf "\n==========================================================\n"
-				$(VALGRIND) $(VALFLAGS) ./$(NAME) maps/valid1.rt 2>> $(LOG)
+				$(VALGRIND) $(VALFLAGS) ./$(NAME) maps/valid1.rt 2>&1 | tee $(LOG)
 
 # 42 Norm checks
 check:
