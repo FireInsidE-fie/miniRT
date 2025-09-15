@@ -115,17 +115,17 @@ void	compute_cone_light(t_vec3 *normal, t_point3 *intersect,
 
 t_vec3	get_cone_normal(t_shape *cone, t_point3 *intersect)
 {
-	t_vec3	base_to_p;
-	t_vec3	axis;
-	t_vec3	proj;
+	t_vec3	base_to_p;	// from cone->pos (tip) to intersect vector
+	t_vec3	axis;		// point reached within cone->direction from tip towards dir scaled with m
+	t_vec3	proj;		// perpendicular with cone->dir, is placed where axis stops.
 	t_vec3	normal;
-	double	m;
+	double	m;			// scalar used to determine how much base_to_p follows cone->direction
 
 	base_to_p = point3_sub(intersect, &cone->position);
 	m = dot_product(&base_to_p, &cone->direction);
 	axis = point3_scale(&cone->direction, m);
 	proj = point3_sub(&base_to_p, &axis);
-	proj = point3_scale(&proj, 1.0 / (pow((cone->radius / cone->height), 2)));
+	proj = point3_scale(&proj, 1.0 / (pow((cone->radius / cone->height), 2))); // Applying proper cone incline to compute normal.
 	normal = point3_add(&proj, &axis);
 	vec_normalize(&normal);
 	return (normal);
