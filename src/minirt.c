@@ -46,6 +46,8 @@ int	rt_kill(int exit_code)
 		mlx_destroy_window(core->mlx, core->win);
 		load_earth_texture(1);
 		load_moon_texture(1);
+		load_earth_bumpmap(1);
+		load_moon_bumpmap(1);
 		mlx_destroy_display(core->mlx);
 		free(core->mlx);
 	}

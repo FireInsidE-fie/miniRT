@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static t_texturedata    *load_earth_bumpmap(int flag)
+t_texturedata    *load_earth_bumpmap(int flag)
 {
     static void                *img;
     static t_texturedata    texture;
@@ -32,7 +32,7 @@ static t_texturedata    *load_earth_bumpmap(int flag)
     return (&texture);
 }
 
-static t_texturedata    *load_moon_bumpmap(int flag)
+t_texturedata    *load_moon_bumpmap(int flag)
 {
     static void                *img;
     static t_texturedata    texture;
