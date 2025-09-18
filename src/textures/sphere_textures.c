@@ -1,13 +1,11 @@
 #include "sphere.h"
 #include "textures.h"
-#include "parsing.h"
 #include "scene.h"
 #include "vector.h"
 #include "minirt.h"
 #include "material.h"
 #include "mlx.h"
 
-#include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
@@ -27,9 +25,9 @@ t_uv	sphere_uv_mapping(t_shape *sphere, t_point3 *point)
 
 t_texturedata	*load_moon_texture(int flag)
 {
-	static void		        *img;
+	static void				*img;
 	static t_texturedata	texture;
-	void			        *mlx;
+	void					*mlx;
 
 	if (!img)
 	{
@@ -51,10 +49,10 @@ t_texturedata	*load_moon_texture(int flag)
 
 t_texturedata	*load_earth_texture(int flag)
 {
-	static void		        *img;
+	static void				*img;
 	static t_texturedata	texture;
-	void			        *mlx;
-	
+	void					*mlx;
+
 	mlx = get_core()->mlx;
 	if (!img)
 	{
@@ -79,8 +77,8 @@ static t_color	get_texture_color(t_texturedata *tex, t_uv uv)
 	int				y;
 	unsigned char	*pixel;
 
-    x = ((int)(uv.u * tex->width)) % tex->width;
-    y = ((int)(uv.v * tex->height)) % tex->height;
+	x = ((int)(uv.u * tex->width)) % tex->width;
+	y = ((int)(uv.v * tex->height)) % tex->height;
 	if (x < 0)
 		x += tex->width;
 	if (y < 0)
@@ -96,7 +94,7 @@ static t_color	get_texture_color(t_texturedata *tex, t_uv uv)
 
 t_color	get_checker_color(t_shape *sphere, t_point3 *point)
 {
-	t_uv		    uv;
+	t_uv			uv;
 	t_texturedata	*tex;
 
 	if (sphere->mat.texture != EARTH && sphere->mat.texture != MOON
@@ -105,10 +103,10 @@ t_color	get_checker_color(t_shape *sphere, t_point3 *point)
 	uv = sphere_uv_mapping(sphere, point);
 	if (sphere->mat.texture == CHECKERBOARD)
 		return (apply_checker_sphere(sphere, uv));
-    if (sphere->mat.texture == EARTH)
-	    tex = load_earth_texture(0);
-    else
-	    tex = load_moon_texture(0);
+	if (sphere->mat.texture == EARTH)
+		tex = load_earth_texture(0);
+	else
+		tex = load_moon_texture(0);
 	if (!tex || !tex->data)
 		return ((t_color){1, 0, 1});
 	return (get_texture_color(tex, uv));

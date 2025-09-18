@@ -80,7 +80,7 @@ t_ps	parse_cone(char *line)
 	t_ps		status;
 
 	assert(line && "Line");
-	printf("[!] - Parsing a cylinder...\n");
+	printf("[!] - Parsing a cone...\n");
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	status = parse_position(line, &tmp.position);
