@@ -2,7 +2,6 @@
 # define TEXTURE_H
 
 # include "scene.h"
-# include "vector.h"
 # include "texturedata.h"
 
 typedef struct s_uv {

@@ -1,8 +1,9 @@
 #ifndef CONE_H
 # define CONE_H
 
-# include "vector.h"
+# include "minirt.h"
 # include "scene.h"
+# include "utils.h"
 
 bool	hit_cone(t_point3 *origin, t_vec3 *dir,
 			t_shape *cone, double *t);

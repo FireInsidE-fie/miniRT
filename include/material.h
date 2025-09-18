@@ -2,8 +2,6 @@
 # define MATERIAL_H
 
 # include <stdint.h>
-# include "point3.h"
-# include "vector.h"
 # include "texturedata.h"
 
 # define SKY_COLOR 0.0
