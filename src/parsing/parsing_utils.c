@@ -56,6 +56,10 @@ t_ps	parse_position(char *line, t_point3 *result)
 	return (DONE);
 }
 
+/**
+ * @brief Parses a texture, which in the `.rt` format is two uppercase letters
+ * denoting one of CHECKERBOARD, EARTH or MOON.
+ */
 static t_ps	parse_texture(char *line, t_texture *texture)
 {
 	int	i;

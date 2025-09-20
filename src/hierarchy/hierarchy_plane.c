@@ -6,11 +6,9 @@
 #include <stdint.h>
 
 /* Mouse hook called in ewin_plane when an edit window is opened.
-
-	Checks for the area clicked, matches the colored
-	red and green squares buttons.
-*/
-
+ * Checks for the area clicked, matches the colored
+ * red and green squares buttons.
+ */
 int	on_mouse_edit_p(int button, int x, int y, void *param)
 {
 	t_ewin	*ewin;

@@ -7,6 +7,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * @brief Gets the raw data for a given pixel of the color picker.
+ */
 static int	fetch_color_picker_data(
 	t_ewin *ewin, char **data, int mouse_x, int mouse_y)
 {
@@ -23,6 +26,10 @@ static int	fetch_color_picker_data(
 	return (py * line_len + px * (bpp / 8));
 }
 
+/**
+ * @brief For a given edit window and position on the color picker,
+ * set the edit window's associated object to the color found at that position.
+ */
 void	fetch_color_from_picker(int mouse_x, int mouse_y, t_ewin *ewin)
 {
 	char	*data;

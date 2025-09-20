@@ -6,9 +6,9 @@
 
 /**
  * @brief Rodrigues' rotation formula
-	Give it the direction, the axis you want to rotate (Right/Up)
-	and the angle you want to apply on the axis, and boom, works.
-	rotate_vector(cam->direction, cam->up, -0.3) < Cam goes down.
+ * Give it the direction, the axis you want to rotate (Right/Up)
+ * and the angle you want to apply on the axis, and boom, works.
+ * rotate_vector(cam->direction, cam->up, -0.3) < Cam goes down.
  */
 t_vec3	rotate_vector(t_vec3 v, t_vec3 u, float angle)
 {
@@ -25,10 +25,10 @@ t_vec3	rotate_vector(t_vec3 v, t_vec3 u, float angle)
 
 /**
  * @brief Remake a camera with the correct vectors
-	This is needed as when we apply a rotation of any kind,
-	the other vectors are not aligned anymore.
-	If we look a bit on the left or right with the camera,
-	we need to reassign where the Forward and Up vectors are.
+ * This is needed as when we apply a rotation of any kind,
+ * the other vectors are not aligned anymore.
+ * If we look a bit on the left or right with the camera,
+ * we need to reassign where the Forward and Up vectors are.
  */
 void	camera_build_basis(t_camera *cam)
 {
@@ -41,8 +41,8 @@ void	camera_build_basis(t_camera *cam)
 
 /**
  * @brief Builds a new camera with a new Up/down angle applied.
-	The Pitch is also capped so we don't go too far and end up
-	looking "behind" by going completely Up or Down.
+ * The Pitch is also capped so we don't go too far and end up
+ * looking "behind" by going completely Up or Down.
  */
 void	rotate_camera_pitch(t_camera *cam, float angle)
 {
@@ -58,6 +58,7 @@ void	rotate_camera_pitch(t_camera *cam, float angle)
 	cam->pitch += angle;
 	camera_build_basis(cam);
 }
+
 /**
  * @brief Builds a new camera with a new Left/Right angle applied.
  */

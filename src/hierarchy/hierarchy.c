@@ -5,8 +5,9 @@
 #include <X11/X.h>
 #include <stdint.h>
 
-// list size but for t_shape type
-
+/**
+ * @brief Computes the size of a linked list of `t_shape`s.
+ */
 int	shape_lst_size(t_shape *lst)
 {
 	int	i;
@@ -30,9 +31,6 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-/* Creates a rectangle struct, quite simple to understand i hope.
-*/
-
 t_rectangle	new_rectangle(int width, int height, int color)
 {
 	t_rectangle	rec;
@@ -43,9 +41,10 @@ t_rectangle	new_rectangle(int width, int height, int color)
 	return (rec);
 }
 
-// Draws a rectangle with a given img, coordinates and t_rectangle.
-// t_rectangle structs contain : int width, int height, int color (hex)
 
+/*
+ * @brief Draws a rectangle with a given img, coordinates and t_rectangle.
+*/
 void	draw_rect(t_img *img, int x, int y, t_rectangle rec)
 {
 	int	i;
@@ -96,7 +95,6 @@ void	draw_buttons(t_shape *shape, t_img *img, int start, int y_offset)
 	anywhere on the ui, this last case fixes a specific issue where
 	the window would appear pitch back when resized.
 */
-
 void	render_shape_list(t_core *core)
 {
 	t_shape		*shape;
@@ -132,9 +130,7 @@ void	render_shape_list(t_core *core)
 	when changes are made, such as changing pages or even clicking
 	anywhere on the ui, this fixes a specific issue where the window
 	would appear pitch back when resized.
-
 */
-
 int	on_mouse_debug(int button, int x, int y, void *param)
 {
 	t_core	*core;

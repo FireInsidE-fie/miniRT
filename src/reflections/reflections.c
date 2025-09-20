@@ -12,6 +12,10 @@
 #include <stdbool.h>
 #include <assert.h>
 
+/**
+ * @brief Multiplies a color by a given factor.
+ */
+// TODO: should probably be called `color_mult`
 t_color	scale_color(t_color c, float factor)
 {
 	t_range	range;
@@ -60,6 +64,10 @@ static t_vec3	get_normal(t_result *result, t_point3 *point)
 	return (normal);
 }
 
+/**
+ * @brief Recursive function that is called when a ray has to bounce off of a
+ * mirrory surface, up to `depth` times.
+ */
 t_color	compute_reflection(t_point3 *origin, t_vec3 *dir, t_result *result,
 		int depth)
 {
