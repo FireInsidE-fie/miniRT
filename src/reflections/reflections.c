@@ -3,12 +3,10 @@
 #include "point3.h"
 #include "material.h"
 #include "scene.h"
-#include "math.h"
 #include "vector.h"
 #include "utils.h"
 #include "cylinder.h"
 
-#include <math.h>
 #include <stdbool.h>
 #include <assert.h>
 

@@ -2,8 +2,6 @@
 #include "mlx.h"
 #include "movement.h"
 
-#include <math.h>
-
 #define FAST_STEP 20
 #define MAXDEPTH 3
 
