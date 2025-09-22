@@ -35,7 +35,7 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir)
 
 	assert("Origin" && origin);
 	assert("Direction" && dir);
-	range = (t_range){0.0001f, INFINITY};
+	range = (t_range){0.000001f, INFINITY};
 	result.closest = NULL;
 	result.closest_t = INFINITY;
 	tmp = get_scene()->shapes;
@@ -102,7 +102,7 @@ t_color	ray_color(t_point3 origin, t_vec3 dir, int depth)
 	local_color = compute_light(&origin, &dir, &result);
 	if (depth <= 0 || result.closest->mat.reflection <= 0.0f)
 		return (local_color);
-	reflected = compute_reflection(&origin, &dir, &result, depth);
+	reflected = compute_reflection((t_origin){&origin, NULL}, &dir, &result, depth);
 	return (add_color(scale_color(
 				local_color, 1 - result.closest->mat.reflection), reflected));
 }
