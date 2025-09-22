@@ -5,6 +5,7 @@
 # include "scene.h"
 # include "point3.h"
 # include "material.h"
+# include "utils.h"
 
 # include <stdbool.h>
 
