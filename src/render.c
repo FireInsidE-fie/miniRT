@@ -26,17 +26,18 @@
  * @return A `t_result` struct containing a pointer to the sphere intersected
  * and the t value at that point.
  */
-t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
+t_result	closest_intersect(t_point3 *origin, t_vec3 *dir)
 {
 	t_shape		*tmp;
+	t_range		range;
 	t_result	result;
 	double		t[2];
 
 	assert("Origin" && origin);
 	assert("Direction" && dir);
-	assert("Range" && range.min >= 0.0 && range.max >= range.min);
+	range = (t_range){0.0001f, INFINITY};
 	result.closest = NULL;
-	result.closest_t = range.max;
+	result.closest_t = INFINITY;
 	tmp = get_scene()->shapes;
 	while (tmp)
 	{
@@ -89,13 +90,13 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
  * @brief Finds the closest object to the `origin` on a ray with `direction`,
  * and returns its color.
  */
-t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range, int depth)
+t_color	ray_color(t_point3 origin, t_vec3 dir, int depth)
 {
 	t_result	result;
 	t_color		local_color;
 	t_color		reflected;
 
-	result = closest_intersect(&origin, &dir, t_range);
+	result = closest_intersect(&origin, &dir);
 	if (!result.closest)
 		return ((t_color){SKY_COLOR, SKY_COLOR, SKY_COLOR});
 	local_color = compute_light(&origin, &dir, &result);
@@ -118,8 +119,7 @@ static void	process_bloc_render(void)
 			get_scene()->camera.position,
 			camera_apply_rotation(
 				camera_to_viewport(get_core()->render.x, get_core()->render.y),
-				&get_scene()->camera),
-			(t_range){1, INFINITY}, MAXDEPTH
+				&get_scene()->camera), MAXDEPTH
 			);
 	img_put_pixel(&get_core()->img,
 		get_core()->render.x + WIN_WIDTH / 2,
