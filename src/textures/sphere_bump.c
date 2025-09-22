@@ -7,6 +7,20 @@
 #include <math.h>
 #include <stdio.h>
 
+/*	Loading Bumpmap textures (.xpm)
+*
+*	We use a static void *img and static t_texturedata
+*	to avoid reloading the xpm file or its data on every
+*	ray sent.
+*
+*	if the img doesn't exist yet, load it, if it exists
+*	return the previously loaded t_texturedata texture.
+*
+*	if the function is called with flag > 0 (1 in rt_kill)
+*	the function will free the mlx image instead of loading it.
+*	(only if it was loaded). the flag should be 0 when used to load.
+*/
+
 t_texturedata	*load_earth_bumpmap(int flag)
 {
 	static void				*img;
@@ -51,7 +65,9 @@ t_texturedata	*load_moon_bumpmap(int flag)
 	return (&texture);
 }
 
-// Read grayscale value from bump texture
+// Returns the amount of gray a pixel has
+// (considering pixel[0] = pixel[1] = pixel[2])
+
 static float	get_grayscale(t_texturedata *tex, int x, int y)
 {
 	unsigned char		*pixel;
@@ -68,6 +84,26 @@ static float	get_grayscale(t_texturedata *tex, int x, int y)
 	return (pixel[0] / 255.0f);
 }
 
+/*	Returns a pertubed normal after applying bump.
+*
+*	We first retrieve the uv coords from the sphere.
+*	The uv coords are then used to retrieve the wanted
+*	pixel on the bumpmap texture image.
+*
+*	get_grayscale retrieves the amount of gray the pixel has.
+*	the h_x and h_y variables are used to compare the adjacent
+*	pixel's grayscales. 
+*
+*	dx and dy hold the height differences between the adjacent
+*	pixels. a strength value is used to scale the effect. We'll
+*	use predefined values for strength as it depends on how well
+*	made the bump map textures are made.
+*
+*	Once we have gathered the grayscales, height differences,
+*	uv coords. We set and return the final perturbed normal with
+*	the horizontally perturbed tangeant (bm.tangeant) and the
+*	vertically perturbed tangeant (bm.bitangeant).
+*/
 static t_vec3	compute_bumped_normal_from_heightmap(t_shape *sphere, t_point3 *point,
 	t_texturedata *bump, float strength)
 {
@@ -94,7 +130,8 @@ static t_vec3	compute_bumped_normal_from_heightmap(t_shape *sphere, t_point3 *po
 	bm.dx = (bm.h_x - bm.h) * strength;
 	bm.dy = (bm.h_y - bm.h) * strength;
 
-	// Setting the geometric normal before bumping/perturbing the normal.
+	// Setting the geometric normal before bumping/perturbing the normal
+	// from the sphere pos to the hitpoint.
 	bm.normal = point3_sub(point, &sphere->position);
 	vec_normalize(&bm.normal);
 
@@ -123,8 +160,9 @@ static t_vec3	compute_bumped_normal_from_heightmap(t_shape *sphere, t_point3 *po
 
 void	apply_bump_earth(t_shape *sphere, t_point3 *point, t_vec3 *normal)
 {
-	t_texturedata	*bump = load_earth_bumpmap(0);
+	t_texturedata	*bump;
 
+	bump = load_earth_bumpmap(0);
 	if (!bump || !bump->data)
 		return ;
 	*normal = compute_bumped_normal_from_heightmap(sphere, point, bump, 111122.5f);
@@ -133,8 +171,9 @@ void	apply_bump_earth(t_shape *sphere, t_point3 *point, t_vec3 *normal)
 
 void	apply_bump_moon(t_shape *sphere, t_point3 *point, t_vec3 *normal)
 {
-	t_texturedata	*bump = load_moon_bumpmap(0);
-
+	t_texturedata	*bump;
+	
+	bump = load_moon_bumpmap(0);
 	if (!bump || !bump->data)
 		return ;
 	*normal = compute_bumped_normal_from_heightmap(sphere, point, bump, 2.5f);
