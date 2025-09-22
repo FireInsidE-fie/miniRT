@@ -73,8 +73,8 @@ int			init_window(void);
 void		img_put_pixel(t_img *img, int x, int y, t_color *color);
 
 // Rendering functions - render.c
-t_result	closest_intersect(t_point3 *origin, t_vec3 *dir);
-t_color		ray_color(t_point3 origin, t_vec3 dir, int depth);
+t_result	closest_intersect(t_origin origin, t_vec3 *dir);
+t_color		ray_color(t_point3 origin, t_shape *self, t_vec3 dir, int depth);
 int			render(void *param);
 
 // Fast rendering functions - fast_render.c

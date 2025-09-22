@@ -109,7 +109,7 @@ t_color	get_light_exposure(
 
 	intensity = (t_color){0.0f, 0.0f, 0.0f};
 	point_to_light = point3_sub(&light->position, point);
-	if (closest_intersect(point, &point_to_light).closest)
+	if (closest_intersect((t_origin){point, NULL}, &point_to_light).closest)
 	{
 		light = light->next;
 		return (intensity);

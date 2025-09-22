@@ -26,14 +26,14 @@
  * @return A `t_result` struct containing a pointer to the sphere intersected
  * and the t value at that point.
  */
-t_result	closest_intersect(t_point3 *origin, t_vec3 *dir)
+t_result	closest_intersect(t_origin origin, t_vec3 *dir)
 {
 	t_shape		*tmp;
 	t_range		range;
 	t_result	result;
 	double		t[2];
 
-	assert("Origin" && origin);
+	assert("Origin" && origin.point);
 	assert("Direction" && dir);
 	range = (t_range){0.000001f, INFINITY};
 	result.closest = NULL;
@@ -41,11 +41,13 @@ t_result	closest_intersect(t_point3 *origin, t_vec3 *dir)
 	tmp = get_scene()->shapes;
 	while (tmp)
 	{
-		if (tmp->type == SPHERE && hit_sphere(origin, dir, tmp, t))
+		if (tmp == origin.shape)
+			printf("[!] - Skipping self!\n");	// Skip if self
+		else if (tmp->type == SPHERE && hit_sphere(origin.point, dir, tmp, t))
 			handle_sphere_intersect(t, tmp, range, &result);
-		else if (tmp->type == PLANE && hit_plane(origin, dir, tmp, t))
+		else if (tmp->type == PLANE && hit_plane(origin.point, dir, tmp, t))
 			handle_plane_intersect(t, tmp, range, &result);
-		else if (tmp->type == CYLINDER && hit_cylinder(origin, dir, tmp, t))
+		else if (tmp->type == CYLINDER && hit_cylinder(origin.point, dir, tmp, t))
 			handle_cylinder_intersect(t, tmp, range, &result);
 		tmp = tmp->next;
 	}
@@ -90,13 +92,13 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
  * @brief Finds the closest object to the `origin` on a ray with `direction`,
  * and returns its color.
  */
-t_color	ray_color(t_point3 origin, t_vec3 dir, int depth)
+t_color	ray_color(t_point3 origin, t_shape *self, t_vec3 dir, int depth)
 {
 	t_result	result;
 	t_color		local_color;
 	t_color		reflected;
 
-	result = closest_intersect(&origin, &dir);
+	result = closest_intersect((t_origin){&origin, self}, &dir);
 	if (!result.closest)
 		return ((t_color){SKY_COLOR, SKY_COLOR, SKY_COLOR});
 	local_color = compute_light(&origin, &dir, &result);
@@ -117,6 +119,7 @@ static void	process_bloc_render(void)
 
 	color = ray_color(
 			get_scene()->camera.position,
+			NULL,
 			camera_apply_rotation(
 				camera_to_viewport(get_core()->render.x, get_core()->render.y),
 				&get_scene()->camera), MAXDEPTH

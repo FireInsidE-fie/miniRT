@@ -2,6 +2,8 @@
 #include "mlx.h"
 #include "movement.h"
 
+#include <stdlib.h>
+
 #define FAST_STEP 20
 #define MAXDEPTH 3
 
@@ -17,6 +19,7 @@ static void	process_fast_steps(void)
 
 	color = ray_color(
 			get_scene()->camera.position,
+			NULL,
 			camera_apply_rotation(
 				camera_to_viewport(get_core()->render.x, get_core()->render.y),
 				&get_scene()->camera), MAXDEPTH
