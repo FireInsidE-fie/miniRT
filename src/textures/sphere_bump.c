@@ -35,7 +35,7 @@ t_texturedata	*load_earth_bumpmap(int flag)
 		texture.data = mlx_get_data_addr(img,
 				&texture.bpp, &texture.line_len, &texture.endian);
 	}
-	if (img && flag > 0)
+	if (img && flag != LOAD)
 	{
 		mlx_destroy_image(get_core()->mlx, img);
 		return (NULL);
@@ -57,7 +57,7 @@ t_texturedata	*load_moon_bumpmap(int flag)
 		texture.data = mlx_get_data_addr(img,
 				&texture.bpp, &texture.line_len, &texture.endian);
 	}
-	if (img && flag > 0)
+	if (img && flag != LOAD)
 	{
 		mlx_destroy_image(get_core()->mlx, img);
 		return (NULL);
@@ -92,7 +92,7 @@ static float	get_grayscale(t_texturedata *tex, int x, int y)
 *
 *	get_grayscale retrieves the amount of gray the pixel has.
 *	the h_x and h_y variables are used to compare the adjacent
-*	pixel's grayscales. 
+*	pixel's grayscales.
 *
 *	dx and dy hold the height differences between the adjacent
 *	pixels. a strength value is used to scale the effect. We'll
@@ -172,7 +172,7 @@ void	apply_bump_earth(t_shape *sphere, t_point3 *point, t_vec3 *normal)
 void	apply_bump_moon(t_shape *sphere, t_point3 *point, t_vec3 *normal)
 {
 	t_texturedata	*bump;
-	
+
 	bump = load_moon_bumpmap(0);
 	if (!bump || !bump->data)
 		return ;
