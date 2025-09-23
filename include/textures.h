@@ -4,6 +4,10 @@
 # include "scene.h"
 # include "texturedata.h"
 
+// Flags for texture loading functions
+# define LOAD 0
+# define FREE 1
+
 typedef struct s_uv {
 	float u;
 	float v;

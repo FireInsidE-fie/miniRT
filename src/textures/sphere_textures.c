@@ -12,9 +12,9 @@
 #include <assert.h>
 
 /*	Returns an t_uv struct
-*	
+*
 *	uv stands for 2D coordinates, (x, y, z are already taken by t_point3 *point)
-*	
+*
 *	Basically, you turn your sphere into a 2d flat map. You then fetch the u,v
 *	coords with your x, y, z hitpoint.
 *
@@ -65,7 +65,7 @@ t_texturedata	*load_moon_texture(int flag)
 		texture.data = mlx_get_data_addr(img,
 				&texture.bpp, &texture.line_len, &texture.endian);
 	}
-	if (img && flag > 0)
+	if (img && flag != LOAD)
 	{
 		mlx_destroy_image(mlx, img);
 		return (NULL);
@@ -89,7 +89,7 @@ t_texturedata	*load_earth_texture(int flag)
 		texture.data = mlx_get_data_addr(img,
 				&texture.bpp, &texture.line_len, &texture.endian);
 	}
-	if (img && flag > 0)
+	if (img && flag != LOAD)
 	{
 		mlx_destroy_image(mlx, img);
 		return (NULL);
@@ -142,9 +142,9 @@ t_color	get_checker_color(t_shape *sphere, t_point3 *point)
 	if (sphere->mat.texture == CHECKERBOARD)
 		return (apply_checker_sphere(sphere, uv));
 	if (sphere->mat.texture == EARTH)
-		tex = load_earth_texture(0);
+		tex = load_earth_texture(LOAD);
 	else
-		tex = load_moon_texture(0);
+		tex = load_moon_texture(LOAD);
 	if (!tex || !tex->data)
 		return ((t_color){1, 0, 1});
 	return (get_texture_color(tex, uv));
