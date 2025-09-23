@@ -40,6 +40,8 @@ t_result	closest_intersect(t_origin origin, t_vec3 *dir)
 	result.closest = NULL;
 	result.closest_t = INFINITY;
 	tmp = get_scene()->shapes;
+	if (origin.shape)
+		printf("[!] - origin.shape = %p\n", (void *)origin.shape);
 	while (tmp)
 	{
 		if (tmp == origin.shape)
@@ -50,7 +52,7 @@ t_result	closest_intersect(t_origin origin, t_vec3 *dir)
 			handle_plane_intersect(t, tmp, range, &result);
 		else if (tmp->type == CYLINDER && hit_cylinder(origin.point, dir, tmp, t))
 			handle_cylinder_intersect(t, tmp, range, &result);
-		else if (tmp->type == CONE && hit_cone(origin, dir, tmp, t))
+		else if (tmp->type == CONE && hit_cone(origin.point, dir, tmp, t))
 			handle_cone_intersect(t, tmp, range, &result);
 		tmp = tmp->next;
 	}
@@ -86,7 +88,9 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 		compute_cylinder_light(&normal, &intersect, &color, result);
 	else if (result->closest->type == CONE)
 		compute_cone_light(&normal, &intersect, &color, result);
-	intensity = get_light_intensity(&intersect, &normal, result->closest->mat.specular);
+	intensity = get_light_intensity(
+		(t_origin){&intersect, result->closest},
+		&normal, result->closest->mat.specular);
 	color.r *= clamp(intensity.r, (t_range){0.0f, 1.0f});
 	color.g *= clamp(intensity.g, (t_range){0.0f, 1.0f});
 	color.b *= clamp(intensity.b, (t_range){0.0f, 1.0f});
@@ -109,7 +113,7 @@ t_color	ray_color(t_point3 origin, t_shape *self, t_vec3 dir, int depth)
 	local_color = compute_light(&origin, &dir, &result);
 	if (depth <= 0 || result.closest->mat.reflection <= 0.0f)
 		return (local_color);
-	reflected = compute_reflection((t_origin){&origin, NULL}, &dir, &result, depth);
+	reflected = compute_reflection((t_origin){&origin, self}, &dir, &result, depth);
 	return (add_color(scale_color(
 				local_color, 1 - result.closest->mat.reflection), reflected));
 }

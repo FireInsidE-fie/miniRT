@@ -12,10 +12,12 @@ typedef struct s_light
 	struct s_light	*next;
 }	t_light;
 
+typedef struct s_origin t_origin;
+
 int		create_light(t_point3 *position, float intensity, t_color *color);
 void	clear_lights(void *first);
 void	print_light(t_light *light);
 t_vec3	reflect_ray(t_vec3 *ray, t_vec3 *normal);
-t_color	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular);
+t_color	get_light_intensity(t_origin point, t_vec3 *normal, int specular);
 
 #endif // LIGHT_H

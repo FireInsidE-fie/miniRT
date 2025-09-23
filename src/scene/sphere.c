@@ -4,7 +4,6 @@
 #include "scene.h"
 #include "vector.h"
 #include "minirt.h"
-#include "mlx.h"
 
 #include <stdlib.h>
 #include <stdio.h>
