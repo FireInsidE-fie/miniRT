@@ -2,6 +2,7 @@
 #include "scene.h"
 #include "vector.h"
 #include "minirt.h"
+#include "textures.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -9,10 +10,13 @@
 #include <math.h>
 #include <assert.h>
 
-void	compute_plane_light(t_vec3 *normal, t_color *color, t_result *result)
+void	compute_plane_light(t_vec3 *normal, t_point3 *intersect, t_color *color, t_result *result)
 {
 	*normal = result->closest->normal;
-	*color = result->closest->mat.color;
+	if (result->closest->mat.texture == CHECKERBOARD)
+		*color = apply_checker_plane(result->closest, intersect);
+	else
+		*color = result->closest->mat.color;
 }
 
 void		handle_plane_intersect(double t[2], t_shape *tmp, t_range range, t_result *result)

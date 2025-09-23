@@ -25,6 +25,8 @@ void	apply_cyl_dir(t_ewin *ewin, int x, int y)
 		ewin->shape->direction.y -= 0.1f;
 	else if (x >= 50 && x <= 80 && y >= 140 && y <= 170)
 		ewin->shape->direction.x += 0.1f;
+	else if (x >= 90 && x <= 120 && y >= 140 && y <= 170)
+		ewin->shape->direction.x -= 0.1f;
 }
 
 void	apply_cyl_height(t_ewin *ewin, int x, int y)
