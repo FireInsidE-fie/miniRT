@@ -16,4 +16,6 @@ void	handle_sphere_intersect(double t[2], t_shape *tmp, t_range range, t_result 
 void	print_sphere(t_shape *sphere);
 bool	hit_sphere(t_point3 *origin, t_vec3 *dir, t_shape *sphere, double *t);
 
+t_color	get_checker_color(t_shape *sphere, t_point3 *point);
+
 #endif // SPHERE_H

@@ -1,8 +1,10 @@
 #include "sphere.h"
+#include "textures.h"
 #include "parsing.h"
 #include "scene.h"
 #include "vector.h"
 #include "minirt.h"
+#include "mlx.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,7 +16,11 @@ void	compute_sphere_light(t_vec3 *normal, t_point3 *intersect, t_color *color, t
 {
 	*normal = point3_sub(intersect, &result->closest->position);
 	vec_normalize(normal);
-	*color = result->closest->mat.color;
+	if (result->closest->mat.texture == EARTH)
+		apply_bump_earth(result->closest, intersect, normal);
+	else if (result->closest->mat.texture == MOON)
+		apply_bump_moon(result->closest, intersect, normal);
+	*color = get_checker_color(result->closest, intersect);
 }
 
 void	handle_sphere_intersect(double t[2], t_shape *tmp, t_range range, t_result *result)

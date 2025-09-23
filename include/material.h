@@ -2,8 +2,9 @@
 # define MATERIAL_H
 
 # include <stdint.h>
+# include "texturedata.h"
 
-# define SKY_COLOR 0.2
+# define SKY_COLOR 0.0
 
 // Enum for representing which texture is being used
 typedef enum e_texture
@@ -25,10 +26,11 @@ typedef struct s_color
 // Struct to represent an shape's material
 typedef struct s_material
 {
-	t_color		color;
-	float		specular;
-	float		reflection;
-	t_texture	texture;
+	t_color			color;
+	float			specular;
+	float			reflection;
+	t_texture		texture;
+	t_texturedata	texturedata;
 }	t_material;
 
 // Functions //

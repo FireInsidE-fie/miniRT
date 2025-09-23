@@ -99,6 +99,9 @@ void	draw_edit_text(t_core *core, t_shape *shape, int y_offset)
 		else if (shape->type == CYLINDER)
 			mlx_string_put(core->mlx, core->altwin,
 				50, y_offset + 28, 0xFFFFFF, "Cylinder");
+		else if (shape->type == CONE)
+			mlx_string_put(core->mlx, core->altwin,
+				50, y_offset + 28, 0xFFFFFF, "Cone");
 		y_offset += 50;
 		shape = shape->next;
 	}

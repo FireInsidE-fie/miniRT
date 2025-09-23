@@ -1,4 +1,5 @@
 #include "cylinder.h"
+#include "cone.h"
 #include "plane.h"
 #include "material.h"
 #include "scene.h"
@@ -79,7 +80,7 @@ t_ps	parse_cone(char *line)
 	t_ps		status;
 
 	assert(line && "Line");
-	printf("[!] - Parsing a cylinder...\n");
+	printf("[!] - Parsing a cone...\n");
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	status = parse_position(line, &tmp.position);
@@ -107,7 +108,7 @@ t_ps	parse_cone(char *line)
 	status = parse_material(line, &tmp.mat);
 	if (status != DONE)
 		return (status);
-	// create_cone(&tmp);
+	create_cone(&tmp);
 	return (0);
 }
 
