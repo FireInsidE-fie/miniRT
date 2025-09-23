@@ -5,14 +5,11 @@
 #include <stdbool.h>
 #include <math.h>
 
-// Number of checkerboard squares in a shape's width
+// Number of checkerboard squares in a shape's width (defines a square's size)
 #define CHECKERBOARD_SIZE 10
 
 /*	Per pixel/light check, given an uv point, return
 *	a black t_color if the result is odd.
-*	the size of the checkerboard pattern can be changed.
-*
-*	the size is the (* 10) in this case.
 */
 t_color	apply_checker_sphere(t_shape *sphere, t_uv uv)
 {
@@ -35,7 +32,6 @@ t_color	apply_checker_sphere(t_shape *sphere, t_uv uv)
 *
 *	Since we are working with x and z coords, a vertical
 *	plane would look striped instead of checkered.
-*	the size is the (/ 10) in this case.
 */
 t_color	apply_checker_plane(t_shape *plane, t_point3 *point)
 {
