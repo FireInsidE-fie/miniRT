@@ -40,12 +40,10 @@ t_result	closest_intersect(t_origin origin, t_vec3 *dir)
 	result.closest = NULL;
 	result.closest_t = INFINITY;
 	tmp = get_scene()->shapes;
-	if (origin.shape)
-		printf("[!] - origin.shape = %p\n", (void *)origin.shape);
 	while (tmp)
 	{
 		if (tmp == origin.shape)
-			printf("[!] - Skipping self!\n");	// Skip if self
+			;	// Skip if self
 		else if (tmp->type == SPHERE && hit_sphere(origin.point, dir, tmp, t))
 			handle_sphere_intersect(t, tmp, range, &result);
 		else if (tmp->type == PLANE && hit_plane(origin.point, dir, tmp, t))
@@ -113,7 +111,7 @@ t_color	ray_color(t_point3 origin, t_shape *self, t_vec3 dir, int depth)
 	local_color = compute_light(&origin, &dir, &result);
 	if (depth <= 0 || result.closest->mat.reflection <= 0.0f)
 		return (local_color);
-	reflected = compute_reflection((t_origin){&origin, self}, &dir, &result, depth);
+	reflected = compute_reflection((t_origin){&origin, result.closest}, &dir, &result, depth);
 	return (add_color(scale_color(
 				local_color, 1 - result.closest->mat.reflection), reflected));
 }
