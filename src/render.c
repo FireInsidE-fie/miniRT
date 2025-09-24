@@ -30,13 +30,11 @@
 t_result	closest_intersect(t_origin origin, t_vec3 *dir)
 {
 	t_shape		*tmp;
-	t_range		range;
 	t_result	result;
 	double		t[2];
 
 	assert("Origin" && origin.point);
 	assert("Direction" && dir);
-	range = (t_range){0.000001f, INFINITY};
 	result.closest = NULL;
 	result.closest_t = INFINITY;
 	tmp = get_scene()->shapes;
@@ -45,13 +43,13 @@ t_result	closest_intersect(t_origin origin, t_vec3 *dir)
 		if (tmp == origin.shape)
 			;	// Skip if self
 		else if (tmp->type == SPHERE && hit_sphere(origin.point, dir, tmp, t))
-			handle_sphere_intersect(t, tmp, range, &result);
+			handle_sphere_intersect(t, tmp, &result);
 		else if (tmp->type == PLANE && hit_plane(origin.point, dir, tmp, t))
-			handle_plane_intersect(t, tmp, range, &result);
+			handle_plane_intersect(t, tmp, &result);
 		else if (tmp->type == CYLINDER && hit_cylinder(origin.point, dir, tmp, t))
-			handle_cylinder_intersect(t, tmp, range, &result);
+			handle_cylinder_intersect(t, tmp, &result);
 		else if (tmp->type == CONE && hit_cone(origin.point, dir, tmp, t))
-			handle_cone_intersect(t, tmp, range, &result);
+			handle_cone_intersect(t, tmp, &result);
 		tmp = tmp->next;
 	}
 	return (result);

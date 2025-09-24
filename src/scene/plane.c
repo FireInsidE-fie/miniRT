@@ -22,7 +22,8 @@ void	compute_plane_light(t_vec3 *normal, t_point3 *intersect, t_color *color, t_
 
 void	handle_plane_intersect(double t[2], t_shape *tmp, t_range range, t_result *result)
 {
-	if (is_in_range(t[0], range) && t[0] < result->closest_t)
+	(void)range;
+	if (t[0] >= 0 && t[0] < result->closest_t)
 	{
 		result->closest = tmp;
 		result->closest_t = t[0];
