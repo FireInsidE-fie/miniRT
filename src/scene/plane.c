@@ -2,7 +2,6 @@
 #include "scene.h"
 #include "vector.h"
 #include "minirt.h"
-#include "utils.h"
 #include "textures.h"
 
 #include <stdlib.h>
@@ -20,9 +19,8 @@ void	compute_plane_light(t_vec3 *normal, t_point3 *intersect, t_color *color, t_
 		*color = result->closest->mat.color;
 }
 
-void	handle_plane_intersect(double t[2], t_shape *tmp, t_range range, t_result *result)
+void	handle_plane_intersect(double t[2], t_shape *tmp, t_result *result)
 {
-	(void)range;
 	if (t[0] >= 0 && t[0] < result->closest_t)
 	{
 		result->closest = tmp;
