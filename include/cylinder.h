@@ -12,7 +12,7 @@ void	compute_cylinder_light(
 			t_color *color, t_result *result);
 t_vec3	get_cylinder_normal(t_shape *cyl, t_point3 *intersect);
 void	handle_cylinder_intersect(
-			double t[2], t_shape *cyl, t_range range, t_result *result);
+			double t[2], t_shape *cyl, t_result *result);
 bool	hit_cylinder(t_point3 *origin, t_vec3 *dir, t_shape *cyl, double *t);
 void	print_cylinder(t_shape *cylinder);
 int		create_cylinder(t_shape *tmp);

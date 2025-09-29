@@ -1,14 +1,13 @@
 #ifndef CONE_H
 # define CONE_H
 
+# include <stdbool.h>
+
 # include "minirt.h"
 # include "scene.h"
-# include "utils.h"
 
-bool	hit_cone(t_point3 *origin, t_vec3 *dir,
-			t_shape *cone, double *t);
-void	handle_cone_intersect(double t[2], t_shape *cone,
-			t_range range, t_result *result);
+bool	hit_cone(t_point3 *origin, t_vec3 *dir, t_shape *cone, double *t);
+void	handle_cone_intersect(double t[2], t_shape *cone, t_result *result);
 void	compute_cone_light(t_vec3 *normal, t_point3 *intersect,
 			t_color *color, t_result *result);
 t_vec3	get_cone_normal(t_shape *cone, t_point3 *intersect);

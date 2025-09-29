@@ -8,7 +8,7 @@
 
 // Includes //
 # include "scene.h"
-# include "utils.h"
+#include "point3.h"
 
 // Structs //
 
@@ -47,13 +47,20 @@ typedef struct s_core
 	int			key_state[256];
 }	t_core;
 
-// Result if a ray intersects with a (for now) sphere and its closest t on that
-// ray
+// Result if a ray intersects with a shape and its closest t on that ray
 typedef struct s_result
 {
 	t_shape		*closest;		// Closest object found
 	double		closest_t;		// Closest t value for that object
 }	t_result;
+
+// Represents a point and the associated shape that emits it (if there is one)
+// Mainly used for reflections (since rays start on a shape's surface)
+typedef struct s_origin
+{
+	t_point3	*point;
+	t_shape		*shape;
+}	t_origin;
 
 // Functions //
 
@@ -66,8 +73,8 @@ int			init_window(void);
 void		img_put_pixel(t_img *img, int x, int y, t_color *color);
 
 // Rendering functions - render.c
-t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range t_range);
-t_color		ray_color(t_point3 origin, t_vec3 dir, t_range t_range, int depth);
+t_result	closest_intersect(t_origin origin, t_vec3 *dir);
+t_color		ray_color(t_point3 origin, t_shape *self, t_vec3 dir, int depth);
 int			render(void *param);
 
 // Fast rendering functions - fast_render.c
@@ -76,7 +83,7 @@ void		update_camera(t_core *core);
 
 // Reflections - reflections.c
 t_color		compute_reflection(
-				t_point3 *origin, t_vec3 *dir, t_result *result, int depth);
+				t_origin origin, t_vec3 *dir, t_result *result, int depth);
 t_color		scale_color(t_color c, float factor);
 t_color		add_color(t_color a, t_color b);
 

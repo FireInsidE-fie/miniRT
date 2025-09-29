@@ -19,9 +19,9 @@ void	compute_plane_light(t_vec3 *normal, t_point3 *intersect, t_color *color, t_
 		*color = result->closest->mat.color;
 }
 
-void		handle_plane_intersect(double t[2], t_shape *tmp, t_range range, t_result *result)
+void	handle_plane_intersect(double t[2], t_shape *tmp, t_result *result)
 {
-	if (is_in_range(t[0], range) && t[0] < result->closest_t)
+	if (t[0] >= 0 && t[0] < result->closest_t)
 	{
 		result->closest = tmp;
 		result->closest_t = t[0];
@@ -31,7 +31,7 @@ void		handle_plane_intersect(double t[2], t_shape *tmp, t_range range, t_result 
 /**
  *	Find out if we are hitting a plane with our ray.
  */
-bool hit_plane(t_point3 *origin, t_vec3 *dir, t_shape *plane, double *t)
+bool	hit_plane(t_point3 *origin, t_vec3 *dir, t_shape *plane, double *t)
 {
 	double	denom;
 	t_vec3	origin_to_plane;
@@ -74,7 +74,7 @@ int	create_plane(t_point3 *position, t_vec3 *normal, t_material *mat)
 	vec_normalize(normal);
 	plane->type = PLANE;
 	plane->position = *position;
-    plane->normal = *normal;
+	plane->normal = *normal;
 	plane->mat= *mat;
 	plane->next = NULL;
 	add_shape(plane);

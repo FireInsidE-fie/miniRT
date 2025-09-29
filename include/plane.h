@@ -7,7 +7,7 @@
 # include <stdbool.h>
 
 void	compute_plane_light(t_vec3 *normal, t_point3 *intersect, t_color *color, t_result *result);
-void	handle_plane_intersect(double t[2], t_shape *tmp, t_range range, t_result *result);
+void	handle_plane_intersect(double t[2], t_shape *tmp, t_result *result);
 int		create_plane(t_point3 *position, t_vec3 *normal, t_material *mat);
 void	print_plane(t_shape *plane);
 bool	hit_plane(t_point3 *origin, t_vec3 *dir, t_shape *plane, double *t);

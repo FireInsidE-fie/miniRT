@@ -100,17 +100,16 @@ static float	get_specular_reflection(t_vec3 *point,
 	return (0.0);
 }
 
-t_color	get_light_exposure(
-	t_point3 *point, t_vec3 *normal, int specular, t_light *light)
+static t_color	get_light_exposure(
+	t_origin origin, t_vec3 *normal, int specular, t_light *light)
 {
 	t_color	intensity;
 	t_vec3	point_to_light;
 	double	light_dot_normal;
 
 	intensity = (t_color){0.0f, 0.0f, 0.0f};
-	point_to_light = point3_sub(&light->position, point);
-	if (closest_intersect(point, &point_to_light, (t_range){0.001, 1})
-		.closest)
+	point_to_light = point3_sub(&light->position, origin.point);
+	if (closest_intersect(origin, &point_to_light).closest)
 	{
 		light = light->next;
 		return (intensity);
@@ -126,7 +125,7 @@ t_color	get_light_exposure(
 				intensity,
 				scale_color(light->color,
 					light->intensity * get_specular_reflection(
-						point, normal, &point_to_light, specular)));
+						origin.point, normal, &point_to_light, specular)));
 	return (intensity);
 }
 
@@ -139,7 +138,7 @@ t_color	get_light_exposure(
  * Down the line, when this value is applied to the colors of an object, it will
  * be clamped down to 1.0 to ensure no color value goes over the maximum of 255.
  */
-t_color	get_light_intensity(t_point3 *point, t_vec3 *normal, int specular)
+t_color	get_light_intensity(t_origin point, t_vec3 *normal, int specular)
 {
 	t_scene	*scene;
 	t_color	intensity;

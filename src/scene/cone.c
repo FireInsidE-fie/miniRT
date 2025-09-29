@@ -88,15 +88,14 @@ bool	hit_cone(t_point3 *origin, t_vec3 *dir, t_shape *cone, double *t)
 	return (true);
 }
 
-void	handle_cone_intersect(double t[2], t_shape *cone,
-	t_range range, t_result *result)
+void	handle_cone_intersect(double t[2], t_shape *cone, t_result *result)
 {
-	if (is_in_range(t[0], range) && t[0] < result->closest_t)
+	if (t[0] >= 0 && t[0] < result->closest_t)
 	{
 		result->closest = cone;
 		result->closest_t = t[0];
 	}
-	if (is_in_range(t[1], range) && t[1] < result->closest_t)
+	if (t[1] >= 0 && t[1] < result->closest_t)
 	{
 		result->closest = cone;
 		result->closest_t = t[1];

@@ -27,29 +27,30 @@
  * @return A `t_result` struct containing a pointer to the sphere intersected
  * and the t value at that point.
  */
-t_result	closest_intersect(t_point3 *origin, t_vec3 *dir, t_range range)
+t_result	closest_intersect(t_origin origin, t_vec3 *dir)
 {
-	t_shape		*tmp;
+	t_shape		*s;
 	t_result	result;
 	double		t[2];
 
-	assert("Origin" && origin);
+	assert("Origin" && origin.point);
 	assert("Direction" && dir);
-	assert("Range" && range.min >= 0.0 && range.max >= range.min);
 	result.closest = NULL;
-	result.closest_t = range.max;
-	tmp = get_scene()->shapes;
-	while (tmp)
+	result.closest_t = INFINITY;
+	s = get_scene()->shapes;
+	while (s)
 	{
-		if (tmp->type == SPHERE && hit_sphere(origin, dir, tmp, t))
-			handle_sphere_intersect(t, tmp, range, &result);
-		else if (tmp->type == PLANE && hit_plane(origin, dir, tmp, t))
-			handle_plane_intersect(t, tmp, range, &result);
-		else if (tmp->type == CYLINDER && hit_cylinder(origin, dir, tmp, t))
-			handle_cylinder_intersect(t, tmp, range, &result);
-		else if (tmp->type == CONE && hit_cone(origin, dir, tmp, t))
-			handle_cone_intersect(t, tmp, range, &result);
-		tmp = tmp->next;
+		if (s == origin.shape)
+			;	// Skip if self
+		else if (s->type == SPHERE && hit_sphere(origin.point, dir, s, t))
+			handle_sphere_intersect(t, s, &result);
+		else if (s->type == PLANE && hit_plane(origin.point, dir, s, t))
+			handle_plane_intersect(t, s, &result);
+		else if (s->type == CYLINDER && hit_cylinder(origin.point, dir, s, t))
+			handle_cylinder_intersect(t, s, &result);
+		else if (s->type == CONE && hit_cone(origin.point, dir, s, t))
+			handle_cone_intersect(t, s, &result);
+		s = s->next;
 	}
 	return (result);
 }
@@ -83,7 +84,9 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 		compute_cylinder_light(&normal, &intersect, &color, result);
 	else if (result->closest->type == CONE)
 		compute_cone_light(&normal, &intersect, &color, result);
-	intensity = get_light_intensity(&intersect, &normal, result->closest->mat.specular);
+	intensity = get_light_intensity(
+		(t_origin){&intersect, result->closest},
+		&normal, result->closest->mat.specular);
 	color.r *= clamp(intensity.r, (t_range){0.0f, 1.0f});
 	color.g *= clamp(intensity.g, (t_range){0.0f, 1.0f});
 	color.b *= clamp(intensity.b, (t_range){0.0f, 1.0f});
@@ -94,19 +97,19 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
  * @brief Finds the closest object to the `origin` on a ray with `direction`,
  * and returns its color.
  */
-t_color	ray_color(t_point3 origin, t_vec3 dir, t_range t_range, int depth)
+t_color	ray_color(t_point3 origin, t_shape *self, t_vec3 dir, int depth)
 {
 	t_result	result;
 	t_color		local_color;
 	t_color		reflected;
 
-	result = closest_intersect(&origin, &dir, t_range);
+	result = closest_intersect((t_origin){&origin, self}, &dir);
 	if (!result.closest)
 		return ((t_color){SKY_COLOR, SKY_COLOR, SKY_COLOR});
 	local_color = compute_light(&origin, &dir, &result);
 	if (depth <= 0 || result.closest->mat.reflection <= 0.0f)
 		return (local_color);
-	reflected = compute_reflection(&origin, &dir, &result, depth);
+	reflected = compute_reflection((t_origin){&origin, result.closest}, &dir, &result, depth);
 	return (add_color(scale_color(
 				local_color, 1 - result.closest->mat.reflection), reflected));
 }
@@ -121,10 +124,10 @@ static void	process_bloc_render(void)
 
 	color = ray_color(
 			get_scene()->camera.position,
+			NULL,
 			camera_apply_rotation(
 				camera_to_viewport(get_core()->render.x, get_core()->render.y),
-				&get_scene()->camera),
-			(t_range){1, INFINITY}, MAXDEPTH
+				&get_scene()->camera), MAXDEPTH
 			);
 	img_put_pixel(&get_core()->img,
 		get_core()->render.x + WIN_WIDTH / 2,
