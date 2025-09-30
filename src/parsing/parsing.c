@@ -76,7 +76,7 @@ static t_ps	check_line(char *line)
 	while (*line && *line != '\n')
 	{
 		if (ft_isalpha(*line))
-			break;
+			break ;
 		if (ft_isprint(*line) && *line != ' ' && *line != '.' && *line != ','
 			&& *line != '-' && *line != '+' && !ft_isdigit(*line))
 			return (CHAR_ERR);

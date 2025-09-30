@@ -70,36 +70,36 @@ int	on_mouse_edit_c(int button, int x, int y, void *param)
 	return (0);
 }
 
+/**
+ * @brief Draws the edit window's individual buttons.
+ * @details
+ * Usually, each property of an object has a button to +1 and a button to -1
+ * said property, so the drawing of buttons goes in pairs. The close button
+ * and the background are unique, though.
+ * In order, here are the buttons that get drawn:
+ * Background, dir Z, dir Y, dir X, Pos Z, PosY, Pos X, Radius/Size, Height,
+ * Close.
+ */
 void	draw_ewin_rec_c(t_ewin *ewin)
 {
-	draw_rect(&ewin->img, 0, 0, new_rectangle(EWIN_WIDTH, EWIN_HEIGHT, UI_BG_COLOR));
-
-	// Dir Z
-	draw_rect(&ewin->img, 50, 40, new_rectangle(EWIN_B, EWIN_B, EWIN_GREEN));
-	draw_rect(&ewin->img, 90, 40, new_rectangle(EWIN_B, EWIN_B, EWIN_RED));
-	// Dir Y
-	draw_rect(&ewin->img, 50, 90, new_rectangle(EWIN_B, EWIN_B, EWIN_GREEN));
-	draw_rect(&ewin->img, 90, 90, new_rectangle(EWIN_B, EWIN_B, EWIN_RED));
-	// Dir X
-	draw_rect(&ewin->img, 50, 140, new_rectangle(EWIN_B, EWIN_B, EWIN_GREEN));
-	draw_rect(&ewin->img, 90, 140, new_rectangle(EWIN_B, EWIN_B, EWIN_RED));
-	// Pos Z
-	draw_rect(&ewin->img, 250, 40, new_rectangle(EWIN_B, EWIN_B, EWIN_GREEN));
-	draw_rect(&ewin->img, 290, 40, new_rectangle(EWIN_B, EWIN_B, EWIN_RED));
-	// Pos Y
-	draw_rect(&ewin->img, 250, 90, new_rectangle(EWIN_B, EWIN_B, EWIN_GREEN));
-	draw_rect(&ewin->img, 290, 90, new_rectangle(EWIN_B, EWIN_B, EWIN_RED));
-	// Pos X
-	draw_rect(&ewin->img, 250, 140, new_rectangle(EWIN_B, EWIN_B, EWIN_GREEN));
-	draw_rect(&ewin->img, 290, 140, new_rectangle(EWIN_B, EWIN_B, EWIN_RED));
-	// Radius/Size
-	draw_rect(&ewin->img, 50, 190, new_rectangle(EWIN_B, EWIN_B, EWIN_GREEN));
-	draw_rect(&ewin->img, 90, 190, new_rectangle(EWIN_B, EWIN_B, EWIN_RED));
-	// Height
-	draw_rect(&ewin->img, 50, 240, new_rectangle(EWIN_B, EWIN_B, EWIN_GREEN));
-	draw_rect(&ewin->img, 90, 240, new_rectangle(EWIN_B, EWIN_B, EWIN_RED));
-	// Close
-	draw_rect(&ewin->img, 300, 250, new_rectangle(80, 30, 0xCC3333));
+	draw_rect(&ewin->img, 0, 0, new_rec(EWIN_WIDTH, EWIN_HEIGHT, UI_BG_COLOR));
+	draw_rect(&ewin->img, 50, 40, new_rec(EWIN_B, EWIN_B, EWIN_GREEN));
+	draw_rect(&ewin->img, 90, 40, new_rec(EWIN_B, EWIN_B, EWIN_RED));
+	draw_rect(&ewin->img, 50, 90, new_rec(EWIN_B, EWIN_B, EWIN_GREEN));
+	draw_rect(&ewin->img, 90, 90, new_rec(EWIN_B, EWIN_B, EWIN_RED));
+	draw_rect(&ewin->img, 50, 140, new_rec(EWIN_B, EWIN_B, EWIN_GREEN));
+	draw_rect(&ewin->img, 90, 140, new_rec(EWIN_B, EWIN_B, EWIN_RED));
+	draw_rect(&ewin->img, 250, 40, new_rec(EWIN_B, EWIN_B, EWIN_GREEN));
+	draw_rect(&ewin->img, 290, 40, new_rec(EWIN_B, EWIN_B, EWIN_RED));
+	draw_rect(&ewin->img, 250, 90, new_rec(EWIN_B, EWIN_B, EWIN_GREEN));
+	draw_rect(&ewin->img, 290, 90, new_rec(EWIN_B, EWIN_B, EWIN_RED));
+	draw_rect(&ewin->img, 250, 140, new_rec(EWIN_B, EWIN_B, EWIN_GREEN));
+	draw_rect(&ewin->img, 290, 140, new_rec(EWIN_B, EWIN_B, EWIN_RED));
+	draw_rect(&ewin->img, 50, 190, new_rec(EWIN_B, EWIN_B, EWIN_GREEN));
+	draw_rect(&ewin->img, 90, 190, new_rec(EWIN_B, EWIN_B, EWIN_RED));
+	draw_rect(&ewin->img, 50, 240, new_rec(EWIN_B, EWIN_B, EWIN_GREEN));
+	draw_rect(&ewin->img, 90, 240, new_rec(EWIN_B, EWIN_B, EWIN_RED));
+	draw_rect(&ewin->img, 300, 250, new_rec(80, 30, 0xCC3333));
 }
 
 void	ewin_cylinder(t_ewin *ewin)

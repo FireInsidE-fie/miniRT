@@ -11,7 +11,8 @@
 #include <math.h>
 #include <assert.h>
 
-void	compute_sphere_light(t_vec3 *normal, t_point3 *intersect, t_color *color, t_result *result)
+void	compute_sphere_light(
+	t_vec3 *normal, t_point3 *intersect, t_color *color, t_result *result)
 {
 	*normal = point3_sub(intersect, &result->closest->position);
 	vec_normalize(normal);

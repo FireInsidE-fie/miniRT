@@ -85,6 +85,7 @@ static t_ps	parse_texture(char *line, t_texture *texture)
 /**
  * @brief Parses a material at the end of a .rt line into the pointer given
  * to it.
+ * As textures are optional, allows for a missing texture specifier.
  */
 t_ps	parse_material(char *line, t_material *mat)
 {
@@ -108,7 +109,7 @@ t_ps	parse_material(char *line, t_material *mat)
 	if (goto_next_word(&line) != DONE)
 	{
 		mat->texture = NONE;
-		return (DONE);					// Textures are optional
+		return (DONE);
 	}
 	return (parse_texture(line, &mat->texture));
 }

@@ -10,13 +10,14 @@
 #include <math.h>
 #include <assert.h>
 
-void	compute_plane_light(t_vec3 *normal, t_point3 *intersect, t_color *color, t_result *result)
+void	compute_plane_light(
+			t_vec3 *normal, t_point3 *intersect, t_color *color, t_result *res)
 {
-	*normal = result->closest->normal;
-	if (result->closest->mat.texture == CHECKERBOARD)
-		*color = apply_checker_plane(result->closest, intersect);
+	*normal = res->closest->normal;
+	if (res->closest->mat.texture == CHECKERBOARD)
+		*color = apply_checker_plane(res->closest, intersect);
 	else
-		*color = result->closest->mat.color;
+		*color = res->closest->mat.color;
 }
 
 void	handle_plane_intersect(double t[2], t_shape *tmp, t_result *result)
@@ -48,7 +49,7 @@ bool	hit_plane(t_point3 *origin, t_vec3 *dir, t_shape *plane, double *t)
 		*t = dot_product(&origin_to_plane, &plane->normal) / denom;
 		return (*t >= 0);
 	}
-	return false;
+	return (false);
 }
 
 void	print_plane(t_shape *plane)
@@ -79,7 +80,7 @@ int	create_plane(t_point3 *position, t_vec3 *normal, t_material *mat)
 	plane->type = PLANE;
 	plane->position = *position;
 	plane->normal = *normal;
-	plane->mat= *mat;
+	plane->mat = *mat;
 	plane->next = NULL;
 	add_shape(plane);
 	return (DONE);

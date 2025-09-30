@@ -32,10 +32,10 @@ int	on_mouse_edit_p(int button, int x, int y, void *param)
 
 void	draw_ewin_rec_p(t_ewin *ewin)
 {
-	draw_rect(&ewin->img, 0, 0, new_rectangle(EWIN_WIDTH, EWIN_HEIGHT, UI_BG_COLOR));
-	draw_rect(&ewin->img, 50, 40, new_rectangle(EWIN_B, EWIN_B, EWIN_GREEN));
-	draw_rect(&ewin->img, 90, 40, new_rectangle(EWIN_B, EWIN_B, EWIN_RED));
-	draw_rect(&ewin->img, 300, 250, new_rectangle(80, 30, 0xCC3333));
+	draw_rect(&ewin->img, 0, 0, new_rec(EWIN_WIDTH, EWIN_HEIGHT, UI_BG_COLOR));
+	draw_rect(&ewin->img, 50, 40, new_rec(EWIN_B, EWIN_B, EWIN_GREEN));
+	draw_rect(&ewin->img, 90, 40, new_rec(EWIN_B, EWIN_B, EWIN_RED));
+	draw_rect(&ewin->img, 300, 250, new_rec(80, 30, 0xCC3333));
 }
 
 void	ewin_plane(t_ewin *ewin)

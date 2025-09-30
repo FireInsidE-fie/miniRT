@@ -39,6 +39,10 @@ bool	check_path(char *path)
 	return (true);
 }
 
+/**
+ * @brief Converts a stringified number into a floating point representation.
+ * Takes care of missing decimal parts, and accounts for trailing 0s.
+ */
 float	ft_atof(char *str)
 {
 	float	result;
@@ -51,7 +55,7 @@ float	ft_atof(char *str)
 	if (*str == '.')
 	{
 		decimal = ft_atoi(++str) / 10.0f;
-		while (decimal >= 1.0f)				// Account for trailing 0s
+		while (decimal >= 1.0f)
 			decimal /= 10;
 		result += decimal;
 	}

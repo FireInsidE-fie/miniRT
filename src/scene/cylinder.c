@@ -9,18 +9,19 @@
 #include <stdio.h>
 
 /**
- *	The initial intersect calculation for a cylinder will end up with an
-	infinitely long cylinder. We check with this function if we are
-	inside the wanted "final" cylinder.
+ * @brief The initial intersect calculation for a cylinder will end up with an
+ * infinitely long cylinder. We check with this function if we are
+ * inside the wanted "final" cylinder.
+ *
+ * @details
+ * point	p = origin + dir * t
+ * vector	v = p - cyl->position
+ * height	h = dot(v, direction)
+ *
+ * the shape's base is cyl->position. direction is the shape's central axis.
 
-	point	p = origin + dir * t
-	vector	v = p - cyl->position
-	height	h = dot(v, direction)
-
-	the shape's base is cyl->position. direction is the shape's central axis.
-
-	with the "base position", we can make an infinite cylinder growing
-	towards "direction". with h, we can decide to only grow a certain height.
+ * with the "base position", we can make an infinite cylinder growing
+ * towards "direction". with h, we can decide to only grow a certain height.
  */
 static bool	is_inside_cylinder_height(t_point3 *origin, t_vec3 *dir,
 		t_shape *cyl, double t)
@@ -95,18 +96,11 @@ static void	compute_cylinder_coeffs(t_vec3 *origin, t_vec3 *dir,
 	t_vec3	d_proj;
 	t_vec3	oc_proj;
 
-	// Cylinder base to origin ray
 	oc = point3_sub(origin, &cyl->position);
-
-	// Projection of the ray's direction on the cylinder's axis
 	proj_d = project_vec(dir, &cyl->direction);
 	d_proj = point3_sub(dir, &proj_d);
-
-	// Projection of origin's vector on the axis
 	proj_oc = project_vec(&oc, &cyl->direction);
 	oc_proj = point3_sub(&oc, &proj_oc);
-
-	// Coefficients for the quadratic operation
 	coeffs[0] = dot_product(&d_proj, &d_proj);
 	coeffs[1] = 2 * dot_product(&d_proj, &oc_proj);
 	coeffs[2] = dot_product(&oc_proj, &oc_proj) - cyl->radius * cyl->radius;

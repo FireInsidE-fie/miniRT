@@ -44,13 +44,13 @@ void	camera_build_basis(t_camera *cam)
  * @brief Builds a new camera with a new Up/down angle applied.
  * The Pitch is also capped so we don't go too far and end up
  * looking "behind" by going completely Up or Down.
+ * Takes care of clamping the value to avoid clipping.
  */
 void	rotate_camera_pitch(t_camera *cam, float angle)
 {
 	float	new_pitch;
 
 	new_pitch = cam->pitch + angle;
-	// Clamp avoiding clipping
 	if (new_pitch > M_PI / 2.0 - 0.01)
 		angle = (M_PI / 2.0 - 0.01) - cam->pitch;
 	else if (new_pitch < -M_PI / 2.0 - 0.01)

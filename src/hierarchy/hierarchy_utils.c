@@ -52,7 +52,7 @@ void	open_ewin(t_core *core, t_shape *shape)
 	ewin->shape = shape;
 	core->prevent_close += 1;
 	ewin->win = mlx_new_window(
-		core->mlx, EWIN_WIDTH, EWIN_HEIGHT, "Edit Shape");
+			core->mlx, EWIN_WIDTH, EWIN_HEIGHT, "Edit Shape");
 	ewin->img.img = mlx_new_image(core->mlx, EWIN_WIDTH, EWIN_HEIGHT);
 	ewin->img.addr = mlx_get_data_addr(ewin->img.img,
 			&ewin->img.bpp, &ewin->img.line_len, &ewin->img.endian);
