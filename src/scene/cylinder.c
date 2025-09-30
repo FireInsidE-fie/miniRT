@@ -77,18 +77,23 @@ static t_vec3	project_vec(t_vec3 *v, t_vec3 *axis)
 }
 
 /**
-	Computes the coefficients of the quadratic equation for cylinders.
-		(put the seatbelt on sweetie this one's harder)
-	Coeffs 0 1 2 indicates a, b, c
+ * @brief Computes the coefficients of the quadratic equation for cylinders.
+ * @details
+ * Coeffs 0 1 2 indicates a, b, c
+ * `oc`: cylinder to origin ray
+ * `proj_d`: direction parallel to axis
+ * `proj_oc`: direction perpendicular to axis
+ * `d_proj`: origin parallel to axis
+ * `oc_proj`: origin perpendicular to axis
  */
 static void	compute_cylinder_coeffs(t_vec3 *origin, t_vec3 *dir,
 					t_shape *cyl, double coeffs[3])
 {
-	t_vec3	oc;			// cylinder to origin ray
-	t_vec3	proj_d;		// direction parallel to axis
-	t_vec3	proj_oc;	// direction perpendicular to axis
-	t_vec3	d_proj;		// origin parallel to axis
-	t_vec3	oc_proj;	// origin perpendicular to axis
+	t_vec3	oc;
+	t_vec3	proj_d;
+	t_vec3	proj_oc;
+	t_vec3	d_proj;
+	t_vec3	oc_proj;
 
 	// Cylinder base to origin ray
 	oc = point3_sub(origin, &cyl->position);
@@ -142,7 +147,7 @@ bool	hit_cylinder(t_point3 *origin, t_vec3 *dir, t_shape *cyl, double *t)
 
 int	create_cylinder(t_shape *tmp)
 {
-	t_shape *cyl;
+	t_shape	*cyl;
 
 	assert("Radius" && tmp->radius > 0);
 	assert("Height" && tmp->height > 0);
@@ -180,7 +185,6 @@ void	print_cylinder(t_shape *cylinder)
 		);
 	print_mat(&cylinder->mat);
 }
-
 
 t_vec3	get_cylinder_normal(t_shape *cyl, t_point3 *intersect)
 {

@@ -65,6 +65,11 @@ static t_vec3	get_normal(t_result *result, t_point3 *point)
 /**
  * @brief Recursive function that is called when a ray has to bounce off of a
  * mirrory surface, up to `depth` times.
+ * @details
+ * Once `depth` reaches 0, the recursive stops.
+ * This is actually a recursive function in two steps; first ray_color
+ * is called, then this function, then ray color again,
+ * until `depth` reaches 0 (or we reach a non-reflective surface.)
  */
 t_color	compute_reflection(t_origin origin, t_vec3 *dir, t_result *result,
 		int depth)
@@ -79,10 +84,8 @@ t_color	compute_reflection(t_origin origin, t_vec3 *dir, t_result *result,
 	normal = get_normal(result, &intersect);
 	view_dir = point3_scale(dir, -1);
 	reflected_dir = reflect_ray(&view_dir, &normal);
-	// once depth reaches 0, quit reflections
 	if (depth <= 0 || result->closest->mat.reflection <= 0.0f)
 		return ((t_color){0, 0, 0});
-	// Recall ray_color recursively with lower depth until 0
 	reflected = ray_color(intersect, origin.shape, reflected_dir, depth - 1);
 	return (scale_color(reflected, result->closest->mat.reflection));
 }

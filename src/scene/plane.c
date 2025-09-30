@@ -29,7 +29,12 @@ void	handle_plane_intersect(double t[2], t_shape *tmp, t_result *result)
 }
 
 /**
- *	Find out if we are hitting a plane with our ray.
+ * @brief Find out if we are hitting a plane with our ray.
+ * @details
+ * Checks if the floatabsolute (fabs) of the denominator over 0.000001 or 10^-6
+ * Essentially asserts whether the ray from `origin` to `dir` is perpendicular
+ * to the plane or not. If yes, it must touch the plane, so we calculate
+ * the actual intersection point.
  */
 bool	hit_plane(t_point3 *origin, t_vec3 *dir, t_shape *plane, double *t)
 {
@@ -37,8 +42,7 @@ bool	hit_plane(t_point3 *origin, t_vec3 *dir, t_shape *plane, double *t)
 	t_vec3	origin_to_plane;
 
 	denom = dot_product(&plane->normal, dir);
-
-	if (fabs(denom) > 1e-6) // floatabsolute over 0.000001 or 10^-6
+	if (fabs(denom) > 1e-6)
 	{
 		origin_to_plane = point3_sub(&plane->position, origin);
 		*t = dot_product(&origin_to_plane, &plane->normal) / denom;
