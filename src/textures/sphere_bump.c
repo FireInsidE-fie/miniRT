@@ -143,7 +143,7 @@ void	apply_bump_earth(t_shape *sphere, t_point3 *p, t_vec3 *normal)
 	bump = load_earth_bumpmap(0);
 	if (!bump || !bump->data)
 		return ;
-	*normal = perturb_normal(sphere, p, bump, 111122.5f);
+	*normal = perturb_normal(sphere, p, bump, 11112.5f);
 }
 
 void	apply_bump_moon(t_shape *sphere, t_point3 *p, t_vec3 *normal)

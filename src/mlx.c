@@ -2,11 +2,13 @@
 #include "minirt.h"
 #include "mlx.h"
 #include "movement.h"
+#include "libft.h"
 
 #include <X11/X.h>
 #include <stdint.h>
 #include <stdio.h>
-
+#include <math.h>
+#include <fcntl.h>
 /**
  * @brief Swaps miniRT between full render and fast render modes.
  */
@@ -48,6 +50,11 @@ static int	key_press(int key, void *param)
 		swap_render_mode(core);
 	if (key >= 0 && key < 256)
 		core->key_state[key] = 1;
+	if (key == KEY_LEFT)
+	{
+		export_scene();
+		printf("Exporting..\n");
+	}
 	return (0);
 }
 

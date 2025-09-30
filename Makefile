@@ -7,6 +7,7 @@ RMFLAGS		=	-f
 SRCDIR		=	./src
 CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/mlx.c \
+				$(SRCDIR)/export.c \
 				$(SRCDIR)/render.c \
 				$(SRCDIR)/fast_render.c \
 				$(SRCDIR)/utils/point3.c \

@@ -91,4 +91,6 @@ t_color		add_color(t_color a, t_color b);
 int			on_mouse_debug(int button, int x, int y, void *param);
 void		render_shape_list(t_core *core);
 
+void		export_scene();
+
 #endif //MINIRT_H
