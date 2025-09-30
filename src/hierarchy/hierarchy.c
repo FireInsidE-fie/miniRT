@@ -41,7 +41,6 @@ t_rectangle	new_rectangle(int width, int height, int color)
 	return (rec);
 }
 
-
 /*
  * @brief Draws a rectangle with a given img, coordinates and t_rectangle.
 */

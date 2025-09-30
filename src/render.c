@@ -23,6 +23,9 @@
 /**
  * @brief Computes the closest intersection between a ray starting at `origin`
  * in direction `dir`, contained within `range`.
+ * Skips the origin.shape shape if it exists, which means the ray started from
+ * a shape and must then exclude this shape (to fix acne in shadows
+ * and reflections).
  *
  * @return A `t_result` struct containing a pointer to the sphere intersected
  * and the t value at that point.
@@ -41,7 +44,7 @@ t_result	closest_intersect(t_origin origin, t_vec3 *dir)
 	while (s)
 	{
 		if (s == origin.shape)
-			;	// Skip if self
+			;
 		else if (s->type == SPHERE && hit_sphere(origin.point, dir, s, t))
 			handle_sphere_intersect(t, s, &result);
 		else if (s->type == PLANE && hit_plane(origin.point, dir, s, t))
@@ -85,8 +88,8 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	else if (result->closest->type == CONE)
 		compute_cone_light(&normal, &intersect, &color, result);
 	intensity = get_light_intensity(
-		(t_origin){&intersect, result->closest},
-		&normal, result->closest->mat.specular);
+			(t_origin){&intersect, result->closest},
+			&normal, result->closest->mat.specular);
 	color.r *= clamp(intensity.r, (t_range){0.0f, 1.0f});
 	color.g *= clamp(intensity.g, (t_range){0.0f, 1.0f});
 	color.b *= clamp(intensity.b, (t_range){0.0f, 1.0f});
@@ -109,7 +112,8 @@ t_color	ray_color(t_point3 origin, t_shape *self, t_vec3 dir, int depth)
 	local_color = compute_light(&origin, &dir, &result);
 	if (depth <= 0 || result.closest->mat.reflection <= 0.0f)
 		return (local_color);
-	reflected = compute_reflection((t_origin){&origin, result.closest}, &dir, &result, depth);
+	reflected = compute_reflection(
+			(t_origin){&origin, result.closest}, &dir, &result, depth);
 	return (add_color(scale_color(
 				local_color, 1 - result.closest->mat.reflection), reflected));
 }

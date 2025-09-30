@@ -8,7 +8,7 @@
 
 // Includes //
 # include "scene.h"
-#include "point3.h"
+# include "point3.h"
 
 // Structs //
 

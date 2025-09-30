@@ -12,7 +12,7 @@ typedef struct s_light
 	struct s_light	*next;
 }	t_light;
 
-typedef struct s_origin t_origin;
+typedef struct s_origin	t_origin;
 
 int		create_light(t_point3 *position, float intensity, t_color *color);
 void	clear_lights(void *first);

@@ -20,7 +20,6 @@ void	swap_render_mode(t_core *core)
 		core->render.is_rendering = 1;
 		core->render_mode = 1;
 	}
-	// Reset render position
 	core->render.x = -WIN_WIDTH / 2;
 	core->render.y = -WIN_HEIGHT / 2;
 	if (core->render_mode == 0)
@@ -29,7 +28,7 @@ void	swap_render_mode(t_core *core)
 		mlx_loop_hook(core->mlx, render, core);
 }
 
-/*
+/**
  * Core has a key_state int[256] array that contains the status of each key
  * pressed, up to 256 because most key codes are in that range
  * (damn you ESC and Arrow keys).
@@ -38,7 +37,6 @@ void	swap_render_mode(t_core *core)
  * update_camera() from camera_movement.c is called in the fast render loop,
  * applying the movements depending on the key_state value of each key.
 */
-
 static int	key_press(int key, void *param)
 {
 	t_core	*core;

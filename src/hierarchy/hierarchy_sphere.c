@@ -56,7 +56,8 @@ int	on_mouse_edit_s(int button, int x, int y, void *param)
 
 void	draw_ewin_rec_s(t_ewin *ewin)
 {
-	draw_rect(&ewin->img, 0, 0, new_rectangle(EWIN_WIDTH, EWIN_HEIGHT, UI_BG_COLOR));
+	draw_rect(
+		&ewin->img, 0, 0, new_rectangle(EWIN_WIDTH, EWIN_HEIGHT, UI_BG_COLOR));
 	draw_rect(&ewin->img, 50, 40, new_rectangle(EWIN_B, EWIN_B, EWIN_GREEN));
 	draw_rect(&ewin->img, 90, 40, new_rectangle(EWIN_B, EWIN_B, EWIN_RED));
 	draw_rect(&ewin->img, 50, 90, new_rectangle(EWIN_B, EWIN_B, EWIN_GREEN));

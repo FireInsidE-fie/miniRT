@@ -107,14 +107,14 @@ static float	get_grayscale(t_texturedata *tex, int x, int y)
  * the horizontally perturbed tangeant (bm.tangeant) and the
  * vertically perturbed tangeant (bm.bitangeant).
  */
-static t_vec3	perturb_normal(t_shape *sphere, t_point3 *point,
+static t_vec3	perturb_normal(t_shape *sphere, t_point3 *p,
 		t_texturedata *bump, float strength)
 {
 	t_bumpmap	bm;
 
 	bm.w = bump->width;
 	bm.h_tex = bump->height;
-	bm.uv = sphere_uv_mapping(sphere, point);
+	bm.uv = sphere_uv_mapping(sphere, p);
 	bm.x = (int)(bm.uv.u * bm.w);
 	bm.y = (int)(bm.uv.v * bm.h_tex);
 	bm.h = get_grayscale(bump, bm.x, bm.y);
@@ -122,7 +122,7 @@ static t_vec3	perturb_normal(t_shape *sphere, t_point3 *point,
 	bm.h_y = get_grayscale(bump, bm.x, (bm.y + 1) % bm.h_tex);
 	bm.dx = (bm.h_x - bm.h) * strength;
 	bm.dy = (bm.h_y - bm.h) * strength;
-	bm.normal = point3_sub(point, &sphere->position);
+	bm.normal = point3_sub(p, &sphere->position);
 	vec_normalize(&bm.normal);
 	bm.tangent = (t_vec3){-sin(bm.uv.u * 2 * M_PI), 0, cos(bm.uv.u * 2 * M_PI)};
 	bm.bitangent = (t_vec3){-cos(bm.uv.u * 2 * M_PI) * sin(bm.uv.v * M_PI),
@@ -136,22 +136,22 @@ static t_vec3	perturb_normal(t_shape *sphere, t_point3 *point,
 	return (bm.perturbed);
 }
 
-void	apply_bump_earth(t_shape *sphere, t_point3 *point, t_vec3 *normal)
+void	apply_bump_earth(t_shape *sphere, t_point3 *p, t_vec3 *normal)
 {
 	t_texturedata	*bump;
 
 	bump = load_earth_bumpmap(0);
 	if (!bump || !bump->data)
 		return ;
-	*normal = perturb_normal(sphere, point, bump, 111122.5f);
+	*normal = perturb_normal(sphere, p, bump, 111122.5f);
 }
 
-void	apply_bump_moon(t_shape *sphere, t_point3 *point, t_vec3 *normal)
+void	apply_bump_moon(t_shape *sphere, t_point3 *p, t_vec3 *normal)
 {
 	t_texturedata	*bump;
 
 	bump = load_moon_bumpmap(0);
 	if (!bump || !bump->data)
 		return ;
-	*normal = perturb_normal(sphere, point, bump, 2.5f);
+	*normal = perturb_normal(sphere, p, bump, 2.5f);
 }

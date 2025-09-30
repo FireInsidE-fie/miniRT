@@ -97,7 +97,10 @@ t_texturedata	*load_earth_texture(int flag)
 
 /*
  * @brief Returns a t_color with t_uv coords in a t_texturedata
+ *
+ * @details
  * Fetches the colors at uv coords in an image.
+ * Goes back in circle if going beyond the map.
 */
 static t_color	get_texture_color(t_texturedata *tex, t_uv uv)
 {
@@ -105,7 +108,6 @@ static t_color	get_texture_color(t_texturedata *tex, t_uv uv)
 	int				y;
 	unsigned char	*pixel;
 
-	// Goes back in circle if going beyond the map.
 	x = ((int)(uv.u * tex->width)) % tex->width;
 	y = ((int)(uv.v * tex->height)) % tex->height;
 	if (x < 0)

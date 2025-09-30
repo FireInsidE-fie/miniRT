@@ -55,7 +55,11 @@ static t_ps	parse_shape(char *line)
 
 /**
  * @brief Checks for forbidden characters inside of a given .rt line.
- * @details letters only on the first word after that, only numbers and .,-+
+ * @details Accepts letters only on the first word.
+ * After that, only numbers and .,-+
+ * Since the texture part of the .rt files is optional, contains a check for a
+ * \n halfway through. If we're at the end of the line, move on to the next.
+ * Otherwise, also check the texture part for invalid characters.
  */
 static t_ps	check_line(char *line)
 {
@@ -71,7 +75,7 @@ static t_ps	check_line(char *line)
 		return (CHAR_ERR);
 	while (*line && *line != '\n')
 	{
-		if (ft_isalpha(*line))			// if we arrived at the texture part
+		if (ft_isalpha(*line))
 			break;
 		if (ft_isprint(*line) && *line != ' ' && *line != '.' && *line != ','
 			&& *line != '-' && *line != '+' && !ft_isdigit(*line))
@@ -120,6 +124,8 @@ t_ps	print_ps(t_ps status, int line_n)
 
 /**
  * @brief Parses a given .rt file and creates the scene from it.
+ * @details Calls get_next_line with an invalid fd to clear the stashes and
+ * prevent leaks when parsing is interrupted.
  */
 int	parse_scene(int scene_fd)
 {
@@ -132,24 +138,20 @@ int	parse_scene(int scene_fd)
 	line_n = 1;
 	while (line)
 	{
-		write(1, line, ft_strlen(line));		// debug
 		status = check_line(line);
-		if (status != DONE)
-			break ;
-		if (ft_isalpha(line[0]))
+		if (status == DONE && ft_isalpha(line[0]))
 		{
 			if (line[0] >= 'A' && line[0] <= 'Z')
 				status = parse_meta(line);
 			else
 				status = parse_shape(line);
-			if (status != DONE)
-				break ;
 		}
+		if (status != DONE)
+			break ;
 		free(line);
 		line = get_next_line(scene_fd);
 		++line_n;
 	}
-	if (status != DONE)
-		get_next_line(-1);	// To clean gnl stash
+	get_next_line(-1);
 	return (close(scene_fd), free(line), print_ps(status, line_n));
 }

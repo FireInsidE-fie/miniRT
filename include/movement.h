@@ -1,7 +1,5 @@
 #include "minirt.h"
 
-#include <math.h>
-
 #define KEY_A 97
 #define KEY_D 100
 #define KEY_E 101
@@ -19,10 +17,7 @@
 #define KEY_RIGHT 65363
 #define KEY_DOWN 65364
 #define MOVE_INTERVAL 0.70
-#define	ROTATE_ANGLE 0.06
-
-#define MAX_PITCH_RAD (M_PI / 2.0 - 0.01) // 89.4 max
-#define MIN_PITCH_RAD (-M_PI / 2.0 + 0.01)
+#define ROTATE_ANGLE 0.06
 
 void	update_camera(t_core *core);
 void	rotate_camera_yaw(t_camera *cam, float angle);

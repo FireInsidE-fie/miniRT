@@ -4,6 +4,7 @@
 # include "minirt.h"
 
 # define UI_BG_COLOR		0x343434
+# define UI_TEXT_COLOR		0xFFFFFF
 # define UI_DARK_GRAY		0x555555
 # define UI_SHAPE_HEIGHT	50
 # define MAX_PER_PAGE		12			// Max shapes per hierarchy page

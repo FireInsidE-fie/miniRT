@@ -1,6 +1,7 @@
 #include "vector.h"
 #include "movement.h"
 
+#include <math.h>
 #include <X11/X.h>
 #include <stdint.h>
 
@@ -50,10 +51,10 @@ void	rotate_camera_pitch(t_camera *cam, float angle)
 
 	new_pitch = cam->pitch + angle;
 	// Clamp avoiding clipping
-	if (new_pitch > MAX_PITCH_RAD)
-		angle = MAX_PITCH_RAD - cam->pitch;
-	else if (new_pitch < MIN_PITCH_RAD)
-		angle = MIN_PITCH_RAD - cam->pitch;
+	if (new_pitch > M_PI / 2.0 - 0.01)
+		angle = (M_PI / 2.0 - 0.01) - cam->pitch;
+	else if (new_pitch < -M_PI / 2.0 - 0.01)
+		angle = (-M_PI / 2.0 - 0.01) - cam->pitch;
 	cam->forward = rotate_vector(cam->forward, cam->right, angle);
 	cam->pitch += angle;
 	camera_build_basis(cam);
