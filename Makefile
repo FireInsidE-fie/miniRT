@@ -21,6 +21,8 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/plane.c \
 				$(SRCDIR)/scene/cylinder.c \
 				$(SRCDIR)/scene/cone.c \
+				$(SRCDIR)/scene/cylinder_utils.c \
+				$(SRCDIR)/scene/cone_utils.c \
 				$(SRCDIR)/hierarchy/hierarchy.c \
 				$(SRCDIR)/hierarchy/hierarchy_utils.c \
 				$(SRCDIR)/reflections/reflections.c \
