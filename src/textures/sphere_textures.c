@@ -11,17 +11,16 @@
 #include <math.h>
 #include <assert.h>
 
-/*	Returns an t_uv struct
-*
-*	uv stands for 2D coordinates, (x, y, z are already taken by t_point3 *point)
-*
-*	Basically, you turn your sphere into a 2d flat map. You then fetch the u,v
-*	coords with your x, y, z hitpoint.
-*
-*	imagine having a world globe, putting a dart on Sydney.
-*	t_uv would contain the 2d coords of Sydney on a 2d map of the earth.
+/*
+ * @brief Returns an t_uv struct
+ *
+ * @details
+ * uv stands for 2D coordinates, (x, y, z are already taken by t_point3 *point)
+ * Basically, you turn your sphere into a 2d flat map. You then fetch the u,v
+ * coords with your x, y, z hitpoint.
+ * imagine having a world globe, putting a dart on Sydney.
+ * t_uv would contain the 2d coords of Sydney on a 2d map of the earth.
 */
-
 t_uv	sphere_uv_mapping(t_shape *sphere, t_point3 *point)
 {
 	t_vec3	local;
@@ -34,21 +33,17 @@ t_uv	sphere_uv_mapping(t_shape *sphere, t_point3 *point)
 	return (uv);
 }
 
-/*	Loading Map textures (.xpm)
-*
-*	We use a static void *img and static t_texturedata
-*	to avoid reloading the xpm file or its data on every
-*	ray sent.
-*
-*	if the img doesn't exist yet, load it, if it exists
-*	return the previously loaded t_texturedata texture.
-*
-*	if the function is called with flag > 0 (1 in rt_kill)
-*	the function will free the mlx image instead of loading it.
-*	(only if it was loaded). the flag should be 0 when used to load.
+/*
+ * @brief Loading Map textures (.xpm)
+ *
+ * @details
+ * We use a static void *img and static t_texturedata to avoid reloading the
+ * xpm file or its data on every ray sent.
+ * If the img doesn't exist yet, load it. If it exists
+ * return the previously loaded t_texturedata texture.
+ * Supports two flags: LOAD (0) or FREE (1). These will load and free
+ * the textures respectively.
 */
-
-
 t_texturedata	*load_moon_texture(int flag)
 {
 	static void				*img;
@@ -73,6 +68,9 @@ t_texturedata	*load_moon_texture(int flag)
 	return (&texture);
 }
 
+/**
+ * @see load_earth_texture(int flag)
+ */
 t_texturedata	*load_earth_texture(int flag)
 {
 	static void				*img;
@@ -97,11 +95,10 @@ t_texturedata	*load_earth_texture(int flag)
 	return (&texture);
 }
 
-/*	Returns a t_color with t_uv coords in a t_texturedata
-*
-*	fetches the colors at uv coords in an image.
+/*
+ * @brief Returns a t_color with t_uv coords in a t_texturedata
+ * Fetches the colors at uv coords in an image.
 */
-
 static t_color	get_texture_color(t_texturedata *tex, t_uv uv)
 {
 	int				x;
@@ -124,12 +121,13 @@ static t_color	get_texture_color(t_texturedata *tex, t_uv uv)
 	});
 }
 
-/*	Calls the approriate functions depending on the needed texture.
-*
-*	If there was a texture needed, and it couldn't find it, it returns
-*	a pink color.
+/*
+ * @brief Calls the approriate functions depending on the needed texture.
+ *
+ * @details
+ * If there was a texture needed, and it couldn't find it, it returns
+ * a pink color.
 */
-
 t_color	get_checker_color(t_shape *sphere, t_point3 *point)
 {
 	t_uv			uv;

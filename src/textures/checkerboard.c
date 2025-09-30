@@ -8,30 +8,32 @@
 // Number of checkerboard squares in a shape's width (defines a square's size)
 #define CHECKERBOARD_SIZE 10
 
-/*	Per pixel/light check, given an uv point, return
-*	a black t_color if the result is odd.
+/*
+ * @brief Per pixel/light check, given an uv point, return
+ * a black t_color if the result is odd.
 */
 t_color	apply_checker_sphere(t_shape *sphere, t_uv uv)
 {
-	int		x;
-	int		y;
+	int	x;
+	int	y;
 
 	x = (int)(uv.u * CHECKERBOARD_SIZE);
 	y = (int)(uv.v * CHECKERBOARD_SIZE);
 	if ((x + y) % 2 == 0)
-		return (sphere->mat.color); // t_color
+		return (sphere->mat.color);
 	else
-		return ((t_color){0, 0, 0}); // Black
+		return ((t_color){0, 0, 0});
 }
 
-/*	Per pixel/light check, given an x and z point, return
-*	a black t_color if the result is odd.
-*
-*	The floor() function rounds a number DOWN to the nearest
-*	integer (but as double). -5.1 becomes -6.0 and 5.1 becomes 5.0
-*
-*	Since we are working with x and z coords, a vertical
-*	plane would look striped instead of checkered.
+/*
+ * @brief Per pixel/light check, given an x and z point, return
+ * a black t_color if the result is odd.
+ *
+ * @details
+ * The floor() function rounds a number DOWN to the nearest
+ * integer (but as double). -5.1 becomes -6.0 and 5.1 becomes 5.0
+ * Since we are working with x and z coords, a vertical
+ * plane would look striped instead of checkered.
 */
 t_color	apply_checker_plane(t_shape *plane, t_point3 *point)
 {
@@ -41,7 +43,7 @@ t_color	apply_checker_plane(t_shape *plane, t_point3 *point)
 	x = (int)floor(point->x / CHECKERBOARD_SIZE);
 	y = (int)floor(point->z / CHECKERBOARD_SIZE);
 	if ((x + y) % 2 == 0)
-		return (plane->mat.color); // t_color
+		return (plane->mat.color);
 	else
-		return ((t_color){0, 0, 0}); // Black
+		return ((t_color){0, 0, 0});
 }
