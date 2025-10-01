@@ -25,7 +25,7 @@ t_vec3	get_cone_normal(t_shape *cone, t_point3 *intersect)
 	axis = point3_scale(&cone->direction, m);
 	proj = point3_sub(&base_to_p, &axis);
 	proj = point3_scale(&proj, 1.0 / (pow((cone->radius / cone->height), 2)));
-	normal = point3_add(&proj, &axis);
+	normal = point3_sub(&proj, &axis);
 	vec_normalize(&normal);
 	return (normal);
 }
