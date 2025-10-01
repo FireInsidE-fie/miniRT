@@ -1,6 +1,5 @@
 #include "export.h"
 #include <fcntl.h>
-#include <stdio.h>
 
 void	export_scene(void)
 {

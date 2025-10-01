@@ -1,4 +1,7 @@
 #include "export.h"
+#include "libft.h"
+
+#include <math.h>
 
 // builds the full float number
 
@@ -47,7 +50,7 @@ static	char	*get_ftoa_frac(float fracpart)
 	return (result);
 }
 
-/* 
+/*
  *  modff() splits a float into two parts.
  *  12.00003f would be splitted as 12.0 and 0.000030.
  *  ftoa() returns an heap-allocated string.

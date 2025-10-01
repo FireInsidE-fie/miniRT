@@ -1,4 +1,5 @@
 #include "export.h"
+#include "libft.h"
 
 static	void	export_cone(t_shape *shape, int fd)
 {

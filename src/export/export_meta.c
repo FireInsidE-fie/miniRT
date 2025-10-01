@@ -1,4 +1,5 @@
 #include "export.h"
+#include "libft.h"
 
 void	export_lights(t_light *lights, int fd)
 {
