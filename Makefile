@@ -25,9 +25,9 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/cone_utils.c \
 				$(SRCDIR)/hierarchy/hierarchy.c \
 				$(SRCDIR)/hierarchy/ewin.c \
-				$(SRCDIR)/hierarchy/hierarchy_sphere.c \
-				$(SRCDIR)/hierarchy/hierarchy_plane.c \
-				$(SRCDIR)/hierarchy/hierarchy_cylinder.c \
+				$(SRCDIR)/hierarchy/ewin_sphere.c \
+				$(SRCDIR)/hierarchy/ewin_plane.c \
+				$(SRCDIR)/hierarchy/ewin_cylinder.c \
 				$(SRCDIR)/hierarchy/color_picker.c \
 				$(SRCDIR)/hierarchy/hierarchy_utils.c \
 				$(SRCDIR)/reflections/reflections.c \
