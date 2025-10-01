@@ -6,7 +6,6 @@
 #include "utils.h"
 
 #include <assert.h>
-#include <stdio.h>
 #include <threads.h>
 
 t_ps	parse_ambient(char *line)
@@ -14,8 +13,6 @@ t_ps	parse_ambient(char *line)
 	t_ambient	*scene_ambient;
 	float		triad[3];
 
-	assert(line && "Line");
-	printf("[!] - Parsing an ambient...\n");
 	scene_ambient = &get_scene()->ambient;
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
@@ -41,20 +38,15 @@ t_ps	parse_camera(char *line)
 	t_point3	pos;
 	t_vec3		dir;
 	float		fov;
-	t_ps		status;
 
-	assert(line && "Line");
-	printf("[!] - Parsing a camera...\n");
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	status = parse_position(line, &pos);
-	if (status != DONE)
-		return (status);
+	if (parse_position(line, &pos) != DONE)
+		return (TRIAD_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	status = parse_position(line, &dir);
-	if (status != DONE)
-		return (status);
+	if (parse_position(line, &dir) != DONE)
+		return (TRIAD_ERR);
 	if (!is_in_range(dir.x, (t_range){-1.0f, 1.0f}))
 		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
@@ -70,15 +62,11 @@ t_ps	parse_light(char *line)
 {
 	t_light		tmp;
 	float		triad[3];
-	t_ps		status;
 
-	assert(line && "Line");
-	printf("[!] - Parsing a light...\n");
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	status = parse_position(line, &tmp.position);
-	if (status != DONE)
-		return (status);
+	if (parse_position(line, &tmp.position) != DONE)
+		return (TRIAD_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
 	tmp.intensity = ft_atof(line);
