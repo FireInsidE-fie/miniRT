@@ -50,7 +50,7 @@ static int	key_press(int key, void *param)
 		core->key_state[key] = 1;
 	if (key == 112)
 	{
-		write(0, "EXPORTED\n", 9)
+		write(0, "EXPORTED\n", 9);
 		export_scene();
 	}
 	return (0);

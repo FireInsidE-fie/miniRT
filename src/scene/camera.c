@@ -18,6 +18,19 @@ t_vec3	camera_apply_rotation(t_vec3 v, t_camera *cam)
 	);
 }
 
+/**
+ * @brief Sets the camera to default values in case it is missing in the
+ * .rt map.
+ */
+void	default_camera(t_camera *camera)
+{
+	camera->fov = 70;
+	camera->ar = (float)WIN_WIDTH / WIN_HEIGHT;
+	camera->forward = (t_vec3){0.0, 0.0, 1.0};
+	camera->right = (t_vec3){1.0, 0.0, 0.0};
+	camera->up = (t_vec3){0.0, 1.0, 0.0};
+}
+
 void	create_camera(t_point3 *position, t_vec3 *direction, float fov)
 {
 	t_camera	*camera;

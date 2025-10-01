@@ -46,7 +46,9 @@ t_ps	parse_camera(char *line)
 		return (MISSING_ERR);
 	if (parse_position(line, &dir) != DONE)
 		return (TRIAD_ERR);
-	if (!is_in_range(dir.x, (t_range){-1.0f, 1.0f}))
+	if (!is_in_range(dir.x, (t_range){-1.0f, 1.0f})
+		|| !is_in_range(dir.y, (t_range){-1.0f, 1.0f})
+		|| !is_in_range(dir.z, (t_range){-1.0f, 1.0f}))
 		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);

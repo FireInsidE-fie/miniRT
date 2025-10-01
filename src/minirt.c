@@ -65,6 +65,7 @@ int	main(int argc, char **argv)
 		return (print_ps(FILE_ERR, 0));
 	core = get_core();
 	ft_bzero(&core->scene, sizeof(t_scene));
+	default_camera(&core->scene.camera);
 	scene_fd = open(argv[1], O_RDONLY);
 	if (scene_fd == -1)
 		return (perror("miniRT - parse_scene (open)"), print_ps(OPEN_ERR, 0));
