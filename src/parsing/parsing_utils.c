@@ -4,7 +4,6 @@
 #include "point3.h"
 #include "utils.h"
 
-#include <assert.h>
 #include <stdbool.h>
 
 /**
@@ -17,8 +16,6 @@
  */
 t_ps	parse_triad(char *str, float *result)
 {
-	assert(str && "String");
-	assert(result && "Result array");
 	while (*str && (*str != '-' && !ft_isdigit(*str)))
 		++str;
 	result[0] = ft_atof(str);
@@ -46,8 +43,6 @@ t_ps	parse_position(char *line, t_point3 *result)
 {
 	float	triad[3];
 
-	assert(line && "String");
-	assert(result && "Result");
 	if (parse_triad(line, triad) != 0)
 		return (TRIAD_ERR);
 	result->x = triad[0];

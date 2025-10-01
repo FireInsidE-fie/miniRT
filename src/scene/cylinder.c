@@ -4,7 +4,6 @@
 #include "vector.h"
 
 #include <math.h>
-#include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -80,10 +79,6 @@ bool	hit_cylinder(t_point3 *origin, t_vec3 *dir, t_shape *cyl, double *t)
 	double	a;
 	double	b;
 
-	assert("Origin" && origin);
-	assert("Direction" && dir);
-	assert("Cylinder" && cyl && cyl->type == CYLINDER);
-	assert("t" && t);
 	compute_cylinder_coeffs(origin, dir, cyl, coeffs);
 	a = coeffs[0];
 	b = coeffs[1];
@@ -106,11 +101,6 @@ int	create_cylinder(t_shape *tmp)
 {
 	t_shape	*cyl;
 
-	assert("Radius" && tmp->radius > 0);
-	assert("Height" && tmp->height > 0);
-	assert("Material" && tmp->mat.color.r >= 0.0f && tmp->mat.color.r <= 1.0f
-		&& tmp->mat.color.g >= 0.0f && tmp->mat.color.g <= 1.0f
-		&& tmp->mat.color.b >= 0.0f && tmp->mat.color.b <= 1.0f);
 	cyl = malloc(sizeof(t_shape));
 	if (!cyl)
 		return (perror("miniRT: create_cylinder - malloc"), MALLOC_ERR);
@@ -128,8 +118,6 @@ int	create_cylinder(t_shape *tmp)
 
 void	print_cylinder(t_shape *cylinder)
 {
-	assert("Cylinder" && cylinder);
-	assert("Shape type" && cylinder->type == CYLINDER);
 	printf(
 		"[!] - Cylinder\n"
 		"Position: (%f, %f, %f)\n"

@@ -5,7 +5,6 @@
 #include "cone.h"
 
 #include <math.h>
-#include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -102,11 +101,6 @@ int	create_cone(t_shape *tmp)
 {
 	t_shape	*cone;
 
-	assert("Radius" && tmp->radius > 0);
-	assert("Height" && tmp->height > 0);
-	assert("Material" && tmp->mat.color.r >= 0.0f && tmp->mat.color.r <= 1.0f
-		&& tmp->mat.color.g >= 0.0f && tmp->mat.color.g <= 1.0f
-		&& tmp->mat.color.b >= 0.0f && tmp->mat.color.b <= 1.0f);
 	cone = malloc(sizeof(t_shape));
 	if (!cone)
 		return (perror("miniRT: create_cone - malloc"), MALLOC_ERR);
@@ -124,8 +118,6 @@ int	create_cone(t_shape *tmp)
 
 void	print_cone(t_shape *cone)
 {
-	assert("Cone" && cone);
-	assert("Shape type" && cone->type == CONE);
 	printf(
 		"[!] - Cone\n"
 		"Position: (%f, %f, %f)\n"

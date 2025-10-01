@@ -7,7 +7,6 @@
 #include "parsing.h"
 #include "utils.h"
 
-#include <assert.h>
 #include <fcntl.h>
 #include <unistd.h>
 

@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
-#include <assert.h>
 
 void	compute_sphere_light(
 	t_vec3 *normal, t_point3 *intersect, t_color *color, t_result *result)
@@ -44,10 +43,6 @@ int	create_sphere(t_point3 *position, float radius, t_material *mat)
 {
 	t_shape		*sphere;
 
-	assert("Radius" && radius > 0);
-	assert("Material" && mat->color.r >= 0.0f && mat->color.r <= 1.0f
-		&& mat->color.g >= 0.0f && mat->color.g <= 1.0f
-		&& mat->color.b >= 0.0f && mat->color.b <= 1.0f);
 	sphere = malloc(sizeof(t_shape));
 	if (!sphere)
 		return (perror("miniRT (create_sphere) - malloc"), MALLOC_ERR);
@@ -62,8 +57,6 @@ int	create_sphere(t_point3 *position, float radius, t_material *mat)
 
 void	print_sphere(t_shape *sphere)
 {
-	assert("Sphere" && sphere);
-	assert("Shape type" && sphere->type == SPHERE);
 	printf(
 		"[!] - Sphere\n"
 		"Position: (%f, %f, %f)\n"
@@ -90,10 +83,6 @@ bool	hit_sphere(t_point3 *origin, t_vec3 *dir, t_shape *sphere, double *t)
 	double		c;
 	double		discriminant;
 
-	assert("Origin" && origin);
-	assert("Direction" && dir);
-	assert("Sphere" && sphere && sphere->type == SPHERE);
-	assert("t" && t);
 	co.x = (origin->x - sphere->position.x);
 	co.y = (origin->y - sphere->position.y);
 	co.z = (origin->z - sphere->position.z);

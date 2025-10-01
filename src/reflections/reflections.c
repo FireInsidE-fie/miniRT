@@ -8,7 +8,6 @@
 #include "cylinder.h"
 
 #include <stdbool.h>
-#include <assert.h>
 
 /**
  * @brief Multiplies a color by a given factor.

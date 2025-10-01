@@ -4,7 +4,6 @@
 #include "minirt.h"
 #include "vector.h"
 
-#include <assert.h>
 #include <math.h>
 #include <stdio.h>
 
@@ -24,7 +23,6 @@ void	create_camera(t_point3 *position, t_vec3 *direction, float fov)
 	t_camera	*camera;
 	t_vec3		world_up;
 
-	assert("Field of view" && fov >= 0 && fov <= 180);
 	world_up = (t_vec3){0.0f, 1.0f, 0.0f};
 	camera = &get_scene()->camera;
 	camera->position = *position;
@@ -41,7 +39,6 @@ void	create_camera(t_point3 *position, t_vec3 *direction, float fov)
 
 void	print_camera(t_camera *camera)
 {
-	assert("Camera" && camera);
 	printf("[!] - Camera\n"
 		"Position: (%f, %f, %f)\n"
 		"Direction: (%f, %f, %f)\n"

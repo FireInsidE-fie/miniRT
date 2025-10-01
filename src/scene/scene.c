@@ -8,7 +8,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <assert.h>
 
 /**
  * @brief Static getter for the miniRT scene.
@@ -74,7 +73,6 @@ void	print_scene(t_scene *scene)
 {
 	void	*tmp;
 
-	assert("Scene" && scene);
 	printf("======== Camera ========\n");
 	print_camera(&scene->camera);
 	printf("======== Ambient ========\n");

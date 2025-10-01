@@ -3,7 +3,6 @@
 #include "minirt.h"
 
 #include <stdint.h>
-#include <assert.h>
 #include <stdbool.h>
 
 bool	is_in_range(double x, t_range range)
@@ -50,7 +49,6 @@ float	ft_atof(char *str)
 	float	result;
 	float	decimal;
 
-	assert(str && "String");
 	result = ft_atoi(str);
 	while (*str && (*str == '-' || ft_isdigit(*str)))
 		++str;
