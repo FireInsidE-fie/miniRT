@@ -12,21 +12,21 @@ static void	update_camera_pos(t_core *core)
 {
 	if (core->key_state[KEY_A] && core->render_mode == 0)
 		core->scene.camera.position = vec_add(core->scene.camera.position,
-				vec_scalar(core->scene.camera.right, -MOVE_INTERVAL));
+				vec_scale(core->scene.camera.right, -MOVE_INTERVAL));
 	if (core->key_state[KEY_D] && core->render_mode == 0)
 		core->scene.camera.position = vec_add(core->scene.camera.position,
-				vec_scalar(core->scene.camera.right, MOVE_INTERVAL));
+				vec_scale(core->scene.camera.right, MOVE_INTERVAL));
 	if (core->key_state[KEY_E] && core->render_mode == 0)
 		core->scene.camera.position.y += MOVE_INTERVAL;
 	if (core->key_state[KEY_Q] && core->render_mode == 0)
 		core->scene.camera.position.y -= MOVE_INTERVAL;
 	if (core->key_state[KEY_W] && core->render_mode == 0)
-		core->scene.camera.position = vec_add(vec_scalar(
+		core->scene.camera.position = vec_add(vec_scale(
 					core->scene.camera.forward, MOVE_INTERVAL),
 				core->scene.camera.position);
 	if (core->key_state[KEY_S] && core->render_mode == 0)
 		core->scene.camera.position = vec_add(core->scene.camera.position,
-				vec_scalar(core->scene.camera.forward, -MOVE_INTERVAL));
+				vec_scale(core->scene.camera.forward, -MOVE_INTERVAL));
 }
 
 /**
