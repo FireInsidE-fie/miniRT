@@ -1,5 +1,6 @@
 #include "minirt.h"
 #include "mlx.h"
+#include "utils.h"
 #include "hierarchy.h"
 
 #include <X11/X.h>
@@ -19,16 +20,6 @@ int	shape_lst_size(t_shape *lst)
 		i++;
 	}
 	return (i);
-}
-
-// Used this instead of the color struct to test out Hex codes faster.
-
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	*(unsigned int *)dst = color;
 }
 
 t_rectangle	new_rec(int width, int height, int color)
@@ -55,7 +46,7 @@ void	draw_rect(t_img *img, int x, int y, t_rectangle rec)
 		j = x;
 		while (j < x + rec.width)
 		{
-			my_mlx_pixel_put(img, j, i, rec.color);
+			img_put_pixel(img, j, i, rec.color);
 			j++;
 		}
 		i++;

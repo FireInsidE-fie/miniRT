@@ -70,7 +70,6 @@ int			rt_kill(int exit_code);
 
 // MiniLibX helper functions - mlx.c
 int			init_window(void);
-void		img_put_pixel(t_img *img, int x, int y, t_color *color);
 
 // Rendering functions - render.c
 t_result	closest_intersect(t_origin origin, t_vec3 *dir);

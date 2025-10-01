@@ -136,7 +136,7 @@ static void	process_bloc_render(void)
 	img_put_pixel(&get_core()->img,
 		get_core()->render.x + WIN_WIDTH / 2,
 		get_core()->render.y + WIN_HEIGHT / 2,
-		&color);
+		color_to_int(&color));
 	get_core()->render.x++;
 }
 
