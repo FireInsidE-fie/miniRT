@@ -8,35 +8,7 @@
 #include "cylinder.h"
 
 #include <stdbool.h>
-#include <assert.h>
-
-/**
- * @brief Multiplies a color by a given factor.
- */
-// TODO: should probably be called `color_mult`
-t_color	scale_color(t_color c, float factor)
-{
-	t_range	range;
-	t_color	result;
-
-	range = (t_range){0.0, 1.0};
-	result.r = clamp(c.r * factor, range);
-	result.g = clamp(c.g * factor, range);
-	result.b = clamp(c.b * factor, range);
-	return (result);
-}
-
-t_color	add_color(t_color a, t_color b)
-{
-	t_range	range;
-	t_color	result;
-
-	range = (t_range){0.0, 1.0};
-	result.r = clamp(a.r + b.r, range);
-	result.g = clamp(a.g + b.g, range);
-	result.b = clamp(a.b + b.b, range);
-	return (result);
-}
+#include <math.h>
 
 static t_point3	get_intersection_point(t_point3 *origin, t_vec3 *dir, float t)
 {
@@ -87,5 +59,30 @@ t_color	compute_reflection(t_origin origin, t_vec3 *dir, t_result *result,
 	if (depth <= 0 || result->closest->mat.reflection <= 0.0f)
 		return ((t_color){0, 0, 0});
 	reflected = ray_color(intersect, origin.shape, reflected_dir, depth - 1);
-	return (scale_color(reflected, result->closest->mat.reflection));
+	return (color_mult(reflected, result->closest->mat.reflection));
+}
+
+t_vec3	reflect_ray(t_vec3 *ray, t_vec3 *normal)
+{
+	t_vec3	reflected;
+
+	reflected = point3_scale(normal, 2 * dot_product(normal, ray));
+	reflected = point3_sub(&reflected, ray);
+	return (reflected);
+}
+
+float	get_specular_reflection(t_vec3 *point,
+			t_vec3 *normal, t_vec3 *point_to_light, int specular)
+{
+	t_vec3	reflected;
+	double	r_dot_v;
+	t_vec3	view;
+
+	view = point3_sub(&get_scene()->camera.position, point);
+	reflected = reflect_ray(point_to_light, normal);
+	r_dot_v = dot_product(&reflected, &view);
+	if (r_dot_v > 0)
+		return (
+			pow(r_dot_v / (vec_len(&reflected) * vec_len(&view)), specular));
+	return (0.0);
 }

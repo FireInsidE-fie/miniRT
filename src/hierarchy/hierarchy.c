@@ -5,63 +5,6 @@
 #include <X11/X.h>
 #include <stdint.h>
 
-/**
- * @brief Computes the size of a linked list of `t_shape`s.
- */
-int	shape_lst_size(t_shape *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
-}
-
-// Used this instead of the color struct to test out Hex codes faster.
-
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	*(unsigned int *)dst = color;
-}
-
-t_rectangle	new_rec(int width, int height, int color)
-{
-	t_rectangle	rec;
-
-	rec.width = width;
-	rec.height = height;
-	rec.color = color;
-	return (rec);
-}
-
-/*
- * @brief Draws a rectangle with a given img, coordinates and t_rectangle.
-*/
-void	draw_rect(t_img *img, int x, int y, t_rectangle rec)
-{
-	int	i;
-	int	j;
-
-	i = y;
-	while (i < y + rec.height)
-	{
-		j = x;
-		while (j < x + rec.width)
-		{
-			my_mlx_pixel_put(img, j, i, rec.color);
-			j++;
-		}
-		i++;
-	}
-}
-
 /*
  * @brief Draws the gray rectangle and the edit button for all shapes on the
  * current page

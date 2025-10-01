@@ -40,33 +40,41 @@ typedef struct s_ewin
 	int			cp_h;
 }	t_ewin;
 
-// UI related functions - hierarchy.c / hierarchy_utils.c
+// Main hierarchy function - hierarchy.c
 void		render_shape_list(t_core *core);
-void		handle_page_click(int x);
-void		draw_edit_text(t_core *core, t_shape *shape, int y_offset);
 void		open_ewin(t_core *core, t_shape *shape);
-int			shape_lst_size(t_shape *lst);
-void		draw_rect(t_img *img, int x, int y, t_rectangle rec);
 int			on_mouse_debug(int button, int x, int y, void *param);
-t_rectangle	new_rec(int width, int height, int color);
 int			close_ewin(t_ewin *ewin);
 
-// Sphere editing
+// Hierarchy utils - hierarchy_utils.c
+int			shape_lst_size(t_shape *lst);
+void		draw_edit_text(t_core *core, t_shape *shape, int y_offset);
+void		handle_page_click(int x);
+t_rectangle	new_rec(int width, int height, int color);
+void		draw_rect(t_img *img, int x, int y, t_rectangle rec);
+
+// Sphere editing - ewin_sphere.c
 int			on_mouse_edit_s(int button, int x, int y, void *param);
 void		draw_ewin_rec_s(t_ewin *ewin);
 void		ewin_sphere(t_ewin *ewin);
 
-// Plane editing
+// Plane editing - ewin_plane.c
 void		ewin_plane(t_ewin *ewin);
 void		draw_ewin_rec_p(t_ewin *ewin);
 int			on_mouse_edit_p(int button, int x, int y, void *param);
 
-// Cylinder editing
+// Cylinder editing - ewin_cylinder.c
 void		ewin_cylinder(t_ewin *ewin);
 void		draw_ewin_rec_c(t_ewin *ewin);
 int			on_mouse_edit_c(int button, int x, int y, void *param);
 
-// color_picker.c
+// Cylinder editing helpers - ewin_cylinder_utils.c
+void		apply_cyl_rad(t_ewin *ewin, int x, int y);
+void		apply_cyl_dir(t_ewin *ewin, int x, int y);
+void		apply_cyl_height(t_ewin *ewin, int x, int y);
+void		apply_cyl_pos(t_ewin *ewin, int x, int y);
+
+// Color picker helper functions - color_picker.c
 void		draw_color_picker(t_ewin *ewin, int x, int y);
 void		fetch_color_from_picker(int mouse_x, int mouse_y, t_ewin *ewin);
 

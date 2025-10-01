@@ -1,24 +1,34 @@
 #include "material.h"
+#include "utils.h"
 
 #include <stdio.h>
 #include <stdint.h>
-#include <assert.h>
 
 /**
- * @brief Create a new `t_color` struct.
- * Warning: values are a range from 0 to 255.
+ * @brief Multiplies a color by a given factor.
  */
-t_color	make_color(float r, float g, float b)
+t_color	color_mult(t_color c, float factor)
 {
-	t_color	color;
+	t_range	range;
+	t_color	result;
 
-	assert("Red Color" && r >= 0.0f && r <= 1.0f);
-	assert("Green Color" && g >= 0.0f && g <= 1.0f);
-	assert("Blue Color" && b >= 0.0f && b <= 1.0f);
-	color.r = r;
-	color.g = g;
-	color.b = b;
-	return (color);
+	range = (t_range){0.0, 1.0};
+	result.r = clamp(c.r * factor, range);
+	result.g = clamp(c.g * factor, range);
+	result.b = clamp(c.b * factor, range);
+	return (result);
+}
+
+t_color	color_add(t_color a, t_color b)
+{
+	t_range	range;
+	t_color	result;
+
+	range = (t_range){0.0, 1.0};
+	result.r = clamp(a.r + b.r, range);
+	result.g = clamp(a.g + b.g, range);
+	result.b = clamp(a.b + b.b, range);
+	return (result);
 }
 
 /**
@@ -40,19 +50,6 @@ uint32_t	color_to_int(t_color *color)
 	rgba |= (uint32_t)(color->g * 255) << 8;
 	rgba |= (uint32_t)(color->b * 255);
 	return (rgba);
-}
-
-/**
- * @brief Create a new temporary material element.
- */
-t_material	make_mat(t_color color, float specular, float reflection)
-{
-	t_material	mat;
-
-	mat.color = color;
-	mat.specular = specular;
-	mat.reflection = reflection;
-	return (mat);
 }
 
 void	print_mat(t_material *mat)

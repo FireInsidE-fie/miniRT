@@ -1,6 +1,8 @@
+#include "material.h"
 #include "minirt.h"
 #include "mlx.h"
 #include "movement.h"
+#include "utils.h"
 
 #include <stdlib.h>
 
@@ -33,7 +35,7 @@ static void	process_fast_steps(void)
 			img_put_pixel(&get_core()->img,
 				get_core()->render.x + i + WIN_WIDTH / 2,
 				get_core()->render.y + j + WIN_HEIGHT / 2,
-				&color);
+				color_to_int(&color));
 			i++;
 		}
 		j++;

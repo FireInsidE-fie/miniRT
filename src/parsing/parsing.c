@@ -2,7 +2,6 @@
 #include "get_next_line.h"
 #include "libft.h"
 
-#include <assert.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -14,7 +13,6 @@ static t_ps	parse_meta(char *line)
 {
 	int	length;
 
-	assert(line && "Line");
 	length = 0;
 	while (ft_isalpha(line[length]))
 		++length;
@@ -36,7 +34,6 @@ static t_ps	parse_shape(char *line)
 {
 	int	length;
 
-	assert(line && "Line");
 	length = 0;
 	while (ft_isalpha(line[length]))
 		++length;

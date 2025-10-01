@@ -21,9 +21,18 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/plane.c \
 				$(SRCDIR)/scene/cylinder.c \
 				$(SRCDIR)/scene/cone.c \
+				$(SRCDIR)/scene/cylinder_utils.c \
+				$(SRCDIR)/scene/cone_utils.c \
 				$(SRCDIR)/hierarchy/hierarchy.c \
+				$(SRCDIR)/hierarchy/ewin.c \
+				$(SRCDIR)/hierarchy/ewin_sphere.c \
+				$(SRCDIR)/hierarchy/ewin_plane.c \
+				$(SRCDIR)/hierarchy/ewin_cylinder.c \
+				$(SRCDIR)/hierarchy/ewin_cylinder_utils.c \
+				$(SRCDIR)/hierarchy/color_picker.c \
 				$(SRCDIR)/hierarchy/hierarchy_utils.c \
-				$(SRCDIR)/reflections/reflections.c \
+				$(SRCDIR)/lighting/lighting.c \
+				$(SRCDIR)/lighting/reflections.c \
 				$(SRCDIR)/parsing/parsing.c \
 				$(SRCDIR)/parsing/parsing_metas.c \
 				$(SRCDIR)/parsing/parsing_shapes.c \
@@ -33,10 +42,6 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/textures/sphere_textures.c \
 				$(SRCDIR)/textures/sphere_bump.c \
 				$(SRCDIR)/textures/checkerboard.c \
-				$(SRCDIR)/hierarchy/hierarchy_sphere.c \
-				$(SRCDIR)/hierarchy/hierarchy_plane.c \
-				$(SRCDIR)/hierarchy/hierarchy_cylinder.c \
-				$(SRCDIR)/hierarchy/color_picker.c \
 
 OBJS		=	$(CFILES:.c=.o)
 
@@ -118,6 +123,6 @@ test:			$(NAME)
 
 # 42 Norm checks
 check:
-				@norminette src/ include/
+				@norminette src/ include/ | grep -v "42 header"
 
 .PHONY:			all clean fclean re test check

@@ -4,7 +4,6 @@
 #include "vector.h"
 
 #include <math.h>
-#include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -40,44 +39,7 @@ static bool	is_inside_cylinder_height(t_point3 *origin, t_vec3 *dir,
 	return (true);
 }
 
-void	compute_cylinder_light(t_vec3 *normal, t_point3 *intersect,
-								t_color *color, t_result *result)
-{
-	t_shape	*cyl;
-
-	cyl = result->closest;
-	*normal = get_cylinder_normal(cyl, intersect);
-	*color = cyl->mat.color;
-}
-
-void	handle_cylinder_intersect(double t[2], t_shape *cyl, t_result *result)
-{
-	if (t[0] >= 0 && t[0] < result->closest_t)
-	{
-		result->closest = cyl;
-		result->closest_t = t[0];
-	}
-	if (t[1] >= 0 && t[1] < result->closest_t)
-	{
-		result->closest = cyl;
-		result->closest_t = t[1];
-	}
-}
-
-/**
- * @brief Projects a supposedly normalized vector "v" on a "u" axis
- */
-static t_vec3	project_vec(t_vec3 *v, t_vec3 *axis)
-{
-	t_vec3	proj;
-	double	dot;
-
-	dot = dot_product(v, axis);
-	proj = point3_scale(axis, dot);
-	return (proj);
-}
-
-/**
+/*
  * @brief Computes the coefficients of the quadratic equation for cylinders.
  * @details
  * Coeffs 0 1 2 indicates a, b, c
@@ -117,10 +79,6 @@ bool	hit_cylinder(t_point3 *origin, t_vec3 *dir, t_shape *cyl, double *t)
 	double	a;
 	double	b;
 
-	assert("Origin" && origin);
-	assert("Direction" && dir);
-	assert("Cylinder" && cyl && cyl->type == CYLINDER);
-	assert("t" && t);
 	compute_cylinder_coeffs(origin, dir, cyl, coeffs);
 	a = coeffs[0];
 	b = coeffs[1];
@@ -143,11 +101,6 @@ int	create_cylinder(t_shape *tmp)
 {
 	t_shape	*cyl;
 
-	assert("Radius" && tmp->radius > 0);
-	assert("Height" && tmp->height > 0);
-	assert("Material" && tmp->mat.color.r >= 0.0f && tmp->mat.color.r <= 1.0f
-		&& tmp->mat.color.g >= 0.0f && tmp->mat.color.g <= 1.0f
-		&& tmp->mat.color.b >= 0.0f && tmp->mat.color.b <= 1.0f);
 	cyl = malloc(sizeof(t_shape));
 	if (!cyl)
 		return (perror("miniRT: create_cylinder - malloc"), MALLOC_ERR);
@@ -165,8 +118,6 @@ int	create_cylinder(t_shape *tmp)
 
 void	print_cylinder(t_shape *cylinder)
 {
-	assert("Cylinder" && cylinder);
-	assert("Shape type" && cylinder->type == CYLINDER);
 	printf(
 		"[!] - Cylinder\n"
 		"Position: (%f, %f, %f)\n"
@@ -178,19 +129,4 @@ void	print_cylinder(t_shape *cylinder)
 		cylinder->radius, cylinder->height
 		);
 	print_mat(&cylinder->mat);
-}
-
-t_vec3	get_cylinder_normal(t_shape *cyl, t_point3 *intersect)
-{
-	t_vec3		base_to_p;
-	t_vec3		proj;
-	t_vec3		normal;
-	double		axis_height;
-
-	base_to_p = point3_sub(intersect, &cyl->position);
-	axis_height = dot_product(&base_to_p, &cyl->direction);
-	proj = point3_scale(&cyl->direction, axis_height);
-	normal = point3_sub(&base_to_p, &proj);
-	vec_normalize(&normal);
-	return (normal);
 }

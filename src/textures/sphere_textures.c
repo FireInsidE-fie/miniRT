@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
-#include <assert.h>
 
 /*
  * @brief Returns an t_uv struct
@@ -50,9 +49,9 @@ t_texturedata	*load_moon_texture(int flag)
 	static t_texturedata	texture;
 	void					*mlx;
 
+	mlx = get_core()->mlx;
 	if (!img)
 	{
-		mlx = get_core()->mlx;
 		img = mlx_xpm_file_to_image(mlx, "src/textures/MOON.xpm",
 				&texture.width, &texture.height);
 		if (!img)

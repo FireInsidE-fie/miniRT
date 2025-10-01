@@ -1,4 +1,3 @@
-#include "material.h"
 #include "minirt.h"
 #include "mlx.h"
 #include "movement.h"
@@ -109,15 +108,4 @@ int	init_window(void)
 	mlx_mouse_hook(core->altwin, on_mouse_debug, core);
 	mlx_loop(get_core()->mlx);
 	return (0);
-}
-
-/**
- * @brief Puts a given color on a pixel of a MLX image.
- */
-void	img_put_pixel(t_img *img, int x, int y, t_color *color)
-{
-	char	*dest;
-
-	dest = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	*(uint32_t *)dest = color_to_int(color);
 }

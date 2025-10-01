@@ -1,21 +1,15 @@
-#include "camera.h"
-#include "light.h"
 #include "minirt.h"
-#include "point3.h"
-#include "material.h"
-#include "scene.h"
 #include "sphere.h"
-#include "math.h"
-#include "mlx.h"
-#include "utils.h"
 #include "plane.h"
 #include "cylinder.h"
 #include "cone.h"
+#include "utils.h"
+#include "material.h"
+#include "mlx.h"
 
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <assert.h>
 
 // Reflection Depth, going over 3 barely adds anything visually
 #define MAXDEPTH 3
@@ -36,8 +30,6 @@ t_result	closest_intersect(t_origin origin, t_vec3 *dir)
 	t_result	result;
 	double		t[2];
 
-	assert("Origin" && origin.point);
-	assert("Direction" && dir);
 	result.closest = NULL;
 	result.closest_t = INFINITY;
 	s = get_scene()->shapes;
@@ -71,10 +63,6 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	t_color		color;
 	t_color		intensity;
 
-	assert("Origin" && origin);
-	assert("Direction" && dir);
-	assert("Closest" && result->closest);
-	assert("Closest_t" && result->closest_t >= 0.0);
 	intersect = *origin;
 	intersect.x += dir->x * result->closest_t;
 	intersect.y += dir->y * result->closest_t;
@@ -114,7 +102,7 @@ t_color	ray_color(t_point3 origin, t_shape *self, t_vec3 dir, int depth)
 		return (local_color);
 	reflected = compute_reflection(
 			(t_origin){&origin, result.closest}, &dir, &result, depth);
-	return (add_color(scale_color(
+	return (color_add(color_mult(
 				local_color, 1 - result.closest->mat.reflection), reflected));
 }
 
@@ -136,7 +124,7 @@ static void	process_bloc_render(void)
 	img_put_pixel(&get_core()->img,
 		get_core()->render.x + WIN_WIDTH / 2,
 		get_core()->render.y + WIN_HEIGHT / 2,
-		&color);
+		color_to_int(&color));
 	get_core()->render.x++;
 }
 

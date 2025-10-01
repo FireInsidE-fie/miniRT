@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
-#include <assert.h>
 
 void	compute_plane_light(
 			t_vec3 *normal, t_point3 *intersect, t_color *color, t_result *res)
@@ -54,8 +53,6 @@ bool	hit_plane(t_point3 *origin, t_vec3 *dir, t_shape *plane, double *t)
 
 void	print_plane(t_shape *plane)
 {
-	assert("Plane" && plane);
-	assert("Shape type" && plane->type == PLANE);
 	printf(
 		"[!] - Plane\n"
 		"Position: (%f, %f, %f)\n"
@@ -70,9 +67,6 @@ int	create_plane(t_point3 *position, t_vec3 *normal, t_material *mat)
 {
 	t_shape		*plane;
 
-	assert("Material" && mat->color.r >= 0.0f && mat->color.r <= 1.0f
-		&& mat->color.g >= 0.0f && mat->color.g <= 1.0f
-		&& mat->color.b >= 0.0f && mat->color.b <= 1.0f);
 	plane = malloc(sizeof(t_shape));
 	if (!plane)
 		return (perror("miniRT (create_plane) - malloc"), MALLOC_ERR);

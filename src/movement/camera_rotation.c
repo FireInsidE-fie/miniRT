@@ -17,10 +17,10 @@ t_vec3	rotate_vector(t_vec3 v, t_vec3 u, float angle)
 	return (
 		vec_add(
 			vec_add(
-				vec_scalar(v, cos(angle)),
-				vec_scalar(cross_product(&u, &v), sin(angle))
+				vec_scale(v, cos(angle)),
+				vec_scale(cross_product(&u, &v), sin(angle))
 			),
-			vec_scalar(u, dot_product(&u, &v) * (1 - cos(angle))))
+			vec_scale(u, dot_product(&u, &v) * (1 - cos(angle))))
 	);
 }
 

@@ -35,9 +35,9 @@ typedef struct s_material
 
 // Functions //
 
-t_color		make_color(float r, float g, float b);
+t_color		color_mult(t_color c, float factor);
+t_color		color_add(t_color a, t_color b);
 uint32_t	color_to_int(t_color *color);
-t_material	make_mat(t_color color, float specular, float reflection);
 void		print_mat(t_material *mat);
 
 #endif // MATERIAL_H
