@@ -51,6 +51,8 @@ float	ft_atof(char *str)
 	float	decimal;
 	int		sign;
 
+	while (*str == '0' && ft_isdigit(*(str + 1)))
+		++str;
 	result = ft_atoi(str);
 	sign = 1;
 	printf("[1] - result of atoi = %2.6f\n", result);
