@@ -42,6 +42,10 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/textures/sphere_textures.c \
 				$(SRCDIR)/textures/sphere_bump.c \
 				$(SRCDIR)/textures/checkerboard.c \
+				$(SRCDIR)/export/export.c \
+				$(SRCDIR)/export/export_meta.c \
+				$(SRCDIR)/export/export_shapes.c \
+				$(SRCDIR)/export/export_utils.c \
 
 OBJS		=	$(CFILES:.c=.o)
 

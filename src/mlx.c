@@ -1,6 +1,7 @@
 #include "minirt.h"
 #include "mlx.h"
 #include "movement.h"
+#include "export.h"
 
 #include <X11/X.h>
 #include <stdint.h>
@@ -47,6 +48,11 @@ static int	key_press(int key, void *param)
 		swap_render_mode(core);
 	if (key >= 0 && key < 256)
 		core->key_state[key] = 1;
+	if (key == 112)
+	{
+		write(0, "EXPORTED\n", 9)
+		export_scene();
+	}
 	return (0);
 }
 
@@ -61,6 +67,8 @@ static int	key_release(int key, void *param)
 	core = param;
 	if (key >= 0 && key < 256)
 		core->key_state[key] = 0;
+	if (key == 65507)
+		core->key_state[112] = 0;
 	return (0);
 }
 
