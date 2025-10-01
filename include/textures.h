@@ -37,8 +37,8 @@ t_texturedata	*load_moon_texture(int flag);
 t_color			apply_checker_sphere(t_shape *sphere, t_uv uv);
 t_color			apply_checker_plane(t_shape *plane, t_point3 *p);
 
-void			apply_bump_moon(t_shape *sphere, t_point3 *p, t_vec3 *normal);
-void			apply_bump_earth(t_shape *sphere, t_point3 *p, t_vec3 *normal);
+void			apply_bump(
+					t_shape *sphere, t_point3 *p, t_vec3 *normal, t_texture t);
 t_texturedata	*load_earth_bumpmap(int flag);
 t_texturedata	*load_moon_bumpmap(int flag);
 

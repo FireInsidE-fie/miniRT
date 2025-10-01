@@ -1,3 +1,4 @@
+#include "material.h"
 #include "textures.h"
 #include "scene.h"
 #include "vector.h"
@@ -136,22 +137,22 @@ static t_vec3	perturb_normal(t_shape *sphere, t_point3 *p,
 	return (bm.perturbed);
 }
 
-void	apply_bump_earth(t_shape *sphere, t_point3 *p, t_vec3 *normal)
+void	apply_bump(t_shape *sphere, t_point3 *p, t_vec3 *normal, t_texture type)
 {
 	t_texturedata	*bump;
 
-	bump = load_earth_bumpmap(0);
-	if (!bump || !bump->data)
-		return ;
-	*normal = perturb_normal(sphere, p, bump, 111122.5f);
-}
-
-void	apply_bump_moon(t_shape *sphere, t_point3 *p, t_vec3 *normal)
-{
-	t_texturedata	*bump;
-
-	bump = load_moon_bumpmap(0);
-	if (!bump || !bump->data)
-		return ;
-	*normal = perturb_normal(sphere, p, bump, 2.5f);
+	if (type == EARTH)
+	{
+		bump = load_earth_bumpmap(0);
+		if (!bump || !bump->data)
+			return ;
+		*normal = perturb_normal(sphere, p, bump, 111122.5f);
+	}
+	else if (type == MOON)
+	{
+		bump = load_moon_bumpmap(0);
+		if (!bump || !bump->data)
+			return ;
+		*normal = perturb_normal(sphere, p, bump, 2.5f);
+	}
 }

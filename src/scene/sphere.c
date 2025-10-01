@@ -16,9 +16,9 @@ void	compute_sphere_light(
 	*normal = point3_sub(intersect, &result->closest->position);
 	vec_normalize(normal);
 	if (result->closest->mat.texture == EARTH)
-		apply_bump_earth(result->closest, intersect, normal);
+		apply_bump(result->closest, intersect, normal, EARTH);
 	else if (result->closest->mat.texture == MOON)
-		apply_bump_moon(result->closest, intersect, normal);
+		apply_bump(result->closest, intersect, normal, MOON);
 	*color = get_checker_color(result->closest, intersect);
 }
 
