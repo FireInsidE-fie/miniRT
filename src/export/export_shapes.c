@@ -6,7 +6,7 @@ static	void	export_cone(t_shape *shape, int fd)
 	ft_putstr_fd("co ", fd);
 	write_triad(shape->position.x, shape->position.y, shape->position.z, fd);
 	write_triad(shape->direction.x, shape->direction.y, shape->direction.z, fd);
-	write_export(shape->radius, fd);
+	write_export(shape->radius * 2, fd);
 	write_export(shape->height, fd);
 	write_triad(shape->mat.color.r * 255,
 		shape->mat.color.g * 255,
@@ -21,7 +21,7 @@ static	void	export_cylinder(t_shape *shape, int fd)
 	ft_putstr_fd("cy ", fd);
 	write_triad(shape->position.x, shape->position.y, shape->position.z, fd);
 	write_triad(shape->direction.x, shape->direction.y, shape->direction.z, fd);
-	write_export(shape->radius, fd);
+	write_export(shape->radius * 2, fd);
 	write_export(shape->height, fd);
 	write_triad(shape->mat.color.r * 255,
 		shape->mat.color.g * 255,
@@ -50,7 +50,7 @@ static	void	export_sphere(t_shape *shape, int fd)
 {
 	ft_putstr_fd("sp ", fd);
 	write_triad(shape->position.x, shape->position.y, shape->position.z, fd);
-	write_export(shape->radius, fd);
+	write_export(shape->radius * 2, fd);
 	write_triad(shape->mat.color.r * 255,
 		shape->mat.color.g * 255,
 		shape->mat.color.b * 255, fd);
