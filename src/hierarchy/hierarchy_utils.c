@@ -1,67 +1,56 @@
-#include "minirt.h"
 #include "mlx.h"
+#include "utils.h"
 #include "hierarchy.h"
 
 #include <X11/X.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
 
-/*
- * @brief Closes and frees the temporary edit window
- *
- * @details
- * Only accessed through the "Close" button, closing with the cross on
- * the mlx window seems to cause some issues for now.
- *
- * Core's prevent_close flag is used here to avoid closing miniRT
- * while the edit window is opened. Edit window(s) are not accessible
- * from core directly to avoid filling it with too much stuff.
-*/
-int	close_ewin(t_ewin *ewin)
+/**
+ * @brief Computes the size of a linked list of `t_shape`s.
+ */
+int	shape_lst_size(t_shape *lst)
 {
-	if (ewin->color_picker_img)
-		mlx_destroy_image(ewin->core->mlx, ewin->color_picker_img);
-	if (ewin->img.img)
-		mlx_destroy_image(ewin->core->mlx, ewin->img.img);
-	if (ewin->win)
-		mlx_destroy_window(ewin->core->mlx, ewin->win);
-	ewin->core->prevent_close -= 1;
-	free(ewin);
-	return (0);
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
+}
+
+t_rectangle	new_rec(int width, int height, int color)
+{
+	t_rectangle	rec;
+
+	rec.width = width;
+	rec.height = height;
+	rec.color = color;
+	return (rec);
 }
 
 /*
- * @brief Creates/Mallocs a new edit window
- *
- * @details
- * Assigns core, the wanted shape to edit, and prevents miniRT from closing.
- * Calls draw_ewin_rec() to draw all the needed rectangles.
- * mlx_string_put prints string after anything else as it would be overwritten
- * otherwise.
- * Calls mlx_mouse_hook allow click checks on the edit window.
+ * @brief Draws a rectangle with a given img, coordinates and t_rectangle.
 */
-void	open_ewin(t_core *core, t_shape *shape)
+void	draw_rect(t_img *img, int x, int y, t_rectangle rec)
 {
-	t_ewin	*ewin;
+	int	i;
+	int	j;
 
-	ewin = malloc(sizeof(t_ewin));
-	if (!ewin)
-		return ;
-	ewin->core = core;
-	ewin->shape = shape;
-	core->prevent_close += 1;
-	ewin->win = mlx_new_window(
-			core->mlx, EWIN_WIDTH, EWIN_HEIGHT, "Edit Shape");
-	ewin->img.img = mlx_new_image(core->mlx, EWIN_WIDTH, EWIN_HEIGHT);
-	ewin->img.addr = mlx_get_data_addr(ewin->img.img,
-			&ewin->img.bpp, &ewin->img.line_len, &ewin->img.endian);
-	if (shape->type == SPHERE)
-		ewin_sphere(ewin);
-	else if (shape->type == PLANE)
-		ewin_plane(ewin);
-	else
-		ewin_cylinder(ewin);
+	i = y;
+	while (i < y + rec.height)
+	{
+		j = x;
+		while (j < x + rec.width)
+		{
+			img_put_pixel(img, j, i, rec.color);
+			j++;
+		}
+		i++;
+	}
 }
 
 /*

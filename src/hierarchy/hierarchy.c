@@ -1,57 +1,9 @@
 #include "minirt.h"
 #include "mlx.h"
-#include "utils.h"
 #include "hierarchy.h"
 
 #include <X11/X.h>
 #include <stdint.h>
-
-/**
- * @brief Computes the size of a linked list of `t_shape`s.
- */
-int	shape_lst_size(t_shape *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
-}
-
-t_rectangle	new_rec(int width, int height, int color)
-{
-	t_rectangle	rec;
-
-	rec.width = width;
-	rec.height = height;
-	rec.color = color;
-	return (rec);
-}
-
-/*
- * @brief Draws a rectangle with a given img, coordinates and t_rectangle.
-*/
-void	draw_rect(t_img *img, int x, int y, t_rectangle rec)
-{
-	int	i;
-	int	j;
-
-	i = y;
-	while (i < y + rec.height)
-	{
-		j = x;
-		while (j < x + rec.width)
-		{
-			img_put_pixel(img, j, i, rec.color);
-			j++;
-		}
-		i++;
-	}
-}
 
 /*
  * @brief Draws the gray rectangle and the edit button for all shapes on the

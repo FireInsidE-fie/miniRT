@@ -24,6 +24,11 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/cylinder_utils.c \
 				$(SRCDIR)/scene/cone_utils.c \
 				$(SRCDIR)/hierarchy/hierarchy.c \
+				$(SRCDIR)/hierarchy/ewin.c \
+				$(SRCDIR)/hierarchy/hierarchy_sphere.c \
+				$(SRCDIR)/hierarchy/hierarchy_plane.c \
+				$(SRCDIR)/hierarchy/hierarchy_cylinder.c \
+				$(SRCDIR)/hierarchy/color_picker.c \
 				$(SRCDIR)/hierarchy/hierarchy_utils.c \
 				$(SRCDIR)/reflections/reflections.c \
 				$(SRCDIR)/parsing/parsing.c \
@@ -35,10 +40,6 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/textures/sphere_textures.c \
 				$(SRCDIR)/textures/sphere_bump.c \
 				$(SRCDIR)/textures/checkerboard.c \
-				$(SRCDIR)/hierarchy/hierarchy_sphere.c \
-				$(SRCDIR)/hierarchy/hierarchy_plane.c \
-				$(SRCDIR)/hierarchy/hierarchy_cylinder.c \
-				$(SRCDIR)/hierarchy/color_picker.c \
 
 OBJS		=	$(CFILES:.c=.o)
 

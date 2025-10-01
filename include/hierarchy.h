@@ -42,14 +42,16 @@ typedef struct s_ewin
 
 // UI related functions - hierarchy.c / hierarchy_utils.c
 void		render_shape_list(t_core *core);
-void		handle_page_click(int x);
-void		draw_edit_text(t_core *core, t_shape *shape, int y_offset);
 void		open_ewin(t_core *core, t_shape *shape);
-int			shape_lst_size(t_shape *lst);
-void		draw_rect(t_img *img, int x, int y, t_rectangle rec);
 int			on_mouse_debug(int button, int x, int y, void *param);
-t_rectangle	new_rec(int width, int height, int color);
 int			close_ewin(t_ewin *ewin);
+
+// Hierarchy utils - hierarchy_utils.c
+int			shape_lst_size(t_shape *lst);
+void		draw_edit_text(t_core *core, t_shape *shape, int y_offset);
+void		handle_page_click(int x);
+t_rectangle	new_rec(int width, int height, int color);
+void		draw_rect(t_img *img, int x, int y, t_rectangle rec);
 
 // Sphere editing
 int			on_mouse_edit_s(int button, int x, int y, void *param);
