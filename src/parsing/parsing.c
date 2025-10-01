@@ -130,7 +130,7 @@ int	parse_scene(int scene_fd)
 	char	*line;
 	int		line_n;
 
-	printf("[!] - Beginning parsing...\n");
+	status = DONE;
 	line = get_next_line(scene_fd);
 	line_n = 1;
 	while (line)
