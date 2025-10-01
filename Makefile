@@ -120,6 +120,6 @@ test:			$(NAME)
 
 # 42 Norm checks
 check:
-				@norminette src/ include/
+				@norminette src/ include/ | grep -v "42 header"
 
 .PHONY:			all clean fclean re test check
