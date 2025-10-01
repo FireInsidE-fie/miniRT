@@ -28,6 +28,7 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/hierarchy/ewin_sphere.c \
 				$(SRCDIR)/hierarchy/ewin_plane.c \
 				$(SRCDIR)/hierarchy/ewin_cylinder.c \
+				$(SRCDIR)/hierarchy/ewin_cylinder_utils.c \
 				$(SRCDIR)/hierarchy/color_picker.c \
 				$(SRCDIR)/hierarchy/hierarchy_utils.c \
 				$(SRCDIR)/reflections/reflections.c \
