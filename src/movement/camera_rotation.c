@@ -53,8 +53,8 @@ void	rotate_camera_pitch(t_camera *cam, float angle)
 	new_pitch = cam->pitch + angle;
 	if (new_pitch > M_PI / 2.0 - 0.01)
 		angle = (M_PI / 2.0 - 0.01) - cam->pitch;
-	else if (new_pitch < -M_PI / 2.0 - 0.01)
-		angle = (-M_PI / 2.0 - 0.01) - cam->pitch;
+	else if (new_pitch < -M_PI / 2.0 + 0.01)
+		angle = (-M_PI / 2.0 + 0.01) - cam->pitch;
 	cam->forward = rotate_vector(cam->forward, cam->right, angle);
 	cam->pitch += angle;
 	camera_build_basis(cam);
