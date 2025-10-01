@@ -80,11 +80,15 @@ int			render(void *param);
 int			fast_render(void *param);
 void		update_camera(t_core *core);
 
+// Lighting related functions - lighting.c
+t_color		get_light_intensity(t_origin point, t_vec3 *normal, int specular);
+
 // Reflections - reflections.c
 t_color		compute_reflection(
 				t_origin origin, t_vec3 *dir, t_result *result, int depth);
-t_color		scale_color(t_color c, float factor);
-t_color		add_color(t_color a, t_color b);
+t_vec3		reflect_ray(t_vec3 *ray, t_vec3 *normal);
+float		get_specular_reflection(t_vec3 *point,
+				t_vec3 *normal, t_vec3 *point_to_light, int specular);
 
 // UI related functions - hierarchy.c / hierarchy_utils.c
 int			on_mouse_debug(int button, int x, int y, void *param);

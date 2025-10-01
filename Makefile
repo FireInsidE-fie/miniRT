@@ -31,7 +31,8 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/hierarchy/ewin_cylinder_utils.c \
 				$(SRCDIR)/hierarchy/color_picker.c \
 				$(SRCDIR)/hierarchy/hierarchy_utils.c \
-				$(SRCDIR)/reflections/reflections.c \
+				$(SRCDIR)/lighting/lighting.c \
+				$(SRCDIR)/lighting/reflections.c \
 				$(SRCDIR)/parsing/parsing.c \
 				$(SRCDIR)/parsing/parsing_metas.c \
 				$(SRCDIR)/parsing/parsing_shapes.c \

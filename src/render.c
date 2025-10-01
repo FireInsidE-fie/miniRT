@@ -1,16 +1,11 @@
-#include "camera.h"
-#include "light.h"
 #include "minirt.h"
-#include "point3.h"
-#include "material.h"
-#include "scene.h"
 #include "sphere.h"
-#include "math.h"
-#include "mlx.h"
-#include "utils.h"
 #include "plane.h"
 #include "cylinder.h"
 #include "cone.h"
+#include "utils.h"
+#include "material.h"
+#include "mlx.h"
 
 #include <math.h>
 #include <stdbool.h>
@@ -107,7 +102,7 @@ t_color	ray_color(t_point3 origin, t_shape *self, t_vec3 dir, int depth)
 		return (local_color);
 	reflected = compute_reflection(
 			(t_origin){&origin, result.closest}, &dir, &result, depth);
-	return (add_color(scale_color(
+	return (color_add(color_mult(
 				local_color, 1 - result.closest->mat.reflection), reflected));
 }
 
