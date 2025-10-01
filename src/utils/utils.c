@@ -4,6 +4,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 bool	is_in_range(double x, t_range range)
 {
@@ -48,17 +49,27 @@ float	ft_atof(char *str)
 {
 	float	result;
 	float	decimal;
+	int		sign;
 
 	result = ft_atoi(str);
+	sign = 1;
+	printf("[1] - result of atoi = %2.6f\n", result);
 	while (*str && (*str == '-' || ft_isdigit(*str)))
+	{
+		if (*str == '-')
+			sign = -1;
 		++str;
+	}
 	if (*str == '.')
 	{
 		decimal = ft_atoi(++str) / 10.0f;
+		printf("[2] - decimal of atoi = %2.6f\n", decimal);
 		while (decimal >= 1.0f)
 			decimal /= 10;
-		result += decimal;
+		printf("[2] - decimal of atoi = %2.6f\n", decimal);
+		result += decimal * sign;
 	}
+	printf("[F] - atof got %2.6f\n", result);
 	return (result);
 }
 

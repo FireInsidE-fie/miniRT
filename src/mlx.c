@@ -3,6 +3,7 @@
 #include "movement.h"
 #include "export.h"
 
+#include <unistd.h>
 #include <X11/X.h>
 #include <stdint.h>
 #include <stdio.h>
