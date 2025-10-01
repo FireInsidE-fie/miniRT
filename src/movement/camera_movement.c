@@ -1,5 +1,4 @@
-#include "minirt.h"
-#include "vector.h"
+#include "point3.h"
 #include "movement.h"
 
 #include <X11/X.h>
