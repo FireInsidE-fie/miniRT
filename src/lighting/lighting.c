@@ -25,10 +25,8 @@ static t_color	get_light_exposure(
 					light->intensity * light_dot_normal
 					/ (vec_len(normal) * vec_len(&point_to_light))));
 	if (specular != -1)
-		intensity = color_add(
-				intensity,
-				color_mult(light->color, light->intensity
-					* get_specular_reflection(
+		intensity = color_add(intensity, color_mult(light->color,
+					light->intensity * get_specular_reflection(
 						origin.point, normal, &point_to_light, specular)));
 	return (intensity);
 }
