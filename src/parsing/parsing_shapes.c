@@ -43,7 +43,7 @@ t_ps	parse_sphere(char *line)
 		return (status);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	tmp.radius = ft_atof(line);
+	tmp.radius = ft_atof(line) / 2;
 	if (tmp.radius < 0)
 		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
