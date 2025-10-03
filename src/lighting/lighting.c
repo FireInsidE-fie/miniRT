@@ -3,34 +3,38 @@
 #include "vector.h"
 #include "material.h"
 
-static t_color	get_light_exposure(
+static t_color get_light_exposure(
 	t_origin origin, t_vec3 *normal, int specular, t_light *light)
 {
-	t_color	intensity;
-	t_vec3	point_to_light;
-	double	light_dot_normal;
+	t_color		intensity;
+	t_vec3		point_to_light;
+	double		light_dot_normal;
+	t_vec3		shadow_dir;
+	t_result	shadow_result;
 
 	intensity = (t_color){0.0f, 0.0f, 0.0f};
-	point_to_light = point3_sub(&light->position, origin.point);
-	if (closest_intersect(origin, &point_to_light).closest)
-	{
-		light = light->next;
+	point_to_light = point3_sub(&light->position, origin.point);	
+	shadow_dir = point_to_light;
+	vec_normalize(&shadow_dir);
+	// Checking for shadows only up to the light distance
+	shadow_result = closest_intersect(origin, &shadow_dir);
+	if (shadow_result.closest && shadow_result.closest_t < vec_len(&point_to_light))
 		return (intensity);
-	}
 	light_dot_normal = dot_product(&point_to_light, normal);
 	if (light_dot_normal > 0)
 		intensity = color_add(intensity, color_mult(
-					light->color,
-					light->intensity * light_dot_normal
-					/ (vec_len(normal) * vec_len(&point_to_light))));
+			light->color,
+			light->intensity * light_dot_normal
+			/ (vec_len(normal) * vec_len(&point_to_light))));
 	if (specular != -1)
 		intensity = color_add(
-				intensity,
-				color_mult(light->color,
-					light->intensity * get_specular_reflection(
-						origin.point, normal, &point_to_light, specular)));
+			intensity,
+			color_mult(light->color,
+				light->intensity * get_specular_reflection(
+					origin.point, normal, &point_to_light, specular)));
 	return (intensity);
 }
+
 
 /**
  * @brief Goes through all lights in the scene and computes a point's total
