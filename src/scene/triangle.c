@@ -26,7 +26,7 @@ void	handle_triangle_intersect(
 
 	checking if our ray has a hit-point on a given triangle.
 
-	edge1/edge2 : define the triangle's plane, h is a perpendicular
+	edge1/edge2 : define the triangle's plan, h is a perpendicular
 	ray to the two edges. It's there to test if our ray is parallel
 	to the triangle.
 
@@ -34,6 +34,8 @@ void	handle_triangle_intersect(
 	triangle's plan. (no intersect)
 
 	inv_det : used to avoid repetitive divisions.
+	(using multiplication instead of division cause it's lighter
+	on the cpu).
 
 	s : vector between "tra" and origin. helps to calculate the
 	relative position of the intersect within the triangle. (cause
