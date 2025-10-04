@@ -56,6 +56,8 @@ void	open_ewin(t_core *core, t_shape *shape)
 		ewin_sphere(ewin);
 	else if (shape->type == PLANE)
 		ewin_plane(ewin);
+	else if (shape->type == TRIANGLE)
+		ewin_triangle(ewin);
 	else
 		ewin_cylinder(ewin);
 }

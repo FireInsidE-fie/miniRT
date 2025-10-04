@@ -63,6 +63,29 @@ void	render_shape_list(t_core *core)
 	draw_edit_text(core, shape, y_offset);
 }
 
+/* Sadly placed here because of functions in file limits
+
+	Prints the string of the wanted shape on the hierarchy menu
+*/
+void	shape_edit_text(t_core *core, t_shape *shape, int y_offset)
+{
+	if (shape->type == SPHERE)
+		mlx_string_put(core->mlx, core->altwin,
+			50, y_offset + 28, UI_TEXT_COLOR, "Sphere");
+	else if (shape->type == PLANE)
+		mlx_string_put(core->mlx, core->altwin,
+			50, y_offset + 28, UI_TEXT_COLOR, "Plane");
+	else if (shape->type == CYLINDER)
+		mlx_string_put(core->mlx, core->altwin,
+			50, y_offset + 28, UI_TEXT_COLOR, "Cylinder");
+	else if (shape->type == CONE)
+		mlx_string_put(core->mlx, core->altwin,
+			50, y_offset + 28, UI_TEXT_COLOR, "Cone");
+	else
+		mlx_string_put(core->mlx, core->altwin,
+			50, y_offset + 28, UI_TEXT_COLOR, "Triangle");
+}
+
 /* Main Mouse Hook for the Hierarchy
 
 	if core->ui_img_init is set, destroys the window and redoes it.

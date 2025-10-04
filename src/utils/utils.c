@@ -55,7 +55,6 @@ float	ft_atof(char *str)
 		++str;
 	result = ft_atoi(str);
 	sign = 1;
-	printf("[1] - result of atoi = %2.6f\n", result);
 	while (*str && (*str == '-' || ft_isdigit(*str)))
 	{
 		if (*str == '-')
@@ -65,13 +64,10 @@ float	ft_atof(char *str)
 	if (*str == '.')
 	{
 		decimal = ft_atoi(++str) / 10.0f;
-		printf("[2] - decimal of atoi = %2.6f\n", decimal);
 		while (decimal >= 1.0f)
 			decimal /= 10;
-		printf("[2] - decimal of atoi = %2.6f\n", decimal);
 		result += decimal * sign;
 	}
-	printf("[F] - atof got %2.6f\n", result);
 	return (result);
 }
 

@@ -14,6 +14,7 @@ typedef enum e_type
 	PLANE,
 	CYLINDER,
 	CONE,
+	TRIANGLE,
 	N
 }	t_type;
 
@@ -26,6 +27,9 @@ typedef struct s_shape
 	float			height;				// For cylinders
 	t_vec3			normal;				// For planes
 	t_vec3			direction;
+	t_vec3			tra;
+	t_vec3			trb;
+	t_vec3			trc;
 	struct s_shape	*next;
 }	t_shape;
 

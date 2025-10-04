@@ -1,34 +1,41 @@
+#include "plane.h"
+#include "sphere.h"
 #include "cylinder.h"
 #include "cone.h"
-#include "plane.h"
+#include "triangle.h"
 #include "material.h"
-#include "scene.h"
-#include "sphere.h"
 #include "parsing.h"
 #include "utils.h"
 
 #include <fcntl.h>
 #include <unistd.h>
 
-/**
- * @brief Parses both a triad of position and a triad of direction, checking
- * the latter for the range [-1, 1].
- */
-t_ps	parse_pos_dir(char **line, t_shape *tmp)
+t_ps	parse_triangle(char *line)
 {
-	if (goto_next_word(line) == MISSING_ERR)
+	t_shape		tmp;
+	t_ps		status;
+
+	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	if (parse_position(*line, &tmp->position) != DONE)
-		return (TRIAD_ERR);
-	if (goto_next_word(line) == MISSING_ERR)
+	status = parse_position(line, &tmp.tra);
+	if (status != DONE)
+		return (status);
+	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
-	if (parse_position(*line, &tmp->direction) != DONE)
-		return (TRIAD_ERR);
-	if (!is_in_range(tmp->direction.x, (t_range){-1.0f, 1.0f})
-		|| !is_in_range(tmp->direction.y, (t_range){-1.0f, 1.0f})
-		|| !is_in_range(tmp->direction.x, (t_range){-1.0f, 1.0f}))
-		return (VALUE_ERR);
-	return (DONE);
+	status = parse_position(line, &tmp.trb);
+	if (status != DONE)
+		return (status);
+	if (goto_next_word(&line) == MISSING_ERR)
+		return (MISSING_ERR);
+	status = parse_position(line, &tmp.trc);
+	if (status != DONE)
+		return (status);
+	if (goto_next_word(&line) == MISSING_ERR)
+		return (MISSING_ERR);
+	status = parse_material(line, &tmp.mat);
+	if (status != 0)
+		return (status);
+	return (create_triangle(tmp.tra, tmp.trb, tmp.trc, tmp.mat));
 }
 
 t_ps	parse_sphere(char *line)

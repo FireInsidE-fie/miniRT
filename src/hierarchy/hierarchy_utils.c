@@ -73,20 +73,9 @@ void	draw_edit_text(t_core *core, t_shape *shape, int y_offset)
 	i = 0;
 	while (shape && i++ < MAX_PER_PAGE)
 	{
+		shape_edit_text(core, shape, y_offset);
 		mlx_string_put(core->mlx, core->altwin,
 			320, y_offset + 28, UI_TEXT_COLOR, "Edit");
-		if (shape->type == SPHERE)
-			mlx_string_put(core->mlx, core->altwin,
-				50, y_offset + 28, UI_TEXT_COLOR, "Sphere");
-		else if (shape->type == PLANE)
-			mlx_string_put(core->mlx, core->altwin,
-				50, y_offset + 28, UI_TEXT_COLOR, "Plane");
-		else if (shape->type == CYLINDER)
-			mlx_string_put(core->mlx, core->altwin,
-				50, y_offset + 28, UI_TEXT_COLOR, "Cylinder");
-		else if (shape->type == CONE)
-			mlx_string_put(core->mlx, core->altwin,
-				50, y_offset + 28, UI_TEXT_COLOR, "Cone");
 		y_offset += 50;
 		shape = shape->next;
 	}
