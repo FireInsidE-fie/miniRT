@@ -2,6 +2,7 @@
 #include "triangle.h"
 #include "vector.h"
 #include "parsing.h"
+
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,31 +23,33 @@ void	handle_triangle_intersect(
 	}
 }
 
-/* Möller-Trumbore algorithm used for triangle hits
-
-	checking if our ray has a hit-point on a given triangle.
-
-	edge1/edge2 : define the triangle's plan, h is a perpendicular
-	ray to the two edges. It's there to test if our ray is parallel
-	to the triangle.
-
-	det : when equal~ to 0, means the ray is parallel to the
-	triangle's plan. (no intersect)
-
-	inv_det : used to avoid repetitive divisions.
-	(using multiplication instead of division cause it's lighter
-	on the cpu).
-
-	s : vector between "tra" and origin. helps to calculate the
-	relative position of the intersect within the triangle. (cause
-	a triangle has no pos).
-
-	u/v : barycentric coordinates, if u or v < 0 OR u + v > 1,
-	the hitpoint is outside the triangle. q helps to find v.
-
-	t : intersect distance. Just like the other shapes, if
-	t > 0.000001, it's a valid intersection.
-*/
+/*
+ * @brief Möller-Trumbore algorithm used for triangle hits.
+ * Checks if our ray has a hit-point on a given triangle.
+ *
+ * @details
+ *
+ * edge1/edge2 : define the triangle's plan, h is a perpendicular
+ * ray to the two edges. It's there to test if our ray is parallel
+ * to the triangle.
+ *
+ * det : when equal~ to 0, means the ray is parallel to the
+ * triangle's plan. (no intersect)
+ *
+ * inv_det : used to avoid repetitive divisions.
+ * (using multiplication instead of division cause it's lighter
+ * on the cpu).
+ *
+ * s : vector between "tra" and origin. helps to calculate the
+ * relative position of the intersect within the triangle. (cause
+ * a triangle has no pos).
+ *
+ * u/v : barycentric coordinates, if u or v < 0 OR u + v > 1,
+ * the hitpoint is outside the triangle. q helps to find v.
+ *
+ * t : intersect distance. Just like the other shapes, if
+ * t > 0.000001, it's a valid intersection.
+ */
 
 bool	hit_triangle(t_point3 *orig, t_vec3 *dir, t_shape *tri, double *t)
 {
