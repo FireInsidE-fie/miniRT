@@ -5,7 +5,7 @@
 #include "scene.h"
 #include "utils.h"
 
-#include <threads.h>
+#include <threads.h>  // TODO: huh???
 
 t_ps	parse_ambient(char *line)
 {
