@@ -1,6 +1,5 @@
 #include "utils.h"
 #include "libft.h"
-#include "minirt.h"
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -71,15 +70,4 @@ float	ft_atof(char *str)
 		result += decimal * sign;
 	}
 	return (result);
-}
-
-/**
- * @brief Puts a given color on a pixel of a MLX image.
- */
-void	img_put_pixel(t_img *img, int x, int y, int color)
-{
-	char	*dest;
-
-	dest = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	*(uint32_t *)dest = color;
 }
