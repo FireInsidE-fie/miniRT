@@ -60,7 +60,7 @@ float	ft_atof(char *str)
 		if (*(str++) == '-')
 			sign = -1;
 	}
-	if (*str == '.')
+	if (*str == '.' && ft_isdigit(*(str + 1)))
 	{
 		zeros = 0;
 		while (*(++str) == '0')
