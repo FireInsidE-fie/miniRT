@@ -45,6 +45,7 @@ void		render_shape_list(t_core *core);
 void		open_ewin(t_core *core, t_shape *shape);
 int			on_mouse_debug(int button, int x, int y, void *param);
 int			close_ewin(t_ewin *ewin);
+void		shape_edit_text(t_core *core, t_shape *shape, int y_offset);
 
 // Hierarchy utils - hierarchy_utils.c
 int			shape_lst_size(t_shape *lst);
@@ -73,6 +74,9 @@ void		apply_cyl_rad(t_ewin *ewin, int x, int y);
 void		apply_cyl_dir(t_ewin *ewin, int x, int y);
 void		apply_cyl_height(t_ewin *ewin, int x, int y);
 void		apply_cyl_pos(t_ewin *ewin, int x, int y);
+
+// Triangle editing (colors only)
+void		ewin_triangle(t_ewin *ewin);
 
 // Color picker helper functions - color_picker.c
 void		draw_color_picker(t_ewin *ewin, int x, int y);

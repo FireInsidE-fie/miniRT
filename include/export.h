@@ -10,4 +10,10 @@ void	export_meta(t_scene *scene, t_light *lights, int fd);
 void	write_triad(float x, float y, float z, int fd);
 char	*ftoa(float n);
 
+void	export_triangle(t_shape *shape, int fd);
+void	export_cone(t_shape *shape, int fd);
+void	export_sphere(t_shape *shape, int fd);
+void	export_plane(t_shape *shape, int fd);
+void	export_cylinder(t_shape *shape, int fd);
+
 #endif // EXPORT_H

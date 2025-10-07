@@ -21,6 +21,7 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/scene/plane.c \
 				$(SRCDIR)/scene/cylinder.c \
 				$(SRCDIR)/scene/cone.c \
+				$(SRCDIR)/scene/triangle.c \
 				$(SRCDIR)/scene/cylinder_utils.c \
 				$(SRCDIR)/scene/cone_utils.c \
 				$(SRCDIR)/hierarchy/hierarchy.c \
@@ -29,6 +30,7 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/hierarchy/ewin_plane.c \
 				$(SRCDIR)/hierarchy/ewin_cylinder.c \
 				$(SRCDIR)/hierarchy/ewin_cylinder_utils.c \
+				$(SRCDIR)/hierarchy/ewin_triangle.c \
 				$(SRCDIR)/hierarchy/color_picker.c \
 				$(SRCDIR)/hierarchy/hierarchy_utils.c \
 				$(SRCDIR)/lighting/lighting.c \
@@ -37,6 +39,7 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/parsing/parsing_metas.c \
 				$(SRCDIR)/parsing/parsing_shapes.c \
 				$(SRCDIR)/parsing/parsing_utils.c \
+				$(SRCDIR)/parsing/parsing_posdir.c \
 				$(SRCDIR)/movement/camera_movement.c \
 				$(SRCDIR)/movement/camera_rotation.c \
 				$(SRCDIR)/textures/sphere_textures.c \
@@ -59,6 +62,7 @@ IFILES		=	$(INCLDIR)/minirt.h \
 				$(INCLDIR)/cylinder.h \
 				$(INCLDIR)/plane.h \
 				$(INCLDIR)/cone.h \
+				$(INCLDIR)/triangle.h \
 				$(INCLDIR)/scene.h \
 				$(INCLDIR)/utils.h \
 				$(INCLDIR)/hierarchy.h \

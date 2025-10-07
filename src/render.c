@@ -3,6 +3,7 @@
 #include "plane.h"
 #include "cylinder.h"
 #include "cone.h"
+#include "triangle.h"
 #include "utils.h"
 #include "material.h"
 #include "mlx.h"
@@ -45,6 +46,8 @@ t_result	closest_intersect(t_origin origin, t_vec3 *dir)
 			handle_cylinder_intersect(t, s, &result);
 		else if (s->type == CONE && hit_cone(origin.point, dir, s, t))
 			handle_cone_intersect(t, s, &result);
+		else if (s->type == TRIANGLE && hit_triangle(origin.point, dir, s, t))
+			handle_triangle_intersect(t, s, &result);
 		s = s->next;
 	}
 	return (result);
@@ -64,9 +67,7 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 	t_color		intensity;
 
 	intersect = *origin;
-	intersect.x += dir->x * result->closest_t;
-	intersect.y += dir->y * result->closest_t;
-	intersect.z += dir->z * result->closest_t;
+	intersect = vec_add(intersect, vec_scale(*dir, result->closest_t));
 	if (result->closest->type == SPHERE)
 		compute_sphere_light(&normal, &intersect, &color, result);
 	else if (result->closest->type == PLANE)
@@ -75,6 +76,8 @@ static t_color	compute_light(t_point3 *origin, t_vec3 *dir, t_result *result)
 		compute_cylinder_light(&normal, &intersect, &color, result);
 	else if (result->closest->type == CONE)
 		compute_cone_light(&normal, &intersect, &color, result);
+	else if (result->closest->type == TRIANGLE)
+		compute_triangle_light(&normal, &color, result);
 	intensity = get_light_intensity(
 			(t_origin){&intersect, result->closest},
 			&normal, result->closest->mat.specular);

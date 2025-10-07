@@ -6,6 +6,7 @@
 # define TEXT_ABRR_LENGTH 2		// Length of texture abbreviations in .rt files
 
 # include "material.h"
+# include "scene.h"
 # include "point3.h"
 
 typedef enum e_ps
@@ -35,6 +36,10 @@ t_ps	parse_sphere(char *line);
 t_ps	parse_cylinder(char *line);
 t_ps	parse_cone(char *line);
 t_ps	parse_plane(char *line);
+t_ps	parse_triangle(char *line);
+
+// Parsing pos and dir - parsing_posdir.c
+t_ps	parse_pos_dir(char **line, t_shape *tmp);
 
 // Parsing utilities - parsing_utils.c
 t_ps	parse_triad(char *str, float *result);
