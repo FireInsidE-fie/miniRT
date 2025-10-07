@@ -18,18 +18,24 @@ t_ps	parse_triad(char *str, float *result)
 {
 	while (*str && (*str != '-' && !ft_isdigit(*str)))
 		++str;
+	if (check_number(str) != DONE)
+		return (CHAR_ERR);
 	result[0] = ft_atof(str);
 	while (*str
 		&& (*str == '-' || *str == '+' || *str == '.' || ft_isdigit(*str)))
 		++str;
 	if (*(str++) != ',')
 		return (TRIAD_ERR);
+	if (check_number(str) != DONE)
+		return (CHAR_ERR);
 	result[1] = ft_atof(str);
 	while (*str
 		&& (*str == '-' || *str == '+' || *str == '.' || ft_isdigit(*str)))
 		++str;
 	if (*(str++) != ',')
 		return (TRIAD_ERR);
+	if (check_number(str) != DONE)
+		return (CHAR_ERR);
 	result[2] = ft_atof(str);
 	return (DONE);
 }
@@ -97,15 +103,17 @@ t_ps	parse_material(char *line, t_material *mat)
 	mat->color.b = triad[2] / 255;
 	if (goto_next_word(&line) != DONE)
 		return (MISSING_ERR);
+	if (check_number(line) != DONE)
+		return (CHAR_ERR);
 	mat->specular = ft_atof(line);
 	if (goto_next_word(&line) != DONE)
 		return (MISSING_ERR);
+	if (check_number(line) != DONE)
+		return (CHAR_ERR);
 	mat->reflection = ft_atof(line);
+	mat->texture = NONE;
 	if (goto_next_word(&line) != DONE)
-	{
-		mat->texture = NONE;
 		return (DONE);
-	}
 	return (parse_texture(line, &mat->texture));
 }
 

@@ -1,5 +1,6 @@
 #include "utils.h"
 #include "libft.h"
+#include "parsing.h"
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -37,6 +38,28 @@ bool	check_path(char *path)
 	if (ft_strncmp(path + i - 3, ".rt", 3) != 0)
 		return (false);
 	return (true);
+}
+
+/**
+ * @brief Checks the number found at `str` for integrity.
+ * By that we mean one or multiple `+` or `-` signs, followed by numbers, then
+ * either a comma `,`, a point `.`, a space ` ` or a line break '\n'.
+ * If anything else follows the numbers, a wrong character error is returned.
+ */
+t_ps	check_number(char *str)
+{
+	if (!*str || (!ft_isdigit(*str) && *str != '-' && *str != '+'))
+		return (CHAR_ERR);
+	while (*str && (*str == '-' || *str == '+'))
+		++str;
+	if (!ft_isdigit(*str))
+		return (CHAR_ERR);
+	while (ft_isdigit(*str))
+		++str;
+	if (*str && *str != '\n' && *str != ',' && *str != '.'
+		&& ft_isprint(*str) && *str != ' ')
+		return (CHAR_ERR);
+	return (DONE);
 }
 
 /**

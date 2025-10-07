@@ -13,6 +13,8 @@ t_ps	parse_ambient(char *line)
 	scene_ambient = &get_scene()->ambient;
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
+	if (check_number(line) != DONE)
+		return (CHAR_ERR);
 	scene_ambient->intensity = ft_atof(line);
 	if (scene_ambient->intensity < 0.0f || scene_ambient->intensity > 1.0f)
 		return (VALUE_ERR);
@@ -50,6 +52,8 @@ t_ps	parse_camera(char *line)
 		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
+	if (check_number(line) != DONE)
+		return (CHAR_ERR);
 	fov = ft_atof(line);
 	if (fov < 0.0f || fov > 180.0f)
 		return (VALUE_ERR);
@@ -68,6 +72,8 @@ t_ps	parse_light(char *line)
 		return (TRIAD_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
+	if (check_number(line) != DONE)
+		return (CHAR_ERR);
 	tmp.intensity = ft_atof(line);
 	if (!is_in_range(tmp.intensity, (t_range){0.0f, 1.0f}))
 		return (VALUE_ERR);
