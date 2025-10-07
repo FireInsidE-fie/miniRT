@@ -60,12 +60,15 @@ int	main(int argc, char **argv)
 	int		scene_fd;
 
 	if (argc != 2)
-		return (printf("Usage: ./miniRT <path_to_map>\n"), -1);
+		return (printf("Usage: ./miniRT <path_to_map>\n"), 1);
 	if (check_path(argv[1]) == false)
 		return (print_ps(FILE_ERR, 0));
 	core = get_core();
 	ft_bzero(&core->scene, sizeof(t_scene));
 	default_camera(&core->scene.camera);
+	scene_fd = open(argv[1], O_DIRECTORY);
+	if (scene_fd != -1)
+		return (close(scene_fd), printf("[!] - Provided path is a dir!\n"), 1);
 	scene_fd = open(argv[1], O_RDONLY);
 	if (scene_fd == -1)
 		return (perror("miniRT - parse_scene (open)"), print_ps(OPEN_ERR, 0));
