@@ -81,9 +81,7 @@ t_ps	parse_light(char *line)
 		return (MISSING_ERR);
 	if (parse_triad(line, triad))
 		return (TRIAD_ERR);
-	tmp.color.r = triad[0] / 255;
-	tmp.color.g = triad[1] / 255;
-	tmp.color.b = triad[2] / 255;
+	tmp.color = color_mult((t_color){triad[0], triad[1], triad[2]}, 1.0 / 255);
 	if (!is_in_range(tmp.color.r, (t_range){0.0f, 1.0f})
 		|| !is_in_range(tmp.color.g, (t_range){0.0f, 1.0f})
 		|| !is_in_range(tmp.color.b, (t_range){0.0f, 1.0f}))

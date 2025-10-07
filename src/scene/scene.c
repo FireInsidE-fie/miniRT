@@ -74,11 +74,9 @@ void	print_scene(t_scene *scene)
 {
 	void	*tmp;
 
-	printf("======== Camera ========\n");
+	printf("======== Metas ========\n");
 	print_camera(&scene->camera);
-	printf("======== Ambient ========\n");
 	print_ambient(&scene->ambient);
-	printf("======== Lights ========\n");
 	tmp = scene->lights;
 	while (tmp)
 	{
