@@ -4,6 +4,7 @@
 #include "sphere.h"
 #include "plane.h"
 #include "cylinder.h"
+#include "cone.h"
 #include "light.h"
 
 #include <stdlib.h>
@@ -73,11 +74,9 @@ void	print_scene(t_scene *scene)
 {
 	void	*tmp;
 
-	printf("======== Camera ========\n");
+	printf("======== Metas ========\n");
 	print_camera(&scene->camera);
-	printf("======== Ambient ========\n");
 	print_ambient(&scene->ambient);
-	printf("======== Lights ========\n");
 	tmp = scene->lights;
 	while (tmp)
 	{
@@ -94,6 +93,8 @@ void	print_scene(t_scene *scene)
 			print_plane(tmp);
 		else if (((t_shape *)tmp)->type == CYLINDER)
 			print_cylinder(tmp);
+		else if (((t_shape *)tmp)->type == CONE)
+			print_cone(tmp);
 		tmp = ((t_shape *)tmp)->next;
 	}
 }

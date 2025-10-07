@@ -1,10 +1,9 @@
 #include "utils.h"
 #include "libft.h"
-#include "minirt.h"
+#include "parsing.h"
 
 #include <stdint.h>
 #include <stdbool.h>
-#include <stdio.h>
 
 bool	is_in_range(double x, t_range range)
 {
@@ -42,6 +41,28 @@ bool	check_path(char *path)
 }
 
 /**
+ * @brief Checks the number found at `str` for integrity.
+ * By that we mean one or multiple `+` or `-` signs, followed by numbers, then
+ * either a comma `,`, a point `.`, a space ` ` or a line break '\n'.
+ * If anything else follows the numbers, a wrong character error is returned.
+ */
+t_ps	check_number(char *str)
+{
+	if (!*str || (!ft_isdigit(*str) && *str != '-' && *str != '+'))
+		return (CHAR_ERR);
+	while (*str && (*str == '-' || *str == '+'))
+		++str;
+	if (!ft_isdigit(*str))
+		return (CHAR_ERR);
+	while (ft_isdigit(*str))
+		++str;
+	if (*str && *str != '\n' && *str != ',' && *str != '.'
+		&& ft_isprint(*str) && *str != ' ')
+		return (CHAR_ERR);
+	return (DONE);
+}
+
+/**
  * @brief Converts a stringified number into a floating point representation.
  * Takes care of missing decimal parts, and accounts for trailing 0s.
  */
@@ -49,6 +70,7 @@ float	ft_atof(char *str)
 {
 	float	result;
 	float	decimal;
+	int		zeros;
 	int		sign;
 
 	while (*str == '0' && ft_isdigit(*(str + 1)))
@@ -57,27 +79,18 @@ float	ft_atof(char *str)
 	sign = 1;
 	while (*str && (*str == '-' || ft_isdigit(*str)))
 	{
-		if (*str == '-')
+		if (*(str++) == '-')
 			sign = -1;
-		++str;
 	}
-	if (*str == '.')
+	if (*str == '.' && ft_isdigit(*(str + 1)))
 	{
-		decimal = ft_atoi(++str) / 10.0f;
-		while (decimal >= 1.0f)
+		zeros = 0;
+		while (*(++str) == '0')
+			++zeros;
+		decimal = ft_atoi(str);
+		while (decimal >= 1.0f || zeros-- > 0)
 			decimal /= 10;
 		result += decimal * sign;
 	}
 	return (result);
-}
-
-/**
- * @brief Puts a given color on a pixel of a MLX image.
- */
-void	img_put_pixel(t_img *img, int x, int y, int color)
-{
-	char	*dest;
-
-	dest = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	*(uint32_t *)dest = color;
 }

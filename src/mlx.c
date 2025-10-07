@@ -74,18 +74,6 @@ static int	key_release(int key, void *param)
 }
 
 /**
- * @brief Creates hooks for the minilibX, quitting the program when the main
- * window is destroyed or the `ESC` key is pressed.
- */
-static void	init_hooks(t_core *core)
-{
-	core = get_core();
-	mlx_hook(core->win, KeyPress, KeyPressMask, key_press, core);
-	mlx_hook(core->win, KeyRelease, KeyReleaseMask, key_release, core);
-	mlx_hook(core->win, DestroyNotify, 0, rt_kill, 0);
-}
-
-/**
  * @brief Creates the MLX window.
  *
  * @return 0 if all went well, 1 if window initialization failed.
@@ -103,18 +91,27 @@ int	init_window(void)
 	core->altwin
 		= mlx_new_window(core->mlx, 400, 615, "Obsolete Meat - Hierarchy");
 	render_shape_list(core);
-	init_hooks(core);
+	mlx_hook(core->win, KeyPress, KeyPressMask, key_press, core);
+	mlx_hook(core->win, KeyRelease, KeyReleaseMask, key_release, core);
+	mlx_hook(core->win, DestroyNotify, 0, rt_kill, 0);
 	core->img.img = mlx_new_image(core->mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!core->img.img)
 		rt_kill(1);
-	core->img.addr = mlx_get_data_addr(
-			core->img.img,
-			&core->img.bpp,
-			&core->img.line_len,
-			&core->img.endian
-			);
+	core->img.addr = mlx_get_data_addr(core->img.img, &core->img.bpp,
+			&core->img.line_len, &core->img.endian);
 	mlx_loop_hook(core->mlx, fast_render, core);
 	mlx_mouse_hook(core->altwin, on_mouse_debug, core);
 	mlx_loop(get_core()->mlx);
 	return (0);
+}
+
+/**
+ * @brief Puts a given color on a pixel of a MLX image.
+ */
+void	img_put_pixel(t_img *img, int x, int y, int color)
+{
+	char	*dest;
+
+	dest = img->addr + (y * img->line_len + x * (img->bpp / 8));
+	*(uint32_t *)dest = color;
 }

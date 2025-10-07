@@ -5,8 +5,6 @@
 #include "scene.h"
 #include "utils.h"
 
-#include <threads.h>
-
 t_ps	parse_ambient(char *line)
 {
 	t_ambient	*scene_ambient;
@@ -15,6 +13,8 @@ t_ps	parse_ambient(char *line)
 	scene_ambient = &get_scene()->ambient;
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
+	if (check_number(line) != DONE)
+		return (CHAR_ERR);
 	scene_ambient->intensity = ft_atof(line);
 	if (scene_ambient->intensity < 0.0f || scene_ambient->intensity > 1.0f)
 		return (VALUE_ERR);
@@ -52,6 +52,8 @@ t_ps	parse_camera(char *line)
 		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
+	if (check_number(line) != DONE)
+		return (CHAR_ERR);
 	fov = ft_atof(line);
 	if (fov < 0.0f || fov > 180.0f)
 		return (VALUE_ERR);
@@ -70,6 +72,8 @@ t_ps	parse_light(char *line)
 		return (TRIAD_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
+	if (check_number(line) != DONE)
+		return (CHAR_ERR);
 	tmp.intensity = ft_atof(line);
 	if (!is_in_range(tmp.intensity, (t_range){0.0f, 1.0f}))
 		return (VALUE_ERR);
@@ -77,9 +81,7 @@ t_ps	parse_light(char *line)
 		return (MISSING_ERR);
 	if (parse_triad(line, triad))
 		return (TRIAD_ERR);
-	tmp.color.r = triad[0] / 255;
-	tmp.color.g = triad[1] / 255;
-	tmp.color.b = triad[2] / 255;
+	tmp.color = color_mult((t_color){triad[0], triad[1], triad[2]}, 1.0 / 255);
 	if (!is_in_range(tmp.color.r, (t_range){0.0f, 1.0f})
 		|| !is_in_range(tmp.color.g, (t_range){0.0f, 1.0f})
 		|| !is_in_range(tmp.color.b, (t_range){0.0f, 1.0f}))
