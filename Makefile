@@ -11,6 +11,7 @@ CFILES		=	$(SRCDIR)/minirt.c \
 				$(SRCDIR)/fast_render.c \
 				$(SRCDIR)/utils/point3.c \
 				$(SRCDIR)/utils/utils.c \
+				$(SRCDIR)/utils/atof.c \
 				$(SRCDIR)/utils/vector.c \
 				$(SRCDIR)/scene/ambient.c \
 				$(SRCDIR)/scene/camera.c \

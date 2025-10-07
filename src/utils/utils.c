@@ -4,6 +4,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <math.h>
 
 bool	is_in_range(double x, t_range range)
 {
@@ -60,37 +61,4 @@ t_ps	check_number(char *str)
 		&& ft_isprint(*str) && *str != ' ')
 		return (CHAR_ERR);
 	return (DONE);
-}
-
-/**
- * @brief Converts a stringified number into a floating point representation.
- * Takes care of missing decimal parts, and accounts for trailing 0s.
- */
-float	ft_atof(char *str)
-{
-	float	result;
-	float	decimal;
-	int		zeros;
-	int		sign;
-
-	while (*str == '0' && ft_isdigit(*(str + 1)))
-		++str;
-	result = ft_atoi(str);
-	sign = 1;
-	while (*str && (*str == '-' || ft_isdigit(*str)))
-	{
-		if (*(str++) == '-')
-			sign = -1;
-	}
-	if (*str == '.' && ft_isdigit(*(str + 1)))
-	{
-		zeros = 0;
-		while (*(++str) == '0')
-			++zeros;
-		decimal = ft_atoi(str);
-		while (decimal >= 1.0f || zeros-- > 0)
-			decimal /= 10;
-		result += decimal * sign;
-	}
-	return (result);
 }
