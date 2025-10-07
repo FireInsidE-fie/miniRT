@@ -4,7 +4,6 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include <math.h>
 
 bool	is_in_range(double x, t_range range)
 {

@@ -12,11 +12,9 @@
 
 #include "utils.h"
 #include "libft.h"
-#include "parsing.h"
 
 #include <stdint.h>
 #include <stdbool.h>
-#include <math.h>
 
 /**
  * @brief Converts a stringified number into a floating point representation.
