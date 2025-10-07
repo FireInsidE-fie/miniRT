@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_metas.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/07 14:22:54 by nrey              #+#    #+#             */
+/*   Updated: 2025/10/07 14:22:55 by nrey             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "light.h"
 #include "material.h"
 #include "parsing.h"
 #include "ambient.h"
 #include "scene.h"
 #include "utils.h"
+#include <stdio.h>
 
 t_ps	parse_ambient(char *line)
 {
