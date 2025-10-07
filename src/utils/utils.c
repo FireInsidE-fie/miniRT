@@ -49,29 +49,28 @@ float	ft_atof(char *str)
 {
 	float	result;
 	float	decimal;
+	int		zeros;
 	int		sign;
 
 	while (*str == '0' && ft_isdigit(*(str + 1)))
 		++str;
 	result = ft_atoi(str);
 	sign = 1;
-	printf("[1] - result of atoi = %2.6f\n", result);
 	while (*str && (*str == '-' || ft_isdigit(*str)))
 	{
-		if (*str == '-')
+		if (*(str++) == '-')
 			sign = -1;
-		++str;
 	}
 	if (*str == '.')
 	{
-		decimal = ft_atoi(++str) / 10.0f;
-		printf("[2] - decimal of atoi = %2.6f\n", decimal);
-		while (decimal >= 1.0f)
+		zeros = 0;
+		while (*(++str) == '0')
+			++zeros;
+		decimal = ft_atoi(str);
+		while (decimal >= 1.0f || zeros-- > 0)
 			decimal /= 10;
-		printf("[2] - decimal of atoi = %2.6f\n", decimal);
 		result += decimal * sign;
 	}
-	printf("[F] - atof got %2.6f\n", result);
 	return (result);
 }
 
