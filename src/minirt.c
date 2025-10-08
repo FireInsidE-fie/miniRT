@@ -86,7 +86,7 @@ int	main(int argc, char **argv)
 		return (perror("miniRT - parse_scene (open)"), print_ps(OPEN_ERR, 0));
 	parse_status = parse_scene(scene_fd);
 	if (parse_status != 0)
-		return (printf("[!] - Error during parsing!\n"), rt_kill(parse_status));
+		return (rt_kill(parse_status));
 	print_scene(&core->scene);
 	init_window();
 	printf("================\n");
