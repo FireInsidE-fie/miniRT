@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 14:25:14 by nrey              #+#    #+#             */
-/*   Updated: 2025/10/07 14:26:37 by nrey             ###   ########.fr       */
+/*   Updated: 2025/10/08 16:47:26 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	create_camera(t_point3 *position, t_vec3 *direction, float fov)
 	camera->fov = fov;
 	camera->forward = *direction;
 	vec_normalize(&camera->forward);
+	if (fabs(camera->forward.y) > 0.999f)
+		world_up = (t_vec3){0.0f, 0.0f, 1.0f};
 	camera->right = cross_product(&world_up, &camera->forward);
 	vec_normalize(&camera->right);
 	camera->up = cross_product(&camera->right, &camera->forward);

@@ -6,7 +6,7 @@
 /*   By: nrey <nrey@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 14:29:22 by nrey              #+#    #+#             */
-/*   Updated: 2025/10/07 14:29:22 by nrey             ###   ########.fr       */
+/*   Updated: 2025/10/08 16:46:14 by nrey             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,32 @@ void	camera_build_basis(t_camera *cam)
 	vec_normalize(&cam->up);
 }
 
+float get_pitch_from_forward(t_vec3 forward)
+{
+    vec_normalize(&forward);
+    return asinf((forward.y));
+}
+
 /**
  * @brief Builds a new camera with a new Up/down angle applied.
  * The Pitch is also capped so we don't go too far and end up
  * looking "behind" by going completely Up or Down.
  * Takes care of clamping the value to avoid clipping.
  */
-void	rotate_camera_pitch(t_camera *cam, float angle)
+void rotate_camera_pitch(t_camera *cam, float angle)
 {
+	t_vec3	new_forward;
 	float	new_pitch;
+    float	max_pitch;
 
-	new_pitch = cam->pitch + angle;
-	if (new_pitch > M_PI / 2.0 - 0.01)
-		angle = (M_PI / 2.0 - 0.01) - cam->pitch;
-	else if (new_pitch < -M_PI / 2.0 + 0.01)
-		angle = (-M_PI / 2.0 + 0.01) - cam->pitch;
-	cam->forward = rotate_vector(cam->forward, cam->right, angle);
-	cam->pitch += angle;
-	camera_build_basis(cam);
+	max_pitch = M_PI / 2.0 - 0.03;
+    new_forward= rotate_vector(cam->forward, cam->right, angle);
+    new_pitch = get_pitch_from_forward(new_forward);
+    if (new_pitch > max_pitch || new_pitch < -max_pitch)
+        return;
+    cam->forward = new_forward;
+    cam->pitch = new_pitch;
+    camera_build_basis(cam);
 }
 
 /**
