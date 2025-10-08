@@ -106,9 +106,9 @@ static t_ps	check_line(char *line)
  */
 t_ps	print_ps(t_ps status, int line_n)
 {
-	if (status == DONE)
-		printf("[!] - Done parsing scene!\n");
-	else if (status == FILE_ERR)
+	if (status != DONE)
+		printf("Error\n");
+	if (status == FILE_ERR)
 		printf("[!] - Path doesn't end in .rt!\n");
 	else if (status == OPEN_ERR)
 		printf("[!] - Failed to open scene file!\n");
