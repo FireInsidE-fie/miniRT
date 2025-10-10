@@ -16,7 +16,9 @@
 # include <stdint.h>
 # include "texturedata.h"
 
-# define SKY_COLOR 0.0
+# ifndef SKY_COLOR
+#  define SKY_COLOR 0.0
+# endif  // SKY_COLOR
 
 // Enum for representing which texture is being used
 typedef enum e_texture

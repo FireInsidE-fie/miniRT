@@ -147,7 +147,7 @@ t_ps	parse_plane(char *line)
 		return (TRIAD_ERR);
 	if (!is_in_range(tmp.direction.x, (t_range){-1.0f, 1.0f})
 		|| !is_in_range(tmp.direction.y, (t_range){-1.0f, 1.0f})
-		|| !is_in_range(tmp.direction.x, (t_range){-1.0f, 1.0f}))
+		|| !is_in_range(tmp.direction.z, (t_range){-1.0f, 1.0f}))
 		return (VALUE_ERR);
 	if (goto_next_word(&line) == MISSING_ERR)
 		return (MISSING_ERR);
