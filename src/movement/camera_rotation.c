@@ -52,10 +52,10 @@ void	camera_build_basis(t_camera *cam)
 	vec_normalize(&cam->up);
 }
 
-float get_pitch_from_forward(t_vec3 forward)
+float	get_pitch_from_forward(t_vec3 forward)
 {
-    vec_normalize(&forward);
-    return asinf((forward.y));
+	vec_normalize(&forward);
+	return (asinf(forward.y));
 }
 
 /**
@@ -64,20 +64,20 @@ float get_pitch_from_forward(t_vec3 forward)
  * looking "behind" by going completely Up or Down.
  * Takes care of clamping the value to avoid clipping.
  */
-void rotate_camera_pitch(t_camera *cam, float angle)
+void	rotate_camera_pitch(t_camera *cam, float angle)
 {
 	t_vec3	new_forward;
 	float	new_pitch;
-    float	max_pitch;
+	float	max_pitch;
 
 	max_pitch = M_PI / 2.0 - 0.03;
-    new_forward= rotate_vector(cam->forward, cam->right, angle);
-    new_pitch = get_pitch_from_forward(new_forward);
-    if (new_pitch > max_pitch || new_pitch < -max_pitch)
-        return;
-    cam->forward = new_forward;
-    cam->pitch = new_pitch;
-    camera_build_basis(cam);
+	new_forward = rotate_vector(cam->forward, cam->right, angle);
+	new_pitch = get_pitch_from_forward(new_forward);
+	if (new_pitch > max_pitch || new_pitch < -max_pitch)
+		return ;
+	cam->forward = new_forward;
+	cam->pitch = new_pitch;
+	camera_build_basis(cam);
 }
 
 /**
