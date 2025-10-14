@@ -36,7 +36,7 @@ t_texturedata	*load_earth_bumpmap(int flag)
 	static void				*img;
 	static t_texturedata	texture;
 
-	if (!img)
+	if (!img && flag == LOAD)
 	{
 		img = mlx_xpm_file_to_image(get_core()->mlx,
 				"src/textures/EARTH_BUMP.xpm",
@@ -62,7 +62,7 @@ t_texturedata	*load_moon_bumpmap(int flag)
 	static void				*img;
 	static t_texturedata	texture;
 
-	if (!img)
+	if (!img && flag == LOAD)
 	{
 		img = mlx_xpm_file_to_image(get_core()->mlx,
 				"src/textures/MOON_BUMP.xpm",

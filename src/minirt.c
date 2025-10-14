@@ -76,7 +76,7 @@ int	main(int argc, char **argv)
 	if (check_path(argv[1]) == false)
 		return (print_ps(FILE_ERR, 0));
 	core = get_core();
-	ft_bzero(&core->scene, sizeof(t_scene));
+	ft_bzero(core, sizeof(t_core));
 	default_camera(&core->scene.camera);
 	scene_fd = open(argv[1], O_DIRECTORY);
 	if (scene_fd != -1)

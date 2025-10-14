@@ -62,7 +62,7 @@ t_texturedata	*load_moon_texture(int flag)
 	void					*mlx;
 
 	mlx = get_core()->mlx;
-	if (!img)
+	if (!img && flag == LOAD)
 	{
 		img = mlx_xpm_file_to_image(mlx, "src/textures/MOON.xpm",
 				&texture.width, &texture.height);
@@ -89,7 +89,7 @@ t_texturedata	*load_earth_texture(int flag)
 	void					*mlx;
 
 	mlx = get_core()->mlx;
-	if (!img)
+	if (!img && flag == LOAD)
 	{
 		img = mlx_xpm_file_to_image(mlx, "src/textures/EARTH.xpm",
 				&texture.width, &texture.height);
